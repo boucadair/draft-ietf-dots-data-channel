@@ -243,7 +243,7 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
    that it is not device-specific [I-D.ietf-netmod-acl-model].  As such,
    this document defines an ACL as an ordered-by-user set of rules that
    is used to filter traffic.  Each rule is represented by an Access
-   Control Entry (ACE).  DOTS ACLs are not bound to an device interface.
+   Control Entry (ACE).  DOTS ACLs are not bound to a device interface.
 
    For the sake of simplicity, all of the examples in this document use
    "/restconf" as the discovered RESTCONF API root path.  Many protocol
