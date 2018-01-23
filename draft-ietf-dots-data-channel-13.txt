@@ -5,7 +5,7 @@
 DOTS                                                       T. Reddy, Ed.
 Internet-Draft                                                    McAfee
 Intended status: Standards Track                       M. Boucadair, Ed.
-Expires: July 26, 2018                                            Orange
+Expires: July 27, 2018                                            Orange
                                                             K. Nishizuka
                                                       NTT Communications
                                                                   L. Xia
@@ -16,10 +16,11 @@ Expires: July 26, 2018                                            Orange
                                                     Arbor Networks, Inc.
                                                                N. Teague
                                                           Verisign, Inc.
-                                                        January 22, 2018
+                                                        January 23, 2018
 
 
 Distributed Denial-of-Service Open Threat Signaling (DOTS) Data Channel
+                             Specification
                     draft-ietf-dots-data-channel-13
 
 Abstract
@@ -44,19 +45,20 @@ Editorial Note (To be removed by RFC Editor)
 
    o  reference: RFC XXXX
 
-   Please update this statement with the RFC number to be assigned to I-
-   D.ietf-dots-signal-channel:
+   Please update this statement with the RFC number to be assigned to
+   the following documents:
 
    o  "RFC YYYY: Distributed Denial-of-Service Open Threat Signaling
       (DOTS) Signal Channel";
 
 
 
-
-Reddy, et al.             Expires July 26, 2018                 [Page 1]
+Reddy, et al.             Expires July 27, 2018                 [Page 1]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
+
+   o  "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model";
 
 Status of This Memo
 
@@ -73,7 +75,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 26, 2018.
+   This Internet-Draft will expire on July 27, 2018.
 
 Copyright Notice
 
@@ -97,34 +99,32 @@ Table of Contents
    3.  DOTS Data Channel: Design Overview  . . . . . . . . . . . . .   5
    4.  DOTS Server(s) Discovery  . . . . . . . . . . . . . . . . . .   8
    5.  DOTS Data Channel YANG Module . . . . . . . . . . . . . . . .   8
-     5.1.  DOTS Aliases YANG Tree Structure  . . . . . . . . . . . .   8
-     5.2.  Filter YANG Tree Structure  . . . . . . . . . . . . . . .   8
-       5.2.1.  DOTS ACL YANG Profile . . . . . . . . . . . . . . . .   8
-       5.2.2.  DOTS Augmentation to the IETF-ACL YANG Module . . . .  11
-     5.3.  DOTS Data Channel YANG Module . . . . . . . . . . . . . .  12
-   6.  DOTS Aliases  . . . . . . . . . . . . . . . . . . . . . . . .  18
-     6.1.  Create Aliases  . . . . . . . . . . . . . . . . . . . . .  18
-     6.2.  Retrieve Installed Aliases  . . . . . . . . . . . . . . .  23
-     6.3.  Delete Aliases  . . . . . . . . . . . . . . . . . . . . .  25
+     5.1.  Tree Structure  . . . . . . . . . . . . . . . . . . . . .   8
+     5.2.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .  12
+   6.  Registering DOTS Clients  . . . . . . . . . . . . . . . . . .  18
+   7.  Managing DOTS Aliases . . . . . . . . . . . . . . . . . . . .  20
+     7.1.  Create Aliases  . . . . . . . . . . . . . . . . . . . . .  20
+     7.2.  Retrieve Installed Aliases  . . . . . . . . . . . . . . .  24
+     7.3.  Delete Aliases  . . . . . . . . . . . . . . . . . . . . .  26
 
 
 
-Reddy, et al.             Expires July 26, 2018                 [Page 2]
+Reddy, et al.             Expires July 27, 2018                 [Page 2]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-   7.  DOTS Filtering Rules  . . . . . . . . . . . . . . . . . . . .  25
-     7.1.  Install Filtering Rules . . . . . . . . . . . . . . . . .  26
-     7.2.  Retrieve Installed Filtering Rules  . . . . . . . . . . .  29
-     7.3.  Remove Filtering Rules  . . . . . . . . . . . . . . . . .  30
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  30
-   9.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  31
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  31
-   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  32
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  32
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  32
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  33
+   8.  Managing DOTS Filtering Rules . . . . . . . . . . . . . . . .  26
+     8.1.  Install Filtering Rules . . . . . . . . . . . . . . . . .  26
+     8.2.  Retrieve Installed Filtering Rules  . . . . . . . . . . .  29
+     8.3.  Remove Filtering Rules  . . . . . . . . . . . . . . . . .  30
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  30
+   10. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  31
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  31
+   12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  32
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  32
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  32
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  33
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  35
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-Reddy, et al.             Expires July 26, 2018                 [Page 3]
+Reddy, et al.             Expires July 27, 2018                 [Page 3]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
    As for the DOTS data channel, it is used for infrequent bulk data
@@ -185,7 +185,7 @@ Internet-Draft              DOTS Data Channel               January 2018
       request with either a success or failure response (see Section 2
       in [I-D.ietf-dots-architecture]).
 
-      Refer to Section 6 for more details.
+      Refer to Section 7 for more details.
 
    o  Filter management, which enables a DOTS client to request the
       installation or withdrawal of traffic filters, dropping or rate-
@@ -215,15 +215,15 @@ Internet-Draft              DOTS Data Channel               January 2018
          The DOTS server uses this information to white-list flows
          originated by such IP prefixes and which reach the network.
 
-      Refer to Section 7 for more details.
+      Refer to Section 8 for more details.
 
 
 
 
 
-Reddy, et al.             Expires July 26, 2018                 [Page 4]
+Reddy, et al.             Expires July 27, 2018                 [Page 4]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
 2.  Notational Conventions and Terminology
@@ -277,16 +277,15 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-Reddy, et al.             Expires July 26, 2018                 [Page 5]
+Reddy, et al.             Expires July 27, 2018                 [Page 5]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
       predictability and automation potential of a schema-driven API.
-      RESTCONF offers a simple subset of NETCONF functionality and
-      provides a simplified interface using REST-like API which
-      addresses the needs of the DOTS data channel and hence an optimal
-      choice.
+      RESTCONF offers a subset of NETCONF functionality and provides a
+      simplified interface using REST-like API which addresses the needs
+      of the DOTS data channel and hence an optimal choice.
 
                            +-------------------+
                            | DOTS Data Channel |
@@ -333,14 +332,17 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-Reddy, et al.             Expires July 26, 2018                 [Page 6]
+
+Reddy, et al.             Expires July 27, 2018                 [Page 6]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
    A DOTS client registers itself to its DOTS server(s) in order to set
    up DOTS data channel-related configuration data and receive state
-   data (i.e., non-configuration data) from the DOTS server(s).
+   data (i.e., non-configuration data) from the DOTS server(s).  Mutual
+   authentication and coupling of signal and data channels are specified
+   in [I-D.ietf-dots-signal-channel].
 
    A single DOTS data channel between DOTS agents can be used to
    exchange multiple requests and multiple responses.  To reduce DOTS
@@ -370,6 +372,28 @@ Internet-Draft              DOTS Data Channel               January 2018
       gateway will need to update the DOTS messages, based upon the
       local translator's binding table.
 
+   The DOTS server either receives the filtering rules directly from the
+   DOTS client or via a DOTS gateway.  If a DOTS gateway is involved,
+   the DOTS gateway verifies that the DOTS client is authorized to
+   undertake a data channel action (e.g., instantiate filtering rules).
+   If the DOTS client is authorized, it propagates the rules to the
+   upstream DOTS server.  Likewise, the DOTS server verifies that the
+   DOTS gateway is authorized to undertake data channel actions.  For
+   example, to create or purge filters, a DOTS client sends its request
+   to its DOTS gateway.  The DOTS gateway validates the rules in the
+   request and proxies the requests containing the filtering rules to
+   its DOTS server.  When the DOTS gateway receives the associated
+   response from the DOTS server, it propagates the response back to the
+   DOTS client.
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                 [Page 7]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
    When a server-domain DOTS gateway is involved in DOTS data channel
    exchanges, the same considerations for manipulating the 'cdid'
    parameter as specified in [I-D.ietf-dots-signal-channel] MUST be
@@ -383,16 +407,9 @@ Internet-Draft              DOTS Data Channel               January 2018
    follow for handling conflicting requests (e.g., reject all, reject
    the new request, notify an administrator for validation).  DOTS
    servers SHOULD support a configuration parameter to indicate the
-   behavior to follow when a conflict is detected.  Section 7.1
+   behavior to follow when a conflict is detected.  Section 8.1
    specifies the behavior when no instruction is supplied to a DOTS
    server.
-
-
-
-Reddy, et al.             Expires July 26, 2018                 [Page 7]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
 
 4.  DOTS Server(s) Discovery
 
@@ -408,50 +425,16 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 5.  DOTS Data Channel YANG Module
 
-5.1.  DOTS Aliases YANG Tree Structure
+5.1.  Tree Structure
 
    The YANG module (ietf-dots-data-channel) allows to create aliases,
    for resources for which mitigation may be requested.  Such aliases
    may be used in subsequent DOTS signal channel exchanges to refer more
-   efficiently to the resources under attack.  The tree structure for
-   DOTS aliases is as follows:
+   efficiently to the resources under attack.  The structure of an alias
+   is aligned with [I-D.ietf-dots-signal-channel].
 
-   module: ietf-dots-data-channel
-       +--rw aliases
-          +--rw dots-client* [cuid]
-             +--rw cuid     string
-             +--rw cdid?    string
-             +--rw alias* [alias-name]
-                +--rw alias-name           string
-                +--rw target-prefix*       inet:ip-prefix
-                +--rw target-port-range* [lower-port upper-port]
-                |  +--rw lower-port    inet:port-number
-                |  +--rw upper-port    inet:port-number
-                +--rw target-protocol*     uint8
-                +--rw target-fqdn*         inet:domain-name
-                +--rw target-uri*          inet:uri
-         ...
-
-   This structure is aligned with [I-D.ietf-dots-signal-channel].
-
-5.2.  Filter YANG Tree Structure
-
-5.2.1.  DOTS ACL YANG Profile
-
-   This document augments the Access Control List (ACL) YANG module
-   [I-D.ietf-netmod-acl-model] for managing DOTS filtering rules.  The
-   notion of ACL is explained in Section 1 of
-   [I-D.ietf-netmod-acl-model].
-
-
-
-Reddy, et al.             Expires July 26, 2018                 [Page 8]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
-   Examples of ACL management in a DOTS context include, but not limited
-   to:
+   Further, the module allows to manage filtering rules.  Examples of
+   filtering management in a DOTS context include, but not limited to:
 
    o  Black-list management, which enables a DOTS client to inform a
       DOTS server about sources from which traffic should be discarded.
@@ -460,528 +443,671 @@ Internet-Draft              DOTS Data Channel               January 2018
       DOTS server about sources from which traffic should always be
       accepted.
 
+
+
+Reddy, et al.             Expires July 27, 2018                 [Page 8]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
    o  Filter management, which enables a DOTS client to request the
       installation or withdrawal of traffic filters, dropping or rate-
       limiting unwanted traffic and permitting white-listed traffic.
 
-   DOTS implementations MUST support the following features defined in
-   [I-D.ietf-netmod-acl-model]:
+   The 'ietf-dots-data-channel' module imports 'ietf-packet-fields' and
+   'ietf-access-control-list' YANG modules defined in
+   [I-D.ietf-netmod-acl-model].  Further, filtering entries (Access
+   Control List (ACL)) mimic the structure specified in
+   [I-D.ietf-netmod-acl-model].
 
-      match-on-ipv4, match-on-ipv6, match-on-tcp, match-on-udp, match-
-      on-icmp, ipv4, ipv6, and acl-aggregate-stats.
+   Note that early versions of this document investigated to what extent
+   augmenting 'ietf-dots-data-channel' meet DOTS requirements, but that
+   design approach was abandoned because it does not allow to meet many
+   of DOTS requirements, e.g.,
+
+   o  Retrieve a filtering entry (or all entries) created by a DOTS
+      client.
+
+   o  Delete a filtering entry that was instantiated by a DOTS client.
+
+   DOTS implementations MUST support the following matching criteria:
+   match based on the IP header (IPv4 and IPv6, match bused on the
+   transport header (TCP, UDP, and ICMP), and the combination thereof.
 
    Given that DOTS data channel does not deal with interfaces, the
    support of the "ietf-interfaces" module [RFC7223] and its
    augmentation in the "ietf-access-control-list" module are not
-   required for DOTS.  Specifically, the support of interface-related
-   features and branches (e.g., interface-attachment, interface-stats)
-   of the ACL YANG module is not required.
+   required for DOTS.
 
-   The following forwarding actions MUST be supported:
+   The support of 'reject' action ([I-D.ietf-netmod-acl-model]) is NOT
+   RECOMMENDED because it is not appropriate in the context of DDoS
+   mitigation.  Generating ICMP messages to notify drops when mitigating
+   a DDoS attack will exacerbate the DDoS attack.  Further, it will be
+   used by an attacker as an explicit signal that the traffic is being
+   blocked.
 
-      'accept' and 'drop'
+   In order to avoid stale entries, a lifetime is associated with alias
+   and filtering entries.  DOTS clients MUST include a suggested
+   lifetime in the request, but it is up to DOTS server to decide
+   whether it honors that hint or its has to proceed as per its local
+   policies.
 
-   The support of 'reject' action is NOT RECOMMENDED because it is not
-   appropriate in the context of DDoS mitigation.  Generating ICMP
-   messages to notify drops when mitigating a DDoS attack will
-   exacerbate the DDoS attack.  Further, it will be used by an attacker
-   as an explicit signal that the traffic is being blocked.
-
-   The following tree structure provides the excerpt of the "ietf-
-   access-control-list" module to be supported by DOTS implementations.
-
-    +--rw access-lists
-       +--rw acl* [name]
-          +--rw name    string
-          +--rw type?   acl-type
-          +--rw aces
-             +--rw ace* [name]
-                +--rw name          string
-                +--rw matches
+   This document supports fragment filtering which adds an additional
+   layer of protection against a DoS attack that uses non-initial
+   fragments only.  When there is only Layer 3 information in the ACL
+   entry and the fragments keyword is present, for non-initial fragments
+   matching the ACL entry, the 'deny' or 'permit' action associated with
+   the ACL entry will be enforced.  For initial or non-fragment matching
 
 
 
-Reddy, et al.             Expires July 26, 2018                 [Page 9]
+Reddy, et al.             Expires July 27, 2018                 [Page 9]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-                |  +--rw (l3)?
-                |  |  +--:(ipv4)
-                |  |  |  +--rw ipv4 {match-on-ipv4}?
-                |  |  |     +--rw dscp?                       inet:dscp
-                |  |  |     +--rw ecn?                        uint8
-                |  |  |     +--rw length?                     uint16
-                |  |  |     +--rw ttl?                        uint8
-                |  |  |     +--rw protocol?                   uint8
-                |  |  |     +--rw source-port-range!
-                |  |  |     |  +--rw lower-port    inet:port-number
-                |  |  |     |  +--rw upper-port?   inet:port-number
-                |  |  |     |  +--rw operation?    operator
-                |  |  |     +--rw destination-port-range!
-                |  |  |     |  +--rw lower-port    inet:port-number
-                |  |  |     |  +--rw upper-port?   inet:port-number
-                |  |  |     |  +--rw operations?   operator
-                |  |  |     +--rw ihl?                        uint8
-                |  |  |     +--rw flags?                      bits
-                |  |  |     +--rw offset?                     uint16
-                |  |  |     +--rw identification?             uint16
-                |  |  |     +--rw destination-ipv4-network?   inet:ipv4-prefix
-                |  |  |     +--rw source-ipv4-network?        inet:ipv4-prefix
-                |  |  +--:(ipv6)
-                |  |     +--rw ipv6 {match-on-ipv6}?
-                |  |        +--rw dscp?                       inet:dscp
-                |  |        +--rw ecn?                        uint8
-                |  |        +--rw length?                     uint16
-                |  |        +--rw ttl?                        uint8
-                |  |        +--rw protocol?                   uint8
-                |  |        +--rw source-port-range!
-                |  |        |  +--rw lower-port    inet:port-number
-                |  |        |  +--rw upper-port?   inet:port-number
-                |  |        |  +--rw operation?    operator
-                |  |        +--rw destination-port-range!
-                |  |        |  +--rw lower-port    inet:port-number
-                |  |        |  +--rw upper-port?   inet:port-number
-                |  |        |  +--rw operations?   operator
-                |  |        +--rw next-header?                uint8
-                |  |        +--rw destination-ipv6-network?   inet:ipv6-prefix
-                |  |        +--rw source-ipv6-network?        inet:ipv6-prefix
-                |  |        +--rw flow-label?                 inet:ipv6-flow-label
-                |  +--rw (l4)?
-                |     +--:(tcp)
-                |     |  +--rw tcp {match-on-tcp}?
-                |     |     +--rw sequence-number?          uint32
-                |     |     +--rw acknowledgement-number?   uint32
-                |     |     +--rw data-offset?              uint8
-                |     |     +--rw reserved?                 uint8
+   the ACL entry, the next ACL entry will be processed.  When there is
+   both Layer 3 and Layer 4 information in the ACL entry and the
+   fragments keyword is present, the ACL action is conservative for both
+   permit and deny actions.  The actions are conservative to not
+   accidentally deny a fragmented portion of a flow because the
+   fragments do not contain sufficient information to match all of the
+   filter attributes.  In the deny action case, instead of denying a
+   non-initial fragment, the next ACL entry is processed.  In the permit
+   case, it is assumed that the Layer 4 information in the non-initial
+   fragment, if available, matches the Layer 4 information in the ACL
+   entry.
+
+   The tree structure for DOTS data channel is as follows:
+
+module: ietf-dots-data-channel
+    +--rw dots-data
+       +--rw dots-client* [cuid]
+          +--rw cuid            string
+          +--rw cdid?           string
+          +--rw aliases
+          |  +--rw alias* [alias-name]
+          |     +--rw alias-name           string
+          |     +--rw target-prefix*       inet:ip-prefix
+          |     +--rw target-port-range* [lower-port upper-port]
+          |     |  +--rw lower-port    inet:port-number
+          |     |  +--rw upper-port    inet:port-number
+          |     +--rw target-protocol*     uint8
+          |     +--rw target-fqdn*         inet:domain-name
+          |     +--rw target-uri*          inet:uri
+          |     +--rw lifetime             int32
+          +--rw access-lists
+             +--rw acl* [name]
+                +--rw name    string
+                +--rw type?   ietf-acl:acl-type
+                +--rw aces
+                   +--rw ace* [name]
+                      +--rw name          string
+                      +--rw lifetime      int32
+                      +--rw matches
+                      |  +--rw (l3)?
+                      |  |  +--:(ipv4)
+                      |  |  |  +--rw ipv4
+                      |  |  |     +--rw dscp?                       inet:dscp
+                      |  |  |     +--rw ecn?                        uint8
+                      |  |  |     +--rw length?                     uint16
+                      |  |  |     +--rw ttl?                        uint8
+                      |  |  |     +--rw protocol?                   uint8
+                      |  |  |     +--rw source-port-range!
 
 
 
-Reddy, et al.             Expires July 26, 2018                [Page 10]
+Reddy, et al.             Expires July 27, 2018                [Page 10]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-                |     |     +--rw flags?                    bits
-                |     |     +--rw window-size?              uint16
-                |     |     +--rw urgent-pointer?           uint16
-                |     |     +--rw options?                  uint32
-                |     +--:(udp)
-                |     |  +--rw udp {match-on-udp}?
-                |     |     +--rw length?   uint16
-                |     +--:(icmp)
-                |        +--rw icmp {match-on-icmp}?
-                |           +--rw type?             uint8
-                |           +--rw code?             uint8
-                |           +--rw rest-of-header?   uint32
-                +--rw actions
-                |  +--rw forwarding    identityref
-                |  +--rw logging?      identityref
-                +--ro statistics {acl-aggregate-stats}?
-                   +--ro matched-packets?   yang:counter64
-                   +--ro matched-octets?    yang:counter64
+                      |  |  |     |  +--rw lower-port    inet:port-number
+                      |  |  |     |  +--rw upper-port?   inet:port-number
+                      |  |  |     |  +--rw operation?    operator
+                      |  |  |     +--rw destination-port-range!
+                      |  |  |     |  +--rw lower-port    inet:port-number
+                      |  |  |     |  +--rw upper-port?   inet:port-number
+                      |  |  |     |  +--rw operations?   operator
+                      |  |  |     +--rw ihl?                        uint8
+                      |  |  |     +--rw flags?                      bits
+                      |  |  |     +--rw offset?                     uint16
+                      |  |  |     +--rw identification?             uint16
+                      |  |  |     +--rw destination-ipv4-network?   inet:ipv4-prefix
+                      |  |  |     +--rw source-ipv4-network?        inet:ipv4-prefix
+                      |  |  |     +--rw v4-fragments?               empty
+                      |  |  +--:(ipv6)
+                      |  |     +--rw ipv6
+                      |  |        +--rw dscp?                       inet:dscp
+                      |  |        +--rw ecn?                        uint8
+                      |  |        +--rw length?                     uint16
+                      |  |        +--rw ttl?                        uint8
+                      |  |        +--rw protocol?                   uint8
+                      |  |        +--rw source-port-range!
+                      |  |        |  +--rw lower-port    inet:port-number
+                      |  |        |  +--rw upper-port?   inet:port-number
+                      |  |        |  +--rw operation?    operator
+                      |  |        +--rw destination-port-range!
+                      |  |        |  +--rw lower-port    inet:port-number
+                      |  |        |  +--rw upper-port?   inet:port-number
+                      |  |        |  +--rw operations?   operator
+                      |  |        +--rw next-header?                uint8
+                      |  |        +--rw destination-ipv6-network?   inet:ipv6-prefix
+                      |  |        +--rw source-ipv6-network?        inet:ipv6-prefix
+                      |  |        +--rw flow-label?                 inet:ipv6-flow-label
+                      |  |        +--rw v6-fragments?               empty
+                      |  +--rw (l4)?
+                      |     +--:(tcp)
+                      |     |  +--rw tcp
+                      |     |     +--rw sequence-number?          uint32
+                      |     |     +--rw acknowledgement-number?   uint32
+                      |     |     +--rw data-offset?              uint8
+                      |     |     +--rw reserved?                 uint8
+                      |     |     +--rw flags?                    bits
+                      |     |     +--rw window-size?              uint16
+                      |     |     +--rw urgent-pointer?           uint16
+                      |     |     +--rw options?                  uint32
+                      |     +--:(udp)
+                      |     |  +--rw udp
+                      |     |     +--rw length?   uint16
 
-5.2.2.  DOTS Augmentation to the IETF-ACL YANG Module
-
-   This document defines the DOTS Data Channel YANG to augment the
-   "ietf-access-control-list" module to support filters based on the
-   DOTS client unique identifier (cuid) and/or the client domain
-   identity (cdid), to support rate-limit action (rate-limit), and to
-   handle fragmented packets (fragments).  The tree structure for
-   augmented DOTS filtering rules is as follows:
-
-  augment /ietf-acl:access-lists/ietf-acl:acl:
-    +--rw cuid        -> /aliases/dots-client/cuid
-    +--rw cdid?       -> /aliases/dots-client/cdid
-    +--rw lifetime    int32
-  augment /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces
-          /ietf-acl:ace/ietf-acl:actions:
-    +--rw rate-limit?   decimal64
-  augment /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces
-          /ietf-acl:ace/ietf-acl:matches/ietf-acl:l3/ietf-acl:ipv4:
-    +--rw v4-fragments?   empty
-  augment /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces
-          /ietf-acl:ace/ietf-acl:matches/ietf-acl:l3/ietf-acl:ipv6:
-    +--rw v6-fragments?   empty
-  augment /ietf-acl:access-lists:
-    +--rw dots-acl-order
-       +--rw acl-set* [cuid name]
-          +--rw cuid                  -> /ietf-acl:access-lists/acl/cuid
-          +--rw cdid?                 -> /ietf-acl:access-lists/acl/cdid
-          +--rw name                  -> /ietf-acl:access-lists/acl/name
-          +--rw type?                 -> /ietf-acl:access-lists/acl/type
 
 
-
-Reddy, et al.             Expires July 26, 2018                [Page 11]
+Reddy, et al.             Expires July 27, 2018                [Page 11]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-   Filtering fragments adds an additional layer of protection against a
-   DoS attack that uses non-initial fragments only.  When there is only
-   Layer 3 information in the ACL entry and the fragments keyword is
-   present, for non-initial fragments matching the ACL entry, the 'deny'
-   or 'permit' action associated with the ACL entry will be enforced.
-   For initial or non-fragment matching the ACL entry, the next ACL
-   entry will be processed.  When there is both Layer 3 and Layer 4
-   information in the ACL entry and the fragments keyword is present,
-   the ACL action is conservative for both permit and deny actions.  The
-   actions are conservative to not accidentally deny a fragmented
-   portion of a flow because the fragments do not contain sufficient
-   information to match all of the filter attributes.  In the deny
-   action case, instead of denying a non-initial fragment, the next ACL
-   entry is processed.  In the permit case, it is assumed that the Layer
-   4 information in the non-initial fragment, if available, matches the
-   Layer 4 information in the ACL entry.
+                      |     +--:(icmp)
+                      |        +--rw icmp
+                      |           +--rw type?             uint8
+                      |           +--rw code?             uint8
+                      |           +--rw rest-of-header?   uint32
+                      +--rw actions
+                      |  +--rw forwarding    identityref
+                      |  +--rw rate-limit?   decimal64
+                      +--ro statistics
+                         +--ro matched-packets?   yang:counter64
+                         +--ro matched-octets?    yang:counter64
 
-5.3.  DOTS Data Channel YANG Module
+   xxxSTALE MAPPING"""": will be expired, can be migrated to the new
+   cuid, ???
 
-  <CODE BEGINS> file "ietf-dots-data-channel@2018-01-18.yang"
+5.2.  YANG Module
 
-  module ietf-dots-data-channel {
-    yang-version 1.1;
-    namespace "urn:ietf:params:xml:ns:yang:ietf-dots-data-channel";
+<CODE BEGINS> file "ietf-dots-data-channel@2018-01-22.yang"
 
-    prefix "data-channel";
+module ietf-dots-data-channel {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-dots-data-channel";
+  prefix data-channel;
 
-    import ietf-inet-types {prefix "inet";}
-    import ietf-access-control-list {prefix "ietf-acl";}
+  import ietf-access-control-list {
+    prefix ietf-acl;
+  }
+  import ietf-packet-fields {
+    prefix packet-fields;
+  }
+  import ietf-dots-signal-channel {
+    prefix dots-signal;
+  }
 
-    organization "IETF DDoS Open Threat Signaling (DOTS) Working Group";
+  organization
+    "IETF DDoS Open Threat Signaling (DOTS) Working Group";
+  contact
+    "WG Web:   <https://datatracker.ietf.org/wg/dots/>
+     WG List:  <mailto:dots@ietf.org>
 
-    contact
-      "WG Web:   <https://datatracker.ietf.org/wg/dots/>
-       WG List:  <mailto:dots@ietf.org>
+     Editor:  Konda, Tirumaleswar Reddy
+              <mailto:TirumaleswarReddy_Konda@McAfee.com>
 
-       Editor:  Konda, Tirumaleswar Reddy
-                <mailto:TirumaleswarReddy_Konda@McAfee.com>
+     Editor:  Mohamed Boucadair
+              <mailto:mohamed.boucadair@orange.com>
 
-       Editor:  Mohamed Boucadair
-                <mailto:mohamed.boucadair@orange.com>
-
-       Author:  Kaname Nishizuka
-                <mailto:kaname@nttv6.jp>
-
-       Author:  Liang Xia
-                <mailto:frank.xialiang@huawei.com>
+     Author:  Kaname Nishizuka
+              <mailto:kaname@nttv6.jp>
 
 
 
-
-Reddy, et al.             Expires July 26, 2018                [Page 12]
+Reddy, et al.             Expires July 27, 2018                [Page 12]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-       Author:  Prashanth Patil
-                <mailto:praspati@cisco.com>
+     Author:  Liang Xia
+              <mailto:frank.xialiang@huawei.com>
 
-       Author:  Andrew Mortensen
-                <mailto:amortensen@arbor.net>
+     Author:  Prashanth Patil
+              <mailto:praspati@cisco.com>
 
-       Author:  Nik Teague
-                <mailto:nteague@verisign.com>";
+     Author:  Andrew Mortensen
+              <mailto:amortensen@arbor.net>
 
+     Author:  Nik Teague
+              <mailto:nteague@verisign.com>
+
+     Author:  Jon Shallow
+              <mailto:jon.shallow@nccgroup.trust>";
+  description
+    "This module contains YANG definition for configuring
+     aliases for resources and filtering rules using DOTS
+     data channel.
+
+     Copyright (c) 2018 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD License
+     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (http://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC XXXX; see
+     the RFC itself for full legal notices.";
+
+  revision 2018-01-22 {
     description
-      "This module contains YANG definition for configuring
-       aliases for resources and filtering rules using DOTS
-       data channel.
+      "Initial revision.";
+    reference
+      "RFC XXXX: Distributed Denial-of-Service Open Threat
+                 Signaling (DOTS) Data Channel";
+  }
 
-       Copyright (c) 2018 IETF Trust and the persons identified as
-       authors of the code.  All rights reserved.
-
-       Redistribution and use in source and binary forms, with or
-       without modification, is permitted pursuant to, and subject
-       to the license terms contained in, the Simplified BSD License
-       set forth in Section 4.c of the IETF Trust's Legal Provisions
-       Relating to IETF Documents
-       (http://trustee.ietf.org/license-info).
-
-       This version of this YANG module is part of RFC XXXX; see
-       the RFC itself for full legal notices.";
-
-    revision 2018-01-18 {
+  grouping aliases {
+    description
+      "Top level container for aliases";
+    list alias {
+      key "alias-name";
       description
-        "Initial revision.";
-      reference
-        "RFC XXXX: Distributed Denial-of-Service Open Threat
-                   Signaling (DOTS) Data Channel";
-    }
-
-    container aliases {
-      description "Top level container for aliases";
-
-      list dots-client {
-        key "cuid";
-        description
-          "List of DOTS clients";
-        leaf cuid {
-          type string;
-          description
-            "A unique identifier that is randomly
-             generated by a DOTS client to prevent
-             request collisions.";
+        "List of aliases";
+      leaf alias-name {
 
 
 
-Reddy, et al.             Expires July 26, 2018                [Page 13]
+Reddy, et al.             Expires July 27, 2018                [Page 13]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-          reference
-            "RFC YYYY: Distributed Denial-of-Service
-                       Open Threat Signaling (DOTS) Signal Channel";
-         }
-         leaf cdid {
-           type string;
-           description
-             "A client domain identifier conveyed by a
-              server-domain DOTS gateway to a remote DOTS server.";
-           reference
-            "RFC YYYY: Distributed Denial-of-Service
-                       Open Threat Signaling (DOTS) Signal Channel";
-        }
-        list alias {
-          key "alias-name";
-          description
-            "List of aliases";
-          leaf alias-name {
-            type string;
-            description "alias name";
-          }
-          leaf-list target-prefix {
-            type inet:ip-prefix;
-            description
-              "IPv4 or IPv6 prefix identifying the target.";
-          }
-          list target-port-range {
-            key "lower-port upper-port";
-            description
-              "Port range. When only lower-port is
-               present, it represents a single port.";
-            leaf lower-port {
-              type inet:port-number;
-              mandatory true;
-              description
-                "Lower port number.";
-            }
-            leaf upper-port {
-              type inet:port-number;
-               must ". >= ../lower-port" {
-                 error-message
-                   "The upper port number must be greater than
-                    or equal to the lower port number.";
-              }
-              description
-                "Upper port number.";
-            }
-          }
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 14]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
-          leaf-list target-protocol {
-            type uint8;
-            description
-              "Identifies the target protocol number.
-
-               The value '0' means 'all protocols'.
-
-               Values are taken from the IANA protocol registry:
-               https://www.iana.org/assignments/protocol-numbers/
-               protocol-numbers.xhtml
-
-               For example, 6 for a TCP or 17 for UDP.";
-          }
-          leaf-list target-fqdn {
-            type inet:domain-name;
-            description
-              "FQDN identifying the target.";
-          }
-          leaf-list target-uri {
-            type inet:uri;
-            description
-              "URI identifying the target.";
-          }
-        }
-      }
-    }
-
-    augment "/ietf-acl:access-lists/ietf-acl:acl" {
-      when "derived-from(ietf-acl:type, 'ietf-acl:ipv4-acl-type')" +
-           " or derived-from(ietf-acl:type, 'ietf-acl:ipv6-acl-type')";
-
-      description
-        "Augments ACLs with the identity of the DOTS
-         client, the client's domain identifier, and the lifetime.";
-      leaf cuid {
-        type leafref {
-          path "/aliases/dots-client/cuid";
-        }
-        mandatory true;
+        type string;
         description
-          "A unique identifier that is randomly
-           generated by a DOTS client to prevent
-           request collisions.";
+          "alias name";
       }
-      leaf cdid {
-        type leafref {
-          path "/aliases/dots-client/cdid";
-        }
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 15]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
-        description
-          "A client domain identifier conveyed by a server-domain DOTS
-           gateway to a remote DOTS server.";
-      }
+      uses dots-signal:target;
       leaf lifetime {
         type int32;
         units "minutes";
         mandatory true;
         description
-          "Indicates the lifetime of the filtering rule
+          "Indicates the lifetime of the alias entry.
 
            A lifetime of negative one (-1) indicates indefinite
-           lifetime for the filtering request.";
+           lifetime for the alias.";
       }
     }
+  }
 
-    augment "/ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces" +
-            "/ietf-acl:ace/ietf-acl:actions" {
+  grouping access-lists {
+    description
+      "Specifies the access-lists";
+    list acl {
+      key "name";
+      ordered-by user;
       description
-        "rate-limit action";
-      leaf rate-limit {
-        when "/ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces/" +
-             "ietf-acl:ace/ietf-acl:actions/" +
-             "ietf-acl:forwarding = 'ietf-acl:accept'" {
-        description
-          "rate-limit valid only when accept action is used";
+        "An Access Control List (ACL) is an ordered list of
+         Access List Entries (ACE). Each Access Control Entry has a
+         list of match criteria and a list of actions.";
+      leaf name {
+        type string {
+          length "1..64";
         }
-        type decimal64 {
-          fraction-digits 2;
-        }
-       description
-         "rate-limit traffic";
-       }
-    }
-
-    augment "/ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces" +
-            "/ietf-acl:ace/ietf-acl:matches/ietf-acl:l3/ietf-acl:ipv4" {
-      description
-        "Handle non-initial and initial fragments for IPv4 packets.";
-
-      leaf v4-fragments {
-        type empty;
         description
-          "Handle IPv4 fragments.";
+          "The name of access-list.";
+        reference
+           "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model";
       }
-    }
+      leaf type {
+        type ietf-acl:acl-type;
+        description
+          "Type of access control list. Indicates the primary intended
+           type of match criteria (e.g., IPv4, IPv6) used in the list
+           instance.";
+        reference
+           "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model";
+      }
+      container aces {
+        description
 
-    augment "/ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces" +
 
 
-
-Reddy, et al.             Expires July 26, 2018                [Page 16]
+Reddy, et al.             Expires July 27, 2018                [Page 14]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-            "/ietf-acl:ace/ietf-acl:matches/ietf-acl:l3/ietf-acl:ipv6" {
-      description
-        "Handle non-initial and initial fragments for IPv6 packets.";
-
-      leaf v6-fragments {
-        type empty;
-        description
-          "Handle IPv6 fragments.";
-      }
-    }
-
-    augment "/ietf-acl:access-lists" {
-      description
-        "Handle ordering of ACLs from a DOTS client";
-
-      container dots-acl-order {
-        description
-          "Enclosing container for ordering the ACLs from
-           a DOTS client";
-
-        list acl-set {
-          key "cuid name";
+          "The access-list-entries container contains
+           a list of access-list-entries(ACE).";
+        list ace {
+          key "name";
           ordered-by user;
           description
-            "List of ACLs";
-
-          leaf cuid {
-            type leafref {
-              path "/ietf-acl:access-lists/ietf-acl:acl" +
-                   "/cuid";
-            }
-            description
-              "Reference to the client identifier";
-          }
-          leaf cdid {
-            type leafref {
-              path "/ietf-acl:access-lists/ietf-acl:acl" +
-                   "/cdid";
-            }
-            description
-              "Reference to the client domain identifier.";
-          }
+            "List of access list entries(ACE)";
           leaf name {
-            type leafref {
-              path "/ietf-acl:access-lists/ietf-acl:acl" +
-                   "/ietf-acl:name";
+            type string {
+              length "1..64";
             }
             description
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 17]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
-              "Reference to the ACL set name";
+              "A unique name identifying this Access List
+               Entry (ACE).";
+            reference
+              "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model";
           }
-          leaf type {
-            type leafref {
-              path "/ietf-acl:access-lists/ietf-acl:acl" +
-                   "/ietf-acl:type";
-            }
+          leaf lifetime {
+            type int32;
+            units "minutes";
+            mandatory true;
             description
-              "Reference to the ACL set type";
+              "Indicates the lifetime of the filtering rule
+
+               A lifetime of negative one (-1) indicates indefinite
+               lifetime for the filtering request.";
+          }
+          container matches {
+            description
+              "The rules in this set determine what fields will be
+               matched upon before any action is taken on them.
+
+               The rules are selected based on the feature set
+               defined by the server and the acl type.
+
+               If no matches are defined in a particular container,
+               then any packet will match that container. If no
+               matches are specified at all in an ACE, then any
+               packet will match the ACE.";
+            reference
+               "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model";
+
+            choice l3 {
+              container ipv4 {
+                when "derived-from(../../../../type, 'ietf-acl:ipv4-acl-type')";
+                uses packet-fields:acl-ip-header-fields;
+                uses packet-fields:acl-ipv4-header-fields;
+                leaf v4-fragments {
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 15]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
+                  type empty;
+                  description
+                    "Handle IPv4 fragments.";
+                }
+                description
+                  "Rule set that matches IPv4 headers.";
+              }
+              container ipv6 {
+                when "derived-from(../../../../type, 'ietf-acl:ipv6-acl-type')";
+                uses packet-fields:acl-ip-header-fields;
+                uses packet-fields:acl-ipv6-header-fields;
+                leaf v6-fragments {
+                  type empty;
+                  description
+                    "Handle IPv6 fragments.";
+                }
+                description
+                  "Rule set that matches IPv6 headers.";
+              }
+              description
+                "Choice of either IPv4 or IPv6 headers";
+            }
+            choice l4 {
+              container tcp {
+                uses packet-fields:acl-tcp-header-fields;
+                description
+                  "Rule set that matches TCP headers.";
+              }
+              container udp {
+                uses packet-fields:acl-udp-header-fields;
+                description
+                  "Rule set that matches UDP headers.";
+              }
+              container icmp {
+                uses packet-fields:acl-icmp-header-fields;
+                description
+                  "Rule set that matches ICMP headers.";
+              }
+              description
+                "Choice of TCP, UDP, or ICMP headers.";
+            }
+          }
+          container actions {
+            description
+              "Definitions of action for this ace entry";
+            leaf forwarding {
+              type identityref {
+                base ietf-acl:forwarding-action;
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 16]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
+              }
+              mandatory true;
+              description
+                "Specifies the forwarding action per ace entry";
+            }
+            leaf rate-limit {
+              when "../forwarding = 'ietf-acl:accept'" {
+                description
+                  "rate-limit valid only when accept action is used";
+              }
+              type decimal64 {
+                fraction-digits 2;
+              }
+              description
+                "rate-limit traffic";
+            }
+          }
+          container statistics {
+            config false;
+            description
+              "Aggregate statistics.";
+            uses ietf-acl:acl-counters;
           }
         }
       }
     }
   }
-   <CODE ENDS>
 
-6.  DOTS Aliases
+  container dots-data {
+    description
+      "Main container for DOTS data channel.";
+    list dots-client {
+      key "cuid";
+      description
+        "List of DOTS clients.";
+      leaf cuid {
+        type string;
+        description
+          "A unique identifier that is randomly
+           generated by a DOTS client to prevent
+           request collisions.";
+        reference
+          "RFC YYYY: Distributed Denial-of-Service
+                     Open Threat Signaling (DOTS) Signal Channel";
+      }
+      leaf cdid {
+        type string;
+        description
 
-6.1.  Create Aliases
 
-   A POST request is used to create aliases, for resources for which a
-   mitigation may be requested.  Such aliases may be used in subsequent
-   DOTS signal channel exchanges to refer more efficiently to the
-   resources under attack (Figure 3).
+
+Reddy, et al.             Expires July 27, 2018                [Page 17]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
+          "A client domain identifier conveyed by a
+           server-domain DOTS gateway to a remote DOTS server.";
+        reference
+          "RFC YYYY: Distributed Denial-of-Service
+                     Open Threat Signaling (DOTS) Signal Channel";
+      }
+      container aliases {
+        description
+          "Aliases";
+        uses aliases;
+      }
+      container access-lists {
+        description
+          "Access lists";
+         uses access-lists;
+      }
+    }
+  }
+}
+ <CODE ENDS>
+
+6.  Registering DOTS Clients
+
+   In order to create a new DOTS client ('dots-client') resource on DOTS
+   servers, DOTS clients MUST send a POST request (shown in Figure 3).
+
+    POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
+    Host: {host}:{port}
+    Content-Type: application/yang-data+json
+    {
+      "ietf-dots-data-channel:dots-client": [
+        {
+          "cuid": "string"
+        }
+      ]
+    }
+
+                        Figure 3: POST to Register
+
+   The 'cuid' parameter is described below:
+
+   cuid:  A globally unique identifier that is meant to prevent
+      collisions among DOTS clients.  This attribute has the same
+      meaning, syntax, and processing rules as the 'cuid' attribute
+      defined in [I-D.ietf-dots-signal-channel].  The DOTS client MUST
+      use the same 'cuid' for both signal and data channels.
+      This is a mandatory attribute.
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 18]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
+   In deployments where server-domain DOTS gateways are enabled,
+   identity information about the origin source client domain SHOULD be
+   supplied to the DOTS server.  That information is meant to assist the
+   DOTS server to enforce some policies.  These policies can be enforced
+   per-client, per-client domain, or both.  Figure 4 shows an example of
+   a request relayed by a server-domain DOTS gateway.
+
+    POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
+    Host: {host}:{port}
+    Content-Type: application/yang-data+json
+    {
+      "ietf-dots-data-channel:dots-client": [
+        {
+          "cuid": "string",
+          "cdid": "string"
+        }
+      ]
+    }
+
+              Figure 4: POST to Create Aliases (DOTS Gateway)
+
+   A server-domain DOTS gateway SHOULD add the following attribute:
+
+   cdid:  This attribute has the same meaning, syntax, and processing
+      rules as the 'cdid' attribute defined in
+      [I-D.ietf-dots-signal-channel].
+
+      This is an optional attribute.
+
+   A request example to create a 'dots-client' resource is depicted in
+   Figure 5.  This request is relayed by a server-domain DOTS gateway as
+   hinted by the presence of a 'cdid' attribute.
+
+    POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
+    Host: {host}:{port}
+    Content-Type: application/yang-data+json
+    {
+      "ietf-dots-data-channel:dots-client": [
+        {
+          "cuid": "dz6pHjaADkaFTbjr0JGBpw",
+          "cdid": "7eeaf349529eb55ed50113"
+        }
+      ]
+    }
+
+                     Figure 5: POST to Create Aliases
+
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 19]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
+   DOTS servers MUST limit the number of 'dots-client' resources to be
+   created by the same DOTS client to 1.  Requests with multiple 'dots-
+   client' resource MUST be rejected by DOTS servers.  To that aim, the
+   DOTS server MUST rely on the same procedure to unambiguously identify
+   a DOTS client as discussed in Section 4.4.1 of
+   [I-D.ietf-dots-signal-channel].
+
+   The DOTS server indicates the result of processing the POST request
+   using status-line codes.  Status codes in the range "2xx" codes are
+   success, "4xx" codes are some sort of invalid requests and "5xx"
+   codes are returned if the DOTS server has erred or is incapable of
+   accepting the creation of the 'dots-client' resource.  In particular,
+
+   o  "201 Created" status-line is returned in the response, if the DOTS
+      server has accepted the request.
+
+   o  "400 Bad Request" status-line MUST be returned by the DOTS server,
+      if the request does not include a 'cuid' parameter.
+
+   Once a DOTS client registers itself to a DOTS server, it can
+   create/delete/retrieve aliases (Section 7) and filtering rules
+   (Section 8).
+
+7.  Managing DOTS Aliases
+
+7.1.  Create Aliases
+
+   A POST request is used by a DOTS client to create aliases, for
+   resources for which a mitigation may be requested.  Such aliases may
+   be used in subsequent DOTS signal channel exchanges to refer more
+   efficiently to the resources under attack.
+
+   In order to avoid maintaining stale alias entries, a lifetime can be
+   associated with an alias.  DOTS servers may grant indefinite, but
+   DOTS clients MUST be prepared to receive finite lifetime even if an
+   indefinite lifetime was requested.
 
    DOTS clients within the same domain can create different aliases for
    the same resource.
 
+   The structure of POST requests used to create aliases is shown in
+   Figure 6.
 
 
 
@@ -991,31 +1117,17 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 18]
+Reddy, et al.             Expires July 27, 2018                [Page 20]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-    POST /restconf/data/ietf-dots-data-channel:aliases HTTP/1.1
+    POST /restconf/data/ietf-dots-data-channel:dots-data\
+         /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
     Host: {host}:{port}
     Content-Type: application/yang-data+json
     {
-     "ietf-dots-data-channel:dots-client": {
-       "cuid": "string",
+     "ietf-dots-data-channel:aliases": {
        "alias": [
          {
            "alias-name": "string",
@@ -1036,35 +1148,20 @@ Internet-Draft              DOTS Data Channel               January 2018
            ],
            "target-uri": [
              "string"
-           ]
+           ],
+           "lifetime": integer
          }
        ]
      }
    }
 
-                     Figure 3: POST to Create Aliases
+                     Figure 6: POST to Create Aliases
 
    The parameters are described below:
-
-   cuid:  A unique identifier that is meant to prevent collisions among
-      DOTS clients that belong to the same domain.  This attribute has
-      the same meaning, syntax, and processing rules as the 'cuid'
-      attribute defined in [I-D.ietf-dots-signal-channel].
-
-      This is a mandatory attribute.
 
    alias-name:  Name of the alias.
 
       This is a mandatory attribute.
-
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 19]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
 
    target-prefix:   Prefixes are separated by commas.  Prefixes are
       represented using Classless Inter-domain Routing (CIDR) notation
@@ -1072,6 +1169,14 @@ Internet-Draft              DOTS Data Channel               January 2018
       equal to 32 (resp. 128) for IPv4 (resp.  IPv6).
 
       This is an optional attribute.
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 21]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
 
    target-port-range:   A range of port numbers.
 
@@ -1098,7 +1203,7 @@ Internet-Draft              DOTS Data Channel               January 2018
    target-fqdn:   A list of Fully Qualified Domain Names (FQDNs).  An
       FQDN is the full name of a resource, rather than just its
       hostname.  For example, "venera" is a hostname, and
-      "venera.isi.edu" is an FQDN.
+      "venera.isi.edu" is an FQDN [RFC1983].
 
       This is an optional attribute.
 
@@ -1107,87 +1212,48 @@ Internet-Draft              DOTS Data Channel               January 2018
 
       This is an optional attribute.
 
-   In deployments where server-domain DOTS gateways are enabled,
-   identity information about the origin source client domain has to be
-   supplied to the DOTS server.  That information is meant to assist the
-   DOTS server to enforce some policies.  Figure 4 shows an example of a
-   request relayed by a server-domain DOTS gateway.
+   lifetime:  Lifetime of the alias, in minutes.  The RECOMMENDED
+      lifetime of an alias is 10080 minutes (1 week).  DOTS clients MUST
+      include this parameter in their filtering requests.  Upon the
+      expiry of this lifetime, and if the request is not refreshed but
+      no mitigation is active, the alias entry is removed.  The request
+      can be refreshed by sending the same request again.
+
+      A lifetime of '0' in a request is an invalid value.
+
+      A lifetime of negative one (-1) indicates indefinite lifetime for
+      the alias.  The DOTS server MAY refuse indefinite lifetime, for
+      policy reasons; the granted lifetime value is returned in the
+      response.  DOTS clients MUST be prepared to not be granted aliases
+      with indefinite lifetimes.
 
 
 
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 20]
+Reddy, et al.             Expires July 27, 2018                [Page 22]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-    POST /restconf/data/ietf-dots-data-channel:aliases HTTP/1.1
-    Host: {host}:{port}
-    Content-Type: application/yang-data+json
-    {
-     "ietf-dots-data-channel:dots-client": {
-       "cuid": "string",
-       "cdid": "string",
-       "alias": [
-         {
-           "alias-name": "string",
-           "target-prefix": [
-             "string"
-           ],
-           "target-port-range": [
-             {
-               "lower-port": integer,
-               "upper-port": integer
-             }
-           ],
-           "target-protocol": [
-             integer
-           ],
-           "target-fqdn": [
-             "string"
-           ],
-           "target-uri": [
-             "string"
-           ]
-         }
-       ]
-     }
-   }
+      The DOTS server MUST always indicate the actual lifetime in the
+      response and the remaining lifetime in status messages sent to the
+      DOTS client.
 
-              Figure 4: POST to Create Aliases (DOTS Gateway)
-
-   A server-domain DOTS gateway may add the following attribute:
-
-   cdid:  This attribute has the same meaning, syntax, and processing
-      rules as the 'cdid' attribute defined in
-      [I-D.ietf-dots-signal-channel].
-
-      This is an optional attribute.
+      This is a mandatory attribute.
 
    In the POST request, at least one of the 'target-prefix', 'target-
    fqdn', or 'target-uri' attributes MUST be present.  DOTS agents can
    safely ignore Vendor-Specific parameters they don't understand.
 
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 21]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
-   Figure 5 shows a POST request to create alias called "https1" for
+   Figure 7 shows a POST request to create an alias called "https1" for
    HTTPS servers with IP addresses 2001:db8:6401::1 and 2001:db8:6401::2
    listening on port number 443.
 
-   POST /restconf/data/ietf-dots-data-channel:aliases HTTP/1.1
+   POST /restconf/data/ietf-dots-data-channel:dots-data\
+        /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
    Host: www.example.com
    Content-Type: application/yang-data+json
    {
-     "ietf-dots-data-channel:dots-client": {
-       "cuid": "dz6pHjaADkaFTbjr0JGBpw",
+     "ietf-dots-data-channel:aliases": {
        "alias": [
          {
            "alias-name": "https1",
@@ -1202,59 +1268,55 @@ Internet-Draft              DOTS Data Channel               January 2018
              {
                "lower-port": 443
              }
-           ]
+           ],
+           "lifetime": 10000
          }
        ]
      }
    }
 
-               Figure 5: Example of a POST to Create Aliases
-
-   The DOTS server indicates the result of processing the POST request
-   using status-line codes.  Status codes in the range "2xx" codes are
-   success, "4xx" codes are some sort of invalid requests and "5xx"
-   codes are returned if the DOTS server has erred or is incapable of
-   accepting the alias.
+              Figure 7: Example of a POST to Create an Alias
 
    "201 Created" status-line is returned in the response if the DOTS
    server has accepted the alias.
 
-   If the request is missing one or more mandatory attributes, or if the
-   request contains invalid or unknown parameters, then "400 Bad
-   Request" status-line MUST be returned in the response.  The HTTP
-   response will include the JSON body received in the request.
+   If the request is missing a mandatory attribute or its contains an
+   invalid or unknown parameter, "400 Bad Request" status-line MUST be
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 23]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
+   returned by the DOTS server.  The response MUST echo the JSON body
+   received in the request.
 
    A DOTS client MAY use the PUT request (Section 4.5 in [RFC8040]) to
    create or modify the aliases in the DOTS server.
 
+7.2.  Retrieve Installed Aliases
 
-
-Reddy, et al.             Expires July 26, 2018                [Page 22]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
-6.2.  Retrieve Installed Aliases
-
-   A GET request is used to retrieve one or all installed aliases by a
+   GET request is used to retrieve one or all installed aliases by a
    DOTS client from a DOTS server (Section 3.3.1 in [RFC8040]).  If no
    'alias-name' parameter is included in the request, this is an
    indication that the request is about retrieving all aliases
    instantiated by the DOTS client.
 
-   Figure 6 shows an example to retrieve all the aliases that were
-   instantiated by the DOTS client.  The content parameter and its
-   permitted values are defined in Section 4.8.1 of [RFC8040].
+   Figure 8 shows an example to retrieve all the aliases that were
+   instantiated by the requesting DOTS client.  The 'content' parameter
+   and its permitted values are defined in Section 4.8.1 of [RFC8040].
 
-     GET /restconf/data/ietf-dots-data-channel:aliases\
-         /dots-client=dz6pHjaADkaFTbjr0JGBpw?content=config HTTP/1.1
-     Host: {host}:{port}
-     Accept: application/yang-data+json
+  GET /restconf/data/ietf-dots-data-channel:dots-data\
+      /dots-client=dz6pHjaADkaFTbjr0JGBpw/aliases?content=config HTTP/1.1
+  Host: {host}:{port}
+  Accept: application/yang-data+json
 
-              Figure 6: GET to Retrieve All Installed Aliases
+              Figure 8: GET to Retrieve All Installed Aliases
 
-   Figure 7 shows an example of response message body that includes all
-   the aliases that are maintained by the DOTS server for the DOTS
+   Figure 9 shows an example of the response message body that includes
+   all the aliases that are maintained by the DOTS server for the DOTS
    client identified by the 'cuid' parameter.
 
 
@@ -1279,19 +1341,13 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-
-
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 23]
+Reddy, et al.             Expires July 27, 2018                [Page 24]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
    {
-     "ietf-dots-data-channel:dots-client": {
+     "ietf-dots-data-channel:aliases": {
        "alias": [
          {
            "alias-name": "Server1",
@@ -1306,7 +1362,8 @@ Internet-Draft              DOTS Data Channel               January 2018
              {
                "lower-port": 443
              }
-           ]
+           ],
+           "lifetime": 3596
          },
          {
            "alias-name": "Server2",
@@ -1321,18 +1378,17 @@ Internet-Draft              DOTS Data Channel               January 2018
              {
                "lower-port": 80
              }
-           ]
+           ],
+           "lifetime": 9869
          }
        ]
      }
    }
 
-                   Figure 7: An Example of Response Body
+                   Figure 9: An Example of Response Body
 
-   Figure 8 shows an example to retrieve the alias "Server2" that was
-   instantiated by the DOTS client.
-
-
+   Figure 10 shows an example of a GET request to retrieve the alias
+   "Server2" that was instantiated by the DOTS client.
 
 
 
@@ -1341,87 +1397,55 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-Reddy, et al.             Expires July 26, 2018                [Page 24]
+Reddy, et al.             Expires July 27, 2018                [Page 25]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-     GET /restconf/data/ietf-dots-data-channel:aliases\
+     GET /restconf/data/ietf-dots-data-channel:dots-data\
          /dots-client=dz6pHjaADkaFTbjr0JGBpw\
-         /alias=Server2?content=config HTTP/1.1
+         /aliases/alias=Server2?content=config HTTP/1.1
      Host: {host}:{port}
      Accept: application/yang-data+json
 
-                    Figure 8: GET to Retrieve an Alias
+                    Figure 10: GET to Retrieve an Alias
 
-   If the 'alias-name' parameter is included in the request, but the
-   DOTS server does not find that alias name in its configuration data,
-   it MUST respond with a "404 Not Found" status-line.
+   If an 'alias-name' is included in the request, but the DOTS server
+   does not find that alias name in its configuration data, it MUST
+   respond with a "404 Not Found" status-line.
 
-6.3.  Delete Aliases
+7.3.  Delete Aliases
 
-   A DELETE request is used to delete an alias maintained by a DOTS
+   DELETE request is used to delete an alias maintained by a DOTS
    server.
 
-   In RESTCONF, URI-encoded path expressions are used.  A RESTCONF data
-   resource identifier is encoded from left to right, starting with the
-   top-level data node, according to the 'api-path' rule defined in
-   Section 3.5.3.1 of [RFC8040].  The data node in the path expression
-   is a YANG list node and MUST be encoded according to the rules
-   defined in Section 3.5.1 of [RFC8040].
-
-   If the DOTS server does not find the alias name conveyed in the
-   DELETE request in its configuration data, it MUST respond with a "404
-   Not Found" status-line.
+   If the DOTS server does not find the alias name, conveyed in the
+   DELETE request, in its configuration data, it MUST respond with a
+   "404 Not Found" status-line.
 
    The DOTS server successfully acknowledges a DOTS client's request to
    remove the alias using "204 No Content" status-line in the response.
 
-   Figure 9 shows an example of a request to delete an alias.
+   Figure 11 shows an example of a request to delete an alias.
 
-     DELETE /restconf/data/ietf-dots-data-channel:aliases\
+     DELETE /restconf/data/ietf-dots-data-channel:dots-data\
             /dots-client=dz6pHjaADkaFTbjr0JGBpw\
-            /alias=Server1 HTTP/1.1
+            /aliases/alias=Server1 HTTP/1.1
      Host: {host}:{port}
 
-                         Figure 9: Delete an Alias
+                        Figure 11: Delete an Alias
 
-7.  DOTS Filtering Rules
-
-   The DOTS server either receives the filtering rules directly from the
-   DOTS client or via a DOTS gateway.
-
-   If the DOTS client signals the filtering rules via a DOTS gateway,
-   the DOTS gateway first verifies that the DOTS client is authorized to
-   signal the filtering rules.  If the client is authorized, it
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 25]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
-   propagates the rules to the DOTS server.  Likewise, the DOTS server
-   verifies that the DOTS gateway is authorized to signal the filtering
-   rules.  To create or purge filters, the DOTS client sends HTTP
-   requests to its DOTS gateway.  The DOTS gateway validates the rules
-   in the requests and proxies the requests containing the filtering
-   rules to a DOTS server.  When the DOTS gateway receives the
-   associated HTTP response from the DOTS server, it propagates the
-   response back to the DOTS client.
+8.  Managing DOTS Filtering Rules
 
    The following sub-sections define means for a DOTS client to
    configure filtering rules on a DOTS server.
 
-7.1.  Install Filtering Rules
+8.1.  Install Filtering Rules
 
    A POST request is used to push filtering rules to a DOTS server.
 
-   Figure 10 shows a POST request example to block traffic from
-   192.0.2.0/24 and destined to 198.51.100.0/24.  The ACL JSON
-   configuration for the filtering rule is generated using the ACL YANG
-   module (Section 4.3 of [I-D.ietf-netmod-acl-model]).
+   Figure 12 shows a POST request example to block traffic from
+   192.0.2.0/24 and destined to 198.51.100.0/24.
 
 
 
@@ -1429,50 +1453,26 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 26]
+Reddy, et al.             Expires July 27, 2018                [Page 26]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
-   POST /restconf/data/ietf-access-control-list HTTP/1.1
-   Host: www.example.com
-   Content-Type: application/yang-data+json
-   {
-     "ietf-access-control-list:access-lists": {
+    POST /restconf/data/ietf-dots-data-channel:dots-data\
+         /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
+    Host: {host}:{port}
+    Content-Type: application/yang-data+json
+    {
+     "ietf-dots-data-channel:access-lists": {
        "acl": [
          {
            "name": "sample-ipv4-acl",
            "type": "ipv4-acl-type",
-           "data-channel:cuid": "dz6pHjaADkaFTbjr0JGBpw",
-           "data-channel:lifetime": 10080,
            "aces": {
              "ace": [
                {
                  "name": "rule1",
+                 "lifetime": 10080,
                  "matches": {
                    "l3": {
                      "ipv4" {
@@ -1492,7 +1492,7 @@ Internet-Draft              DOTS Data Channel               January 2018
      }
    }
 
-                Figure 10: POST to Install Filtering Rules
+                Figure 12: POST to Install Filtering Rules
 
    The meaning of these parameters is as follows:
 
@@ -1509,9 +1509,9 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-Reddy, et al.             Expires July 26, 2018                [Page 27]
+Reddy, et al.             Expires July 27, 2018                [Page 27]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
    cuid:  A unique identifier that is meant to prevent collisions among
@@ -1520,12 +1520,13 @@ Internet-Draft              DOTS Data Channel               January 2018
 
       This is a mandatory attribute.
 
-   lifetime:  Lifetime of the ACL, in minutes.  The RECOMMENDED lifetime
-      of a ACL is 10080 minutes (1 week).  DOTS clients MUST include
-      this parameter in their filtering requests.  Upon the expiry of
-      this lifetime, and if the request is not refreshed but no
-      mitigation is active, the filtering request is removed.  The
-      request can be refreshed by sending the same request again.
+   lifetime:  Lifetime of the filtering entry, in minutes.  The
+      RECOMMENDED lifetime of a filtering entry is 10080 minutes (1
+      week).  DOTS clients MUST include this parameter in their
+      filtering requests.  Upon the expiry of this lifetime, and if the
+      request is not refreshed but no mitigation is active, the
+      filtering request is removed.  The request can be refreshed by
+      sending the same request again.
 
       A lifetime of '0' in a request is an invalid value.
 
@@ -1554,20 +1555,19 @@ Internet-Draft              DOTS Data Channel               January 2018
       This is an optional attribute.
 
    actions:   Actions in the forwarding ACL category can be "drop" or
-      "accept" or "rate-limit".  The "accept" action is used to white-
-      list traffic.  The "drop" action is used to black-list traffic.
-      The "rate-limit" action is used to rate-limit traffic, the allowed
-      traffic rate is represented in bytes per second indicated in IEEE
-      floating point format [IEEE.754.1985].
+      "accept".  The "accept" action is used to white-list traffic.  The
+      "drop" action is used to black-list traffic.  Accepted traffic may
+      be subject to "rate-limit"; the allowed traffic rate is
+      represented in bytes per second indicated in IEEE floating point
+      format [IEEE.754.1985].
 
       This is a mandatory attribute.
 
 
 
-
-Reddy, et al.             Expires July 26, 2018                [Page 28]
+Reddy, et al.             Expires July 27, 2018                [Page 28]
 
-Internet-Draft              DOTS Data Channel               January 2018
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
    The DOTS server indicates the result of processing the POST request
@@ -1576,9 +1576,9 @@ Internet-Draft              DOTS Data Channel               January 2018
    server has erred or is incapable of configuring the filtering rules.
    Concretely, "201 Created" status-line MUST be returned in the
    response if the DOTS server has accepted the filtering rules.  If the
-   request is missing one or more mandatory attributes or contains
-   invalid or unknown parameters, then "400 Bad Request" status-line
-   MUST be returned in the response.
+   request is missing a mandatory attribute or contains an invalid or
+   unknown parameter, "400 Bad Request" status-line MUST be returned by
+   the DOTS server in the response.
 
    If the request is conflicting with an existing filtering, the DOTS
    server returns "409 Conflict" status-line to the requesting DOTS
@@ -1586,84 +1586,77 @@ Internet-Draft              DOTS Data Channel               January 2018
 
    The "insert" query parameter (Section 4.8.5 of [RFC8040]) MAY be used
    to specify how an Access Control Entry (ACE) is inserted within an
-   ACL and how an ACL is inserted within an ACL set in container dots-
-   acl-order.
+   ACL and how an ACL is inserted within an ACL set.
 
-   The DOTS client MAY use the PUT request to create or modify the
-   filtering rules in the DOTS server.
+   The DOTS client MAY use the PUT request to create or modify its
+   filtering rules maintained by the DOTS server.
 
-7.2.  Retrieve Installed Filtering Rules
+8.2.  Retrieve Installed Filtering Rules
 
    The DOTS client periodically queries the DOTS server to check the
-   counters for installed filtering rules.  A GET request is used to
+   counters for installed filtering rules.  GET request is used to
    retrieve filtering rules from a DOTS server.
 
    If the DOTS server does not find the access list name conveyed in the
    GET request in its configuration data, it responds with a "404 Not
    Found" status-line.
 
-   Figure 11 shows how to retrieve all the filtering rules programmed by
-   the DOTS client and the number of matches for the installed filtering
-   rules.
-
-   NO GW:
-
-     GET /restconf/data/ietf-access-control-list:access-lists?\
-         content=all HTTP/1.1
-     Host: {host}:{port}
-     Accept: application/yang-data+json
-
-   Figure 11: GET to Retrieve the Configuration Data and State Data for
-                            the Filtering Rules
-
-
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 29]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
-   Figure 12 shows how to retrieve "sample-ipv6-acl" filtering rule
-   programmed by the DOTS client and the number of matches for the
+   Figure 13 shows how to retrieve all the filtering rules that were
+   instantiated by the DOTS client and the number of matches for the
    installed filtering rules.
 
-   NO GW:
-
-     GET /restconf/data/ietf-access-control-list:access-lists\
-         /acl=sample-ipv6-acl?content=all HTTP/1.1
+     GET /restconf/data/ietf-dots-data-channel:dots-data\
+         /dots-client=dz6pHjaADkaFTbjr0JGBpw\
+         /access-lists?content=all HTTP/1.1
      Host: {host}:{port}
      Accept: application/yang-data+json
 
-   Figure 12: GET to Retrieve the Configuration Data and State Data for
+   Figure 13: GET to Retrieve the Configuration Data and State Data for
+                            the Filtering Rules
+
+   Figure 14 shows how to retrieve "sample-ipv6-acl" filtering rule
+   instantiated by the DOTS client and the number of matches for the
+   installed filtering rules.
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 29]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
+     GET /restconf/data/ietf-dots-data-channel:dots-data\
+         /dots-client=dz6pHjaADkaFTbjr0JGBpw/access-lists\
+         /alias=sample-ipv6-acl?content=all HTTP/1.1
+     Host: {host}:{port}
+     Accept: application/yang-data+json
+
+   Figure 14: GET to Retrieve the Configuration Data and State Data for
                              a Filtering Rule
 
-7.3.  Remove Filtering Rules
+8.3.  Remove Filtering Rules
 
-   A DELETE request is used to delete filtering rules from a DOTS
-   server.
+   DELETE request is used by a DOTS client to delete filtering rules
+   from a DOTS server.
 
-   If the DOTS server does not find the access list name and access list
-   type carried in the DELETE request in its configuration data, it
-   responds with a "404 Not Found" status-line.  The DOTS server
-   successfully acknowledges a DOTS client's request to withdraw the
-   filtering rules using "204 No Content" status-line, and removes the
-   filtering rules accordingly.
+   If the DOTS server does not find the access list name carried in the
+   DELETE request in its configuration data, it MUST respond with a "404
+   Not Found" status-line.  The DOTS server successfully acknowledges a
+   DOTS client's request to withdraw the filtering rules using "204 No
+   Content" status-line, and removes the filtering rules accordingly.
 
-   Figure 13 shows an example of a request to remove the IPv4 ACL named
+   Figure 15 shows an example of a request to remove the IPv4 ACL named
    "sample-ipv4-acl".
 
-   NO GW:
-
-     DELETE /restconf/data/ietf-access-control-list:access-lists\
-            /acl=sample-ipv4-acl HTTP/1.1
+     DELETE  /restconf/data/ietf-dots-data-channel:dots-data\
+             /dots-client=dz6pHjaADkaFTbjr0JGBpw/access-lists\
+             /alias=sample-ipv4-acl HTTP/1.1
      Host: {host}:{port}
 
-               Figure 13: DELETE to Remove a Filtering Rule
+               Figure 15: DELETE to Remove a Filtering Rule
 
-8.  IANA Considerations
+9.  IANA Considerations
 
    This document requests IANA to register the following URI in the
    "IETF XML Registry" [RFC3688]:
@@ -1675,33 +1668,36 @@ Internet-Draft              DOTS Data Channel               January 2018
    This document requests IANA to register the following YANG module in
    the "YANG Module Names" registry [RFC7950].
 
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 30]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
            name: ietf-dots-data-channel
            namespace: urn:ietf:params:xml:ns:yang:ietf-dots-data-channel
            prefix: data-channel
            reference: RFC XXXX
 
-9.  Contributors
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 30]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
+10.  Contributors
 
    The following individuals have contributed to this document:
 
-   Dan Wing
+   o  Dan Wing, Email: dwing-ietf@fuggles.com
 
-   Email: dwing-ietf@fuggles.com
+   o  Jon Shallow, NCC Group, Email: jon.shallow@nccgroup.trust
 
-10.  Security Considerations
+11.  Security Considerations
 
    RESTCONF security considerations are discussed in [RFC8040].  In
    particular, DOTS agents MUST follow the security recommendations in
    Sections 2 and 12 of [RFC8040] and support the mutual authentication
    TLS profile discussed in Sections 7.1 and 8 of
-   [I-D.ietf-dots-signal-channel].
+   [I-D.ietf-dots-signal-channel].  YANG ACL-specific security
+   considerations are discussed in [I-D.ietf-netmod-acl-model].
 
    Authenticated encryption MUST be used for data confidentiality and
    message integrity.  The interaction between the DOTS agents requires
@@ -1723,24 +1719,25 @@ Internet-Draft              DOTS Data Channel               January 2018
    internal DOTS clients (e.g., source IP address, client's hostname)
    unless explicitly configured to do so.
 
-   Special care should be taken in order to ensure that the activation
-   of the proposed mechanism will not affect the stability of the
-   network (including connectivity and services delivered over that
-   network).
+   Rate-limiting DOTS requests, including those with new 'cuid' values,
+   from the same DOTS client defends against DoS attacks that would
+   result in varying the 'cuid' to exhaust DOTS server resources.  Rate-
+   limit policies SHOULD be enforced on DOTS gateways (if deployed) and
+   DOTS servers.
 
    All data nodes defined in the YANG module which can be created,
    modified, and deleted (i.e., config true, which is the default) are
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 31]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
    considered sensitive.  Write operations applied to these data nodes
    without proper protection can negatively affect network operations.
    Appropriate security measures are recommended to prevent illegitimate
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 31]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
+
    users from invoking DOTS data channel primitives.  Nevertheless, an
    attacker who can access a DOTS client is technically capable of
    launching various attacks, such as:
@@ -1758,21 +1755,22 @@ Internet-Draft              DOTS Data Channel               January 2018
       being forwarded.  Likewise, invalid ACL entries may lead to
       forward DDoS traffic.
 
-11.  Acknowledgements
+12.  Acknowledgements
 
    Thanks to Christian Jacquenet, Roland Dobbins, Roman Danyliw, Ehud
    Doron, Russ White, Jon Shallow, Gilbert Clark, and Nesredien Suleiman
    for the discussion and comments.
 
-12.  References
+13.  References
 
-12.1.  Normative References
+13.1.  Normative References
 
    [I-D.ietf-dots-signal-channel]
               Reddy, T., Boucadair, M., Patil, P., Mortensen, A., and N.
               Teague, "Distributed Denial-of-Service Open Threat
-              Signaling (DOTS) Signal Channel", draft-ietf-dots-signal-
-              channel-16 (work in progress), January 2018.
+              Signaling (DOTS) Signal Channel Specification", draft-
+              ietf-dots-signal-channel-17 (work in progress), January
+              2018.
 
    [I-D.ietf-netmod-acl-model]
               Jethanandani, M., Huang, L., Agarwal, S., and D. Blair,
@@ -1785,18 +1783,16 @@ Internet-Draft              DOTS Data Channel               January 2018
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 32]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
    [RFC3688]  Mealling, M., "The IETF XML Registry", BCP 81, RFC 3688,
               DOI 10.17487/RFC3688, January 2004,
               <https://www.rfc-editor.org/info/rfc3688>.
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 32]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
 
    [RFC4632]  Fuller, V. and T. Li, "Classless Inter-domain Routing
               (CIDR): The Internet Address Assignment and Aggregation
@@ -1836,19 +1832,7 @@ Internet-Draft              DOTS Data Channel               January 2018
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
               <https://www.rfc-editor.org/info/rfc8126>.
 
-12.2.  Informative References
-
-
-
-
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 33]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
+13.2.  Informative References
 
    [I-D.ietf-dots-architecture]
               Mortensen, A., Andreasen, F., Reddy, T.,
@@ -1856,6 +1840,15 @@ Internet-Draft              DOTS Data Channel               January 2018
               N. Teague, "Distributed-Denial-of-Service Open Threat
               Signaling (DOTS) Architecture", draft-ietf-dots-
               architecture-05 (work in progress), October 2017.
+
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 33]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
 
    [I-D.ietf-dots-requirements]
               Mortensen, A., Moskowitz, R., and T. Reddy, "Distributed
@@ -1865,8 +1858,8 @@ Internet-Draft              DOTS Data Channel               January 2018
 
    [I-D.ietf-netmod-yang-tree-diagrams]
               Bjorklund, M. and L. Berger, "YANG Tree Diagrams", draft-
-              ietf-netmod-yang-tree-diagrams-04 (work in progress),
-              December 2017.
+              ietf-netmod-yang-tree-diagrams-05 (work in progress),
+              January 2018.
 
    [IEEE.754.1985]
               Institute of Electrical and Electronics Engineers,
@@ -1876,6 +1869,10 @@ Internet-Draft              DOTS Data Channel               January 2018
    [proto_numbers]
               "IANA, "Protocol Numbers"", 2011,
               <http://www.iana.org/assignments/protocol-numbers>.
+
+   [RFC1983]  Malkin, G., Ed., "Internet Users' Glossary", FYI 18,
+              RFC 1983, DOI 10.17487/RFC1983, August 1996,
+              <https://www.rfc-editor.org/info/rfc1983>.
 
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
@@ -1896,20 +1893,18 @@ Internet-Draft              DOTS Data Channel               January 2018
               DOI 10.17487/RFC5389, October 2008,
               <https://www.rfc-editor.org/info/rfc5389>.
 
-
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 34]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
    [RFC6020]  Bjorklund, M., Ed., "YANG - A Data Modeling Language for
               the Network Configuration Protocol (NETCONF)", RFC 6020,
               DOI 10.17487/RFC6020, October 2010,
               <https://www.rfc-editor.org/info/rfc6020>.
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 34]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
+
 
    [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
               and A. Bierman, Ed., "Network Configuration Protocol
@@ -1950,24 +1945,21 @@ Authors' Addresses
    Email: kondtir@gmail.com
 
 
-
-
-
-
-
-
-
-Reddy, et al.             Expires July 26, 2018                [Page 35]
-
-Internet-Draft              DOTS Data Channel               January 2018
-
-
    Mohamed Boucadair (editor)
    Orange
    Rennes  35000
    France
 
    Email: mohamed.boucadair@orange.com
+
+
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 35]
+
+Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
    Kaname Nishizuka
@@ -2013,4 +2005,12 @@ Internet-Draft              DOTS Data Channel               January 2018
 
 
 
-Reddy, et al.             Expires July 26, 2018                [Page 36]
+
+
+
+
+
+
+
+
+Reddy, et al.             Expires July 27, 2018                [Page 36]
