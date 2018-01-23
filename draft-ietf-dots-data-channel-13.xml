@@ -306,6 +306,13 @@
       defined in <xref
       target="I-D.ietf-netmod-yang-tree-diagrams"></xref>.</t>
 
+      <t>This document generalizes the notion of Access Control List (ACL) so
+      that it is not device-specific <xref
+      target="I-D.ietf-netmod-acl-model"></xref>. As such, this document
+      defines an ACL as an ordered-by-user set of rules that is used to filter
+      traffic. Each rule is represented by an Access Control Entry (ACE). DOTS
+      ACLs are not bound to an device interface. </t>
+
       <t>For the sake of simplicity, all of the examples in this document use
       "/restconf" as the discovered RESTCONF API root path. Many protocol
       header lines and message-body text within examples throughout the
@@ -521,14 +528,9 @@
           </list></t>
 
         <t>DOTS implementations MUST support the following matching criteria:
-        match based on the IP header (IPv4 and IPv6, match bused on the
+        match based on the IP header (IPv4 and IPv6, match based on the
         transport header (TCP, UDP, and ICMP), and the combination
         thereof.</t>
-
-        <t>Given that DOTS data channel does not deal with interfaces, the
-        support of the "ietf-interfaces" module <xref target="RFC7223"></xref>
-        and its augmentation in the "ietf-access-control-list" module are not
-        required for DOTS.</t>
 
         <t>The support of 'reject' action (<xref
         target="I-D.ietf-netmod-acl-model"></xref>) is NOT RECOMMENDED because
@@ -658,8 +660,7 @@
                          +--ro matched-octets?    yang:counter64]]></artwork>
           </figure></t>
 
-        <t>xxxSTALE MAPPING"""": will be expired, can be migrated to the new
-        cuid, ???</t>
+        <t></t>
       </section>
 
       <section title="YANG Module">

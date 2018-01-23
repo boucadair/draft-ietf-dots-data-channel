@@ -239,6 +239,12 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
    [RFC7950].  The meaning of the symbols in tree diagrams is defined in
    [I-D.ietf-netmod-yang-tree-diagrams].
 
+   This document generalizes the notion of Access Control List (ACL) so
+   that it is not device-specific [I-D.ietf-netmod-acl-model].  As such,
+   this document defines an ACL as an ordered-by-user set of rules that
+   is used to filter traffic.  Each rule is represented by an Access
+   Control Entry (ACE).  DOTS ACLs are not bound to an device interface.
+
    For the sake of simplicity, all of the examples in this document use
    "/restconf" as the discovered RESTCONF API root path.  Many protocol
    header lines and message-body text within examples throughout the
@@ -267,13 +273,7 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
    [RFC8040] over TLS [RFC5246] over TCP as the DOTS data channel
    protocol (Figure 2).
 
-      Note: RESTCONF is a protocol based on HTTP [RFC7230] to provide
-      CRUD (create, read, update, delete) operations on a conceptual
-      datastore containing YANG data.  Concretely, RESTCONF is used for
-      configuring data defined in YANG version 1 [RFC6020] or YANG
-      version 1.1 [RFC7950], using the datastore concepts defined in the
-      Network Configuration Protocol (NETCONF) [RFC6241].  RESTCONF
-      combines the simplicity of the HTTP protocol with the
+
 
 
 
@@ -282,6 +282,13 @@ Reddy, et al.             Expires July 27, 2018                 [Page 5]
 Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
+      Note: RESTCONF is a protocol based on HTTP [RFC7230] to provide
+      CRUD (create, read, update, delete) operations on a conceptual
+      datastore containing YANG data.  Concretely, RESTCONF is used for
+      configuring data defined in YANG version 1 [RFC6020] or YANG
+      version 1.1 [RFC7950], using the datastore concepts defined in the
+      Network Configuration Protocol (NETCONF) [RFC6241].  RESTCONF
+      combines the simplicity of the HTTP protocol with the
       predictability and automation potential of a schema-driven API.
       RESTCONF offers a subset of NETCONF functionality and provides a
       simplified interface using REST-like API which addresses the needs
@@ -322,13 +329,6 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
    RESTCONF to retrieve the vendor-specific YANG modules supported by
    the DOTS server.
 
-   JavaScript Object Notation (JSON) [RFC7159] payload is used to
-   propagate the DOTS data channel specific payload messages that carry
-   request parameters and response information, such as errors.  This
-   specification uses the encoding rules defined in [RFC7951] for
-   representing DOTS data channel configuration data using YANG
-   (Section 5) as JSON text.
-
 
 
 
@@ -337,6 +337,13 @@ Reddy, et al.             Expires July 27, 2018                 [Page 6]
 
 Internet-Draft         DOTS Data Channel Protocol           January 2018
 
+
+   JavaScript Object Notation (JSON) [RFC7159] payload is used to
+   propagate the DOTS data channel specific payload messages that carry
+   request parameters and response information, such as errors.  This
+   specification uses the encoding rules defined in [RFC7951] for
+   representing DOTS data channel configuration data using YANG
+   (Section 5) as JSON text.
 
    A DOTS client registers itself to its DOTS server(s) in order to set
    up DOTS data channel-related configuration data and receive state
@@ -379,13 +386,6 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
    If the DOTS client is authorized, it propagates the rules to the
    upstream DOTS server.  Likewise, the DOTS server verifies that the
    DOTS gateway is authorized to undertake data channel actions.  For
-   example, to create or purge filters, a DOTS client sends its request
-   to its DOTS gateway.  The DOTS gateway validates the rules in the
-   request and proxies the requests containing the filtering rules to
-   its DOTS server.  When the DOTS gateway receives the associated
-   response from the DOTS server, it propagates the response back to the
-   DOTS client.
-
 
 
 
@@ -393,6 +393,13 @@ Reddy, et al.             Expires July 27, 2018                 [Page 7]
 
 Internet-Draft         DOTS Data Channel Protocol           January 2018
 
+
+   example, to create or purge filters, a DOTS client sends its request
+   to its DOTS gateway.  The DOTS gateway validates the rules in the
+   request and proxies the requests containing the filtering rules to
+   its DOTS server.  When the DOTS gateway receives the associated
+   response from the DOTS server, it propagates the response back to the
+   DOTS client.
 
    When a server-domain DOTS gateway is involved in DOTS data channel
    exchanges, the same considerations for manipulating the 'cdid'
@@ -436,19 +443,19 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
    Further, the module allows to manage filtering rules.  Examples of
    filtering management in a DOTS context include, but not limited to:
 
-   o  Black-list management, which enables a DOTS client to inform a
-      DOTS server about sources from which traffic should be discarded.
-
-   o  White-list management, which enables a DOTS client to inform a
-      DOTS server about sources from which traffic should always be
-      accepted.
-
 
 
 Reddy, et al.             Expires July 27, 2018                 [Page 8]
 
 Internet-Draft         DOTS Data Channel Protocol           January 2018
 
+
+   o  Black-list management, which enables a DOTS client to inform a
+      DOTS server about sources from which traffic should be discarded.
+
+   o  White-list management, which enables a DOTS client to inform a
+      DOTS server about sources from which traffic should always be
+      accepted.
 
    o  Filter management, which enables a DOTS client to request the
       installation or withdrawal of traffic filters, dropping or rate-
@@ -471,13 +478,8 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
    o  Delete a filtering entry that was instantiated by a DOTS client.
 
    DOTS implementations MUST support the following matching criteria:
-   match based on the IP header (IPv4 and IPv6, match bused on the
+   match based on the IP header (IPv4 and IPv6, match based on the
    transport header (TCP, UDP, and ICMP), and the combination thereof.
-
-   Given that DOTS data channel does not deal with interfaces, the
-   support of the "ietf-interfaces" module [RFC7223] and its
-   augmentation in the "ietf-access-control-list" module are not
-   required for DOTS.
 
    The support of 'reject' action ([I-D.ietf-netmod-acl-model]) is NOT
    RECOMMENDED because it is not appropriate in the context of DDoS
@@ -496,8 +498,6 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
    layer of protection against a DoS attack that uses non-initial
    fragments only.  When there is only Layer 3 information in the ACL
    entry and the fragments keyword is present, for non-initial fragments
-   matching the ACL entry, the 'deny' or 'permit' action associated with
-   the ACL entry will be enforced.  For initial or non-fragment matching
 
 
 
@@ -506,6 +506,8 @@ Reddy, et al.             Expires July 27, 2018                 [Page 9]
 Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
+   matching the ACL entry, the 'deny' or 'permit' action associated with
+   the ACL entry will be enforced.  For initial or non-fragment matching
    the ACL entry, the next ACL entry will be processed.  When there is
    both Layer 3 and Layer 4 information in the ACL entry and the
    fragments keyword is present, the ACL action is conservative for both
@@ -552,8 +554,6 @@ module: ietf-dots-data-channel
                       |  |  |     +--rw ecn?                        uint8
                       |  |  |     +--rw length?                     uint16
                       |  |  |     +--rw ttl?                        uint8
-                      |  |  |     +--rw protocol?                   uint8
-                      |  |  |     +--rw source-port-range!
 
 
 
@@ -562,6 +562,8 @@ Reddy, et al.             Expires July 27, 2018                [Page 10]
 Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
+                      |  |  |     +--rw protocol?                   uint8
+                      |  |  |     +--rw source-port-range!
                       |  |  |     |  +--rw lower-port    inet:port-number
                       |  |  |     |  +--rw upper-port?   inet:port-number
                       |  |  |     |  +--rw operation?    operator
@@ -608,8 +610,6 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
                       |     |     +--rw urgent-pointer?           uint16
                       |     |     +--rw options?                  uint32
                       |     +--:(udp)
-                      |     |  +--rw udp
-                      |     |     +--rw length?   uint16
 
 
 
@@ -618,6 +618,8 @@ Reddy, et al.             Expires July 27, 2018                [Page 11]
 Internet-Draft         DOTS Data Channel Protocol           January 2018
 
 
+                      |     |  +--rw udp
+                      |     |     +--rw length?   uint16
                       |     +--:(icmp)
                       |        +--rw icmp
                       |           +--rw type?             uint8
@@ -629,9 +631,6 @@ Internet-Draft         DOTS Data Channel Protocol           January 2018
                       +--ro statistics
                          +--ro matched-packets?   yang:counter64
                          +--ro matched-octets?    yang:counter64
-
-   xxxSTALE MAPPING"""": will be expired, can be migrated to the new
-   cuid, ???
 
 5.2.  YANG Module
 
@@ -666,6 +665,7 @@ module ietf-dots-data-channel {
 
      Author:  Kaname Nishizuka
               <mailto:kaname@nttv6.jp>
+
 
 
 
