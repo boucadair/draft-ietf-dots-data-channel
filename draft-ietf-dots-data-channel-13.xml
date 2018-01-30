@@ -310,7 +310,7 @@
       <t>This document generalizes the notion of Access Control List (ACL) so
       that it is not device-specific <xref
       target="I-D.ietf-netmod-acl-model"></xref>. As such, this document
-      defines an ACL as an ordered-by-user set of rules that is used to filter
+      defines an ACL as an ordered set of rules that is used to filter
       traffic. Each rule is represented by an Access Control Entry (ACE). ACLs
       communicated via the DOTS data channel are not bound to a device
       interface.</t>
@@ -639,11 +639,9 @@
         <t>The DOTS data channel YANG module (ietf-dots-data-channel) allows
         to manage aliases for resources for which mitigation may be requested.
         Such aliases may be used in subsequent DOTS signal channel exchanges
-        to refer more efficiently to the resources under attack. The structure
-        of an alias is aligned with <xref
-        target="I-D.ietf-dots-signal-channel"></xref>.</t>
+        to refer more efficiently to the resources under attack. </t>
 
-        <t>Further, the module allows managing filtering rules. Examples of
+        <t>Also, the module allows managing filtering rules. Examples of
         filtering management in a DOTS context include, but not limited
         to:</t>
 
@@ -1062,9 +1060,11 @@ module ietf-dots-data-channel {
           <t hangText="cuid:">A globally unique identifier that is meant to
           prevent collisions among DOTS clients. This attribute has the same
           meaning, syntax, and processing rules as the 'cuid' attribute
-          defined in <xref target="I-D.ietf-dots-signal-channel"></xref>. DOTS
-          clients MUST use the same 'cuid' for both signal and data
-          channels.<vspace blankLines="0" />This is a mandatory attribute.</t>
+          defined in <xref
+          target="I-D.ietf-dots-signal-channel"></xref>.<vspace
+          blankLines="1" />DOTS clients MUST use the same 'cuid' for both
+          signal and data channels.<vspace blankLines="0" />This is a
+          mandatory attribute.</t>
         </list></t>
 
       <t>In deployments where server-domain DOTS gateways are enabled,
@@ -1093,6 +1093,9 @@ module ietf-dots-data-channel {
           <t hangText="cdid:">This attribute has the same meaning, syntax, and
           processing rules as the 'cdid' attribute defined in <xref
           target="I-D.ietf-dots-signal-channel"></xref>. <vspace
+          blankLines="1" />The DOTS gateway that inserted a 'cdid' in a
+          request, MUST strip the 'cdid' parameter in the corresponding
+          response before forwarding the response to the DOTS client.<vspace
           blankLines="1" />This is an optional attribute.</t>
         </list></t>
 
