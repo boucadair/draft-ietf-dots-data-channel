@@ -96,7 +96,7 @@ module ietf-dots-data-channel {
 
   grouping access-lists {
     description
-      "Specifies the access-lists";
+      "Specifies the ordered set of Access Control Lists.";
     list acl {
       key "name";
       ordered-by user;
@@ -111,7 +111,8 @@ module ietf-dots-data-channel {
         description
           "The name of access-list.";
         reference
-           "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model";
+           "RFC ZZZZ: Network Access Control List (ACL) 
+                      YANG Data Model";
       }
       leaf type {
         type ietf-acl:acl-type;
@@ -120,7 +121,8 @@ module ietf-dots-data-channel {
            type of match criteria (e.g., IPv4, IPv6) used in the list 
            instance.";
         reference
-           "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model"; 
+           "RFC ZZZZ: Network Access Control List (ACL) 
+                      YANG Data Model"; 
       }
       leaf lifetime {
         type int32;
@@ -135,12 +137,12 @@ module ietf-dots-data-channel {
       container aces {
         description
           "The access-list-entries container contains
-           a list of access-list-entries (ACE).";
+           a list of ACEs.";
         list ace {
           key "name";
           ordered-by user;
           description
-            "List of access list entries (ACE)";
+            "List of access list entries.";
           leaf name {
             type string {
               length "1..64";
@@ -149,26 +151,27 @@ module ietf-dots-data-channel {
               "A unique name identifying this Access List
                Entry (ACE).";
             reference
-              "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model"; 
+              "RFC ZZZZ: Network Access Control List (ACL) 
+                         YANG Data Model"; 
           }
           container matches {
             description
               "The rules in this set determine what fields will be
                matched upon before any action is taken on them.
 
-               The rules are selected based on the feature set
-               defined by the server and the acl type.
-
                If no matches are defined in a particular container,
-               then any packet will match that container. If no
-               matches are specified at all in an ACE, then any
+               then any packet will match that container. 
+
+               If no matches are specified at all in an ACE, then any
                packet will match the ACE.";
             reference
-               "RFC ZZZZ: Network Access Control List (ACL) YANG Data Model";
+               "RFC ZZZZ: Network Access Control List (ACL)
+                          YANG Data Model";
 
             choice l3 {
               container ipv4 {
-                when "derived-from(../../../../type, 'ietf-acl:ipv4-acl-type')";
+                when "derived-from(../../../../type," +
+                     "'ietf-acl:ipv4-acl-type')";
                 uses packet-fields:acl-ip-header-fields;
                 uses packet-fields:acl-ipv4-header-fields;
                 leaf v4-fragments {
@@ -177,10 +180,11 @@ module ietf-dots-data-channel {
                     "Handle IPv4 fragments.";
                 }
                 description
-                  "Rule set that matches IPv4 headers.";
+                  "Rule set that matches IPv4 header.";
               }
               container ipv6 {
-                when "derived-from(../../../../type, 'ietf-acl:ipv6-acl-type')";
+                when "derived-from(../../../../type," +
+                     "'ietf-acl:ipv6-acl-type')";
                 uses packet-fields:acl-ip-header-fields;
                 uses packet-fields:acl-ipv6-header-fields;
                 leaf v6-fragments {
@@ -189,41 +193,44 @@ module ietf-dots-data-channel {
                     "Handle IPv6 fragments.";
                 }
                 description
-                  "Rule set that matches IPv6 headers.";
+                  "Rule set that matches IPv6 header.";
               }
               description
-                "Choice of either IPv4 or IPv6 headers";
+                "Either IPv4 or IPv6.";
             }
             choice l4 {
               container tcp {
                 uses packet-fields:acl-tcp-header-fields;
                 description
-                  "Rule set that matches TCP headers.";
+                  "Rule set that matches TCP header.";
               }
               container udp {
                 uses packet-fields:acl-udp-header-fields;
                 description
-                  "Rule set that matches UDP headers.";
+                  "Rule set that matches UDP header.";
               }
               container icmp {
                 uses packet-fields:acl-icmp-header-fields;
                 description
-                  "Rule set that matches ICMP headers.";
+                  "Rule set that matches ICMP header.";
               }
               description
-                "Choice of TCP, UDP, or ICMP headers.";
+                "Can be TCP, UDP, or ICMP";
             }
           }
           container actions {
             description
-              "Definitions of action for this ace entry";
+              "Definitions of action for this ACE.";
             leaf forwarding {
               type identityref {
                 base ietf-acl:forwarding-action;
               }
               mandatory true;
               description
-                "Specifies the forwarding action per ace entry";
+                "Specifies the forwarding action per ACE.";
+              reference
+                 "RFC ZZZZ: Network Access Control List (ACL)
+                            YANG Data Model";
             }
             leaf rate-limit {
               when "../forwarding = 'ietf-acl:accept'" {
@@ -258,9 +265,8 @@ module ietf-dots-data-channel {
       leaf cuid {
         type string;
         description
-          "A unique identifier that is randomly
-           generated by a DOTS client to prevent
-           request collisions.";
+          "A unique identifier that is randomly generated by
+           a DOTS client to prevent request collisions.";
         reference
           "RFC YYYY: Distributed Denial-of-Service Open Threat 
                   Signaling (DOTS) Signal Channel Specification";
@@ -276,12 +282,12 @@ module ietf-dots-data-channel {
       }
       container aliases {
         description
-          "Aliases";
+          "Set of aliases that are bound to a DOTS client.";
         uses aliases;
       }
       container access-lists {
         description
-          "Access lists";
+          "Access lists that are bound to a DOTS client.";
          uses access-lists;
       }
     }
