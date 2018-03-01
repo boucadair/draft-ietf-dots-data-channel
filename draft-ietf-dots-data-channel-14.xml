@@ -664,6 +664,7 @@
           |  +--ro v6-length?            boolean
           |  +--ro v4-ttl?               boolean
           |  +--ro v6-hoplimit?          boolean
+          |  +--ro protocol?             boolean
           |  +--ro v4-ihl?               boolean
           |  +--ro v4-flags?             boolean
           |  +--ro v4-offset?            boolean
@@ -1250,6 +1251,11 @@ module ietf-dots-data-channel {
             type boolean;
             description
               "Support of filtering based on the IPv6 Hop Limit.";
+          }
+          leaf protocol {
+            type boolean;
+            description
+              "Support of filtering based on protocol field.";
           }
           leaf v4-ihl {
             type boolean;
@@ -1880,6 +1886,7 @@ Content-Type: application/yang-data+json
     "ip-header-fields": {
       "v4-length": "true",
       "v6-length": "true",
+      "protocol": "true",
       "destination-prefix": "true",
       "source-prefix": "true"
     },
@@ -1901,8 +1908,6 @@ Content-Type: application/yang-data+json
     }
   }]]></artwork>
           </figure></t>
-
-        <t></t>
       </section>
 
       <section anchor="install" title="Install Filtering Rules">

@@ -426,6 +426,11 @@ module ietf-dots-data-channel {
             description
               "Support of filtering based on the IPv6 Hop Limit.";
           }
+          leaf protocol {
+            type boolean;
+            description
+              "Support of filtering based on protocol field.";
+          }
           leaf v4-ihl {
             type boolean;
             description

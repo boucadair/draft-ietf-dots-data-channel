@@ -651,6 +651,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
           |  +--ro v6-length?            boolean
           |  +--ro v4-ttl?               boolean
           |  +--ro v6-hoplimit?          boolean
+          |  +--ro protocol?             boolean
           |  +--ro v4-ihl?               boolean
           |  +--ro v4-flags?             boolean
           |  +--ro v4-offset?            boolean
@@ -665,7 +666,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
           |  +--ro reserved?                 boolean
           |  +--ro flags?                    boolean
           |  +--ro window-size?              boolean
-          |  +--ro urgent-pointer?           boolean
 
 
 
@@ -674,6 +674,7 @@ Reddy, et al.           Expires September 2, 2018              [Page 12]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+          |  +--ro urgent-pointer?           boolean
           |  +--ro options?                  boolean
           |  +--ro source-port?              boolean
           |  +--ro destination-port?         boolean
@@ -720,8 +721,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    DOTS filtering entries (i.e., Access Control List (ACL)) mimic the
    structure specified in [I-D.ietf-netmod-acl-model].  Concretely, DOTS
    agents are assumed to manipulate an ordered list of ACLs; each ACL
-   contains a separately ordered list of Access Control Entries (ACEs).
-   Each ACE has a group of match and a group of action criteria.
+
 
 
 
@@ -729,6 +729,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 13]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
+
+   contains a separately ordered list of Access Control Entries (ACEs).
+   Each ACE has a group of match and a group of action criteria.
 
    The 'ietf-dots-data-channel' module reuses the packet fields module
    'ietf-packet-fields' [I-D.ietf-netmod-acl-model] which defines
@@ -775,9 +778,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    the ACE entry will be enforced.  For initial or non-fragment matching
    the ACE entry, the next ACE entry will be processed.  When there is
    both layer 3 and layer 4 information in the ACE entry and the
-   fragments keyword is present, the ACE action is conservative for both
-   'accept' and 'deny' actions.  The actions are conservative to not
-   accidentally deny a fragmented portion of a flow because the
 
 
 
@@ -786,6 +786,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 14]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+   fragments keyword is present, the ACE action is conservative for both
+   'accept' and 'deny' actions.  The actions are conservative to not
+   accidentally deny a fragmented portion of a flow because the
    fragments do not contain sufficient information to match all of the
    filter attributes.  In the 'deny' action case, instead of denying a
    non-initial fragment, the next ACE entry is processed.  In the
@@ -831,9 +834,6 @@ module ietf-dots-data-channel {
               <mailto:mohamed.boucadair@orange.com>
 
      Author:  Kaname Nishizuka
-              <mailto:kaname@nttv6.jp>
-
-     Author:  Liang Xia
 
 
 
@@ -842,6 +842,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 15]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+              <mailto:kaname@nttv6.jp>
+
+     Author:  Liang Xia
               <mailto:frank.xialiang@huawei.com>
 
      Author:  Prashanth Patil
@@ -887,9 +890,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
     list alias {
       key "name";
       description
-        "List of aliases";
-      leaf name {
-        type string;
 
 
 
@@ -898,6 +898,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 16]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+        "List of aliases";
+      leaf name {
+        type string;
         description
           "The name of the alias";
       }
@@ -943,9 +946,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
       key "name";
       ordered-by user;
       description
-        "An Access Control List (ACL) is an ordered list of
-         Access List Entries (ACE). Each Access Control Entry has a
-         list of match criteria and a list of actions.";
 
 
 
@@ -954,6 +954,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 17]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+        "An Access Control List (ACL) is an ordered list of
+         Access List Entries (ACE). Each Access Control Entry has a
+         list of match criteria and a list of actions.";
       leaf name {
         type string {
           length "1..64";
@@ -999,9 +1002,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
         description
           "Indicates the pending validity lifetime of the alias
            entry.";
-      }
-      container aces {
-        description
 
 
 
@@ -1010,6 +1010,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 18]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+      }
+      container aces {
+        description
           "The access-list-entries container contains
            a list of ACEs.";
         list ace {
@@ -1055,9 +1058,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
                 }
                 description
                   "Rule set that matches IPv4 header.";
-              }
-              container ipv6 {
-                when "derived-from(../../../../type," +
 
 
 
@@ -1066,6 +1066,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 19]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+              }
+              container ipv6 {
+                when "derived-from(../../../../type," +
                      "'ietf-acl:ipv6-acl-type')";
                 uses packet-fields:acl-ip-header-fields;
                 uses packet-fields:acl-ipv6-header-fields;
@@ -1111,9 +1114,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
               }
               mandatory true;
               description
-                "Specifies the forwarding action per ACE.";
-              reference
-                 "RFC ZZZZ: Network Access Control List (ACL)
 
 
 
@@ -1122,6 +1122,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 20]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+                "Specifies the forwarding action per ACE.";
+              reference
+                 "RFC ZZZZ: Network Access Control List (ACL)
                             YANG Data Model";
             }
             leaf rate-limit {
@@ -1167,9 +1170,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
         type string;
         description
           "A client domain identifier conveyed by a
-           server-domain DOTS gateway to a remote DOTS server.";
-        reference
-          "RFC YYYY: Distributed Denial-of-Service Open Threat
 
 
 
@@ -1178,6 +1178,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 21]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+           server-domain DOTS gateway to a remote DOTS server.";
+        reference
+          "RFC YYYY: Distributed Denial-of-Service Open Threat
                   Signaling (DOTS) Signal Channel Specification";
       }
       container aliases {
@@ -1223,9 +1226,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
             "Support of rate-limit action.";
         }
         leaf-list fragment {
-          type enumeration {
-            enum "unsupported"  {
-              description
 
 
 
@@ -1234,6 +1234,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 22]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+          type enumeration {
+            enum "unsupported"  {
+              description
                 "No fragment support.";
             }
             enum "v4-fragment"  {
@@ -1279,9 +1282,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
             type boolean;
             description
               "Support of filtering based on the Total Length.";
-          }
-          leaf v6-length {
-            type boolean;
 
 
 
@@ -1290,6 +1290,9 @@ Reddy, et al.           Expires September 2, 2018              [Page 23]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+          }
+          leaf v6-length {
+            type boolean;
             description
               "Support of filtering based on the Payload Length.";
           }
@@ -1302,6 +1305,11 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
             type boolean;
             description
               "Support of filtering based on the IPv6 Hop Limit.";
+          }
+          leaf protocol {
+            type boolean;
+            description
+              "Support of filtering based on protocol field.";
           }
           leaf v4-ihl {
             type boolean;
@@ -1330,14 +1338,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
               "Support of filtering based on the IPv6 Flow label.";
           }
           leaf destination-prefix {
-            type boolean;
-            description
-              "Support of filtering based on the destination prefix.";
-          }
-          leaf source-prefix {
-            type boolean;
-            description
-              "Support of filtering based on the source prefix.";
 
 
 
@@ -1346,6 +1346,14 @@ Reddy, et al.           Expires September 2, 2018              [Page 24]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+            type boolean;
+            description
+              "Support of filtering based on the destination prefix.";
+          }
+          leaf source-prefix {
+            type boolean;
+            description
+              "Support of filtering based on the source prefix.";
         }
       }
       container tcp-header-fields {
@@ -1386,14 +1394,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
         leaf urgent-pointer {
           type boolean;
           description
-            "Support of filtering based on the TCP urgent pointer.";
-        }
-        leaf options {
-          type boolean;
-          description
-            "Support of filtering based on the TCP options.";
-        }
-        leaf source-port {
 
 
 
@@ -1402,6 +1402,14 @@ Reddy, et al.           Expires September 2, 2018              [Page 25]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+            "Support of filtering based on the TCP urgent pointer.";
+        }
+        leaf options {
+          type boolean;
+          description
+            "Support of filtering based on the TCP options.";
+        }
+        leaf source-port {
           type boolean;
           description
             "Support of filtering based on the source port number.";
@@ -1442,14 +1450,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
           description
             "Support of filtering based on a port range.";
         }
-      }
-      container icmp-header-fields {
-        description
-          "Set of UDP fields that are supported by the DOTS server
-           to enfoce filters.";
-        leaf type {
-          type boolean;
-          description
 
 
 
@@ -1458,6 +1458,14 @@ Reddy, et al.           Expires September 2, 2018              [Page 26]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+      }
+      container icmp-header-fields {
+        description
+          "Set of UDP fields that are supported by the DOTS server
+           to enfoce filters.";
+        leaf type {
+          type boolean;
+          description
             "Support of filtering based on the ICMP type.";
         }
         leaf code {
@@ -1497,14 +1505,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
    The 'cuid' (client unique identifier) parameter is described below:
 
-   cuid:  A globally unique identifier that is meant to prevent
-      collisions among DOTS clients.  This attribute has the same
-      meaning, syntax, and processing rules as the 'cuid' attribute
-      defined in [I-D.ietf-dots-signal-channel].
-
-      DOTS clients MUST use the same 'cuid' for both signal and data
-      channels.
-      This is a mandatory attribute.
 
 
 
@@ -1513,6 +1513,15 @@ Reddy, et al.           Expires September 2, 2018              [Page 27]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
+
+   cuid:  A globally unique identifier that is meant to prevent
+      collisions among DOTS clients.  This attribute has the same
+      meaning, syntax, and processing rules as the 'cuid' attribute
+      defined in [I-D.ietf-dots-signal-channel].
+
+      DOTS clients MUST use the same 'cuid' for both signal and data
+      channels.
+      This is a mandatory attribute.
 
    In deployments where server-domain DOTS gateways are enabled,
    identity information about the origin source client domain SHOULD be
@@ -1550,15 +1559,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    A request example to create a 'dots-client' resource is depicted in
    Figure 5.  This request is relayed by a server-domain DOTS gateway as
    hinted by the presence of the 'cdid' attribute.
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2084,6 +2084,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
        "ip-header-fields": {
          "v4-length": "true",
          "v6-length": "true",
+         "protocol": "true",
          "destination-prefix": "true",
          "source-prefix": "true"
        },
@@ -2114,7 +2115,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
    Figure 16 shows a POST request example to block traffic from
    192.0.2.0/24 and destined to 198.51.100.0/24.
-
 
 
 
