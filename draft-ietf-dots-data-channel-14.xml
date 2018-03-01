@@ -475,7 +475,7 @@
     </section>
 
     <section anchor="YANG" title="DOTS Data Channel YANG Module">
-      <section title="Tree Structure">
+      <section anchor="tree" title="Tree Structure">
         <t>The tree structure for the DOTS data channel YANG module is as
         follows:</t>
 
@@ -653,10 +653,10 @@
        |                 +--ro matched-octets?    yang:counter64
        +--ro capabilities
           +--ro address-family*        enumeration
-          +--ro supported-actions*     identityref
+          +--ro forwarding-actions*    identityref
+          +--ro rate-limit?            boolean
           +--ro fragment*              enumeration
-          +--ro transport-protocols* [protocol-id]
-          |  +--ro protocol-id    uint8
+          +--ro transport-protocols*   uint8
           +--ro ip-header-fields
           |  +--ro dscp?                 boolean
           |  +--ro ecn?                  boolean
@@ -680,16 +680,18 @@
           |  +--ro window-size?              boolean
           |  +--ro urgent-pointer?           boolean
           |  +--ro options?                  boolean
+          |  +--ro source-port?              boolean
+          |  +--ro destination-port?         boolean
           |  +--ro port-range?               boolean
           +--ro udp-header-fields
-          |  +--ro length?       boolean
-          |  +--ro port-range?   boolean
+          |  +--ro length?             boolean
+          |  +--ro source-port?        boolean
+          |  +--ro destination-port?   boolean
+          |  +--ro port-range?         boolean
           +--ro icmp-header-fields
              +--ro type?             boolean
              +--ro code?             boolean
              +--ro rest-of-header?   boolean
-
-
 ]]></artwork>
           </figure></t>
 
@@ -1172,12 +1174,17 @@ module ietf-dots-data-channel {
           "Indicates the IP address families supported by 
            the DOTS server.";
         }
-        leaf-list supported-actions {
+        leaf-list forwarding-actions {
           type identityref {
             base ietf-acl:forwarding-action;
           }
           description
-            "Supported action(s).";
+            "Supported forwarding action(s).";
+        }
+        leaf rate-limit {
+          type boolean;
+          description
+            "Support of rate-limit action.";
         }
         leaf-list fragment {
           type enumeration {
@@ -1198,11 +1205,7 @@ module ietf-dots-data-channel {
             "Indicates the capability of a DOTS server to 
              enforce filters on fragments.";
         }
-        list transport-protocols {
-          key protocol-id;
-          description
-            "List of supported protocols.";
-          leaf protocol-id {
+        leaf-list transport-protocols {
             type uint8;
             description
               "Upper-layer protocol associated with this mapping.
@@ -1213,7 +1216,6 @@ module ietf-dots-data-channel {
 
                For example, this field contains 6 (TCP) for a TCP
                mapping or 17 (UDP) for a UDP mapping.";
-          }
         }
         container ip-header-fields {
           description
@@ -1331,6 +1333,17 @@ module ietf-dots-data-channel {
           description
             "Support of filtering based on the TCP options.";
         }
+        leaf source-port {
+          type boolean;
+          description
+            "Support of filtering based on the source port number.";
+        }
+        leaf destination-port {
+          type boolean;
+          description
+            "Support of filtering based on the destination port number.";
+        }
+
         leaf port-range {
           type boolean;
           description
@@ -1346,6 +1359,16 @@ module ietf-dots-data-channel {
           description
             "Support of filtering based on the UDP length.";
         }
+        leaf source-port {
+          type boolean;
+          description
+            "Support of filtering based on the source port number.";
+        }
+        leaf destination-port {
+          type boolean;
+          description
+            "Support of filtering based on the destination port number.";
+        }           
         leaf port-range {
           type boolean;
           description
@@ -1841,6 +1864,45 @@ Content-Type: application/yang-data+json
         <t>A DOTS client which issued a GET request to retrieve the filtering
         capabilities supported by its, SHOULD NOT request for filtering
         actions that are not supported by that DOTS server. </t>
+
+        <t><xref target="capex"></xref> shows an example of a response
+        received from a DOTS server which only supports the mandatory
+        filtering criteria listed in <xref target="tree"></xref>. </t>
+
+        <t><figure anchor="capex" title="POST to Install Filtering Rules">
+            <artwork align="left"><![CDATA[ Content-Type: application/yang-data+json
+ {
+  "ietf-dots-data-channel:capabilities": {
+    "address-family": ["ipv4", "ipv6"],
+    "forwarding-actions": ["drop", "accept"],
+    " rate-limit": "true",
+    "transport-protocols": [1, 6, 17, 58],
+    "ip-header-fields": {
+      "v4-length": "true",
+      "v6-length": "true",
+      "destination-prefix": "true",
+      "source-prefix": "true"
+    },
+    "tcp-header-fields": {
+      "flags": "true",
+      "source-port": "true",
+      "destination-port": "true",
+      "port-range": 1"true"
+    },
+    "udp-header-fields": {
+      "length": "true",
+      "source-port": "true",
+      "destination-port": "true",
+      "port-range": "true"
+    },
+    "icmp-header-fields": {
+      "type": "true",
+      "code": "true"
+    }
+  }]]></artwork>
+          </figure></t>
+
+        <t></t>
       </section>
 
       <section anchor="install" title="Install Filtering Rules">

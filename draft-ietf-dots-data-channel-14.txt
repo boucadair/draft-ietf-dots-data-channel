@@ -116,17 +116,17 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
    8.  Managing DOTS Filtering Rules . . . . . . . . . . . . . . . .  36
      8.1.  Retrieve DOTS Filtering Capabilities  . . . . . . . . . .  37
-     8.2.  Install Filtering Rules . . . . . . . . . . . . . . . . .  37
-     8.3.  Retrieve Installed Filtering Rules  . . . . . . . . . . .  40
-     8.4.  Remove Filtering Rules  . . . . . . . . . . . . . . . . .  41
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  42
-   10. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  42
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  42
-   12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  44
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  44
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  44
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  45
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  46
+     8.2.  Install Filtering Rules . . . . . . . . . . . . . . . . .  38
+     8.3.  Retrieve Installed Filtering Rules  . . . . . . . . . . .  41
+     8.4.  Remove Filtering Rules  . . . . . . . . . . . . . . . . .  42
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  43
+   10. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  43
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  43
+   12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  45
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  45
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  45
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  46
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  47
 
 1.  Introduction
 
@@ -640,10 +640,10 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
        |                 +--ro matched-octets?    yang:counter64
        +--ro capabilities
           +--ro address-family*        enumeration
-          +--ro supported-actions*     identityref
+          +--ro forwarding-actions*    identityref
+          +--ro rate-limit?            boolean
           +--ro fragment*              enumeration
-          +--ro transport-protocols* [protocol-id]
-          |  +--ro protocol-id    uint8
+          +--ro transport-protocols*   uint8
           +--ro ip-header-fields
           |  +--ro dscp?                 boolean
           |  +--ro ecn?                  boolean
@@ -675,16 +675,18 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
           |  +--ro options?                  boolean
+          |  +--ro source-port?              boolean
+          |  +--ro destination-port?         boolean
           |  +--ro port-range?               boolean
           +--ro udp-header-fields
-          |  +--ro length?       boolean
-          |  +--ro port-range?   boolean
+          |  +--ro length?             boolean
+          |  +--ro source-port?        boolean
+          |  +--ro destination-port?   boolean
+          |  +--ro port-range?         boolean
           +--ro icmp-header-fields
              +--ro type?             boolean
              +--ro code?             boolean
              +--ro rest-of-header?   boolean
-
-
 
    The DOTS data channel YANG module (ietf-dots-data-channel) allows to
    manage aliases for resources for which mitigation may be requested.
@@ -720,8 +722,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    agents are assumed to manipulate an ordered list of ACLs; each ACL
    contains a separately ordered list of Access Control Entries (ACEs).
    Each ACE has a group of match and a group of action criteria.
-
-
 
 
 
@@ -1210,22 +1210,22 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
           "Indicates the IP address families supported by
            the DOTS server.";
         }
-        leaf-list supported-actions {
+        leaf-list forwarding-actions {
           type identityref {
             base ietf-acl:forwarding-action;
           }
           description
-            "Supported action(s).";
+            "Supported forwarding action(s).";
+        }
+        leaf rate-limit {
+          type boolean;
+          description
+            "Support of rate-limit action.";
         }
         leaf-list fragment {
           type enumeration {
             enum "unsupported"  {
               description
-                "No fragment support.";
-            }
-            enum "v4-fragment"  {
-              description
-                "Filtering IPv4 fragments is supported.";
 
 
 
@@ -1234,6 +1234,11 @@ Reddy, et al.           Expires September 2, 2018              [Page 22]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+                "No fragment support.";
+            }
+            enum "v4-fragment"  {
+              description
+                "Filtering IPv4 fragments is supported.";
             }
             enum "v6-fragment"  {
               description
@@ -1244,11 +1249,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
             "Indicates the capability of a DOTS server to
              enforce filters on fragments.";
         }
-        list transport-protocols {
-          key protocol-id;
-          description
-            "List of supported protocols.";
-          leaf protocol-id {
+        leaf-list transport-protocols {
             type uint8;
             description
               "Upper-layer protocol associated with this mapping.
@@ -1259,7 +1260,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
                For example, this field contains 6 (TCP) for a TCP
                mapping or 17 (UDP) for a UDP mapping.";
-          }
         }
         container ip-header-fields {
           description
@@ -1393,7 +1393,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
           description
             "Support of filtering based on the TCP options.";
         }
-        leaf port-range {
+        leaf source-port {
 
 
 
@@ -1402,6 +1402,17 @@ Reddy, et al.           Expires September 2, 2018              [Page 25]
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
+          type boolean;
+          description
+            "Support of filtering based on the source port number.";
+        }
+        leaf destination-port {
+          type boolean;
+          description
+            "Support of filtering based on the destination port number.";
+        }
+
+        leaf port-range {
           type boolean;
           description
             "Support of filtering based on a port range.";
@@ -1416,6 +1427,16 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
           description
             "Support of filtering based on the UDP length.";
         }
+        leaf source-port {
+          type boolean;
+          description
+            "Support of filtering based on the source port number.";
+        }
+        leaf destination-port {
+          type boolean;
+          description
+            "Support of filtering based on the destination port number.";
+        }
         leaf port-range {
           type boolean;
           description
@@ -1429,6 +1450,14 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
         leaf type {
           type boolean;
           description
+
+
+
+Reddy, et al.           Expires September 2, 2018              [Page 26]
+
+Internet-Draft         DOTS Data Channel Protocol             March 2018
+
+
             "Support of filtering based on the ICMP type.";
         }
         leaf code {
@@ -1447,16 +1476,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
   }
 }
  <CODE ENDS>
-
-
-
-
-
-
-Reddy, et al.           Expires September 2, 2018              [Page 26]
-
-Internet-Draft         DOTS Data Channel Protocol             March 2018
-
 
 6.  Registering DOTS Clients
 
@@ -1487,25 +1506,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
       channels.
       This is a mandatory attribute.
 
-   In deployments where server-domain DOTS gateways are enabled,
-   identity information about the origin source client domain SHOULD be
-   supplied to the DOTS server.  That information is meant to assist the
-   DOTS server to enforce some policies.  These policies can be enforced
-   per-client, per-client domain, or both.  Figure 4 shows an example of
-   a request relayed by a server-domain DOTS gateway.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1513,6 +1513,13 @@ Reddy, et al.           Expires September 2, 2018              [Page 27]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
+
+   In deployments where server-domain DOTS gateways are enabled,
+   identity information about the origin source client domain SHOULD be
+   supplied to the DOTS server.  That information is meant to assist the
+   DOTS server to enforce some policies.  These policies can be enforced
+   per-client, per-client domain, or both.  Figure 4 shows an example of
+   a request relayed by a server-domain DOTS gateway.
 
     POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
     Host: {host}:{port}
@@ -1544,6 +1551,25 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    Figure 5.  This request is relayed by a server-domain DOTS gateway as
    hinted by the presence of the 'cdid' attribute.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reddy, et al.           Expires September 2, 2018              [Page 28]
+
+Internet-Draft         DOTS Data Channel Protocol             March 2018
+
+
     POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
     Host: {host}:{port}
     Content-Type: application/yang-data+json
@@ -1562,14 +1588,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    created by the same DOTS client to 1 per request.  Requests with
    multiple 'dots-client' resources MUST be rejected by DOTS servers.
    To that aim, the DOTS server MUST rely on the same procedure to
-
-
-
-Reddy, et al.           Expires September 2, 2018              [Page 28]
-
-Internet-Draft         DOTS Data Channel Protocol             March 2018
-
-
    unambiguously identify a DOTS client as discussed in Section 4.4.1 of
    [I-D.ietf-dots-signal-channel].
 
@@ -1598,6 +1616,16 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    register a DOTS client within the DOTS server.  An example is shown
    in Figure 6.
 
+
+
+
+
+
+Reddy, et al.           Expires September 2, 2018              [Page 29]
+
+Internet-Draft         DOTS Data Channel Protocol             March 2018
+
+
     PUT /restconf/data/ietf-dots-data-channel:dots-data\
         /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
     Host: {host}:{port}
@@ -1614,17 +1642,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
    A DOTS client may de-register from its DOTS server by deleting the
    'cuid' resource.  An example is shown in Figure 7.
-
-
-
-
-
-
-
-Reddy, et al.           Expires September 2, 2018              [Page 29]
-
-Internet-Draft         DOTS Data Channel Protocol             March 2018
-
 
     DELETE /restconf/data/ietf-dots-data-channel:dots-data\
            /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
@@ -1656,23 +1673,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
    The structure of POST requests used to create aliases is shown in
    Figure 8.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2035,13 +2035,13 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    capabilities supported by its, SHOULD NOT request for filtering
    actions that are not supported by that DOTS server.
 
-8.2.  Install Filtering Rules
+   Figure 15 shows an example of a response received from a DOTS server
+   which only supports the mandatory filtering criteria listed in
+   Section 5.1.
 
-   A POST or PUT request is used by a DOTS client to communicate
-   filtering rules to a DOTS server.
 
-   Figure 15 shows a POST request example to block traffic from
-   192.0.2.0/24 and destined to 198.51.100.0/24.
+
+
 
 
 
@@ -2070,6 +2070,62 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 Reddy, et al.           Expires September 2, 2018              [Page 37]
+
+Internet-Draft         DOTS Data Channel Protocol             March 2018
+
+
+    Content-Type: application/yang-data+json
+    {
+     "ietf-dots-data-channel:capabilities": {
+       "address-family": ["ipv4", "ipv6"],
+       "forwarding-actions": ["drop", "accept"],
+       " rate-limit": "true",
+       "transport-protocols": [1, 6, 17, 58],
+       "ip-header-fields": {
+         "v4-length": "true",
+         "v6-length": "true",
+         "destination-prefix": "true",
+         "source-prefix": "true"
+       },
+       "tcp-header-fields": {
+         "flags": "true",
+         "source-port": "true",
+         "destination-port": "true",
+         "port-range": 1"true"
+       },
+       "udp-header-fields": {
+         "length": "true",
+         "source-port": "true",
+         "destination-port": "true",
+         "port-range": "true"
+       },
+       "icmp-header-fields": {
+         "type": "true",
+         "code": "true"
+       }
+     }
+
+                Figure 15: POST to Install Filtering Rules
+
+8.2.  Install Filtering Rules
+
+   A POST or PUT request is used by a DOTS client to communicate
+   filtering rules to a DOTS server.
+
+   Figure 16 shows a POST request example to block traffic from
+   192.0.2.0/24 and destined to 198.51.100.0/24.
+
+
+
+
+
+
+
+
+
+
+
+Reddy, et al.           Expires September 2, 2018              [Page 38]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2112,7 +2168,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
      }
     }
 
-                Figure 15: POST to Install Filtering Rules
+                Figure 16: POST to Install Filtering Rules
 
    The meaning of these parameters is as follows:
 
@@ -2125,7 +2181,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 38]
+Reddy, et al.           Expires September 2, 2018              [Page 39]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2181,7 +2237,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 39]
+Reddy, et al.           Expires September 2, 2018              [Page 40]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2223,7 +2279,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    GET request in its configuration data for this DOTS client, it
    responds with a "404 Not Found" status-line.
 
-   Figure 16 shows how to retrieve all the filtering rules that were
+   Figure 17 shows how to retrieve all the filtering rules that were
    instantiated by the DOTS client and the number of matches for the
    installed filtering rules.
 
@@ -2237,7 +2293,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 40]
+Reddy, et al.           Expires September 2, 2018              [Page 41]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2248,10 +2304,10 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
      Host: {host}:{port}
      Accept: application/yang-data+json
 
-   Figure 16: GET to Retrieve the Configuration Data and State Data for
+   Figure 17: GET to Retrieve the Configuration Data and State Data for
                             the Filtering Rules
 
-   Figure 17 shows how to retrieve "sample-ipv6-acl" filtering rule
+   Figure 18 shows how to retrieve "sample-ipv6-acl" filtering rule
    instantiated by the DOTS client, having
    "cuid=dz6pHjaADkaFTbjr0JGBpw", and the number of matches for the
    installed filtering rules.
@@ -2262,7 +2318,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
      Host: {host}:{port}
      Accept: application/yang-data+json
 
-   Figure 17: GET to Retrieve the Configuration Data and State Data for
+   Figure 18: GET to Retrieve the Configuration Data and State Data for
                              a Filtering Rule
 
 8.4.  Remove Filtering Rules
@@ -2277,7 +2333,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
    filtering rules using "204 No Content" status-line, and removes the
    filtering rules accordingly.
 
-   Figure 18 shows an example of a request to remove the IPv4 ACL named
+   Figure 19 shows an example of a request to remove the IPv4 ACL named
    "sample-ipv4-acl".
 
      DELETE  /restconf/data/ietf-dots-data-channel:dots-data\
@@ -2285,7 +2341,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
              /acl=sample-ipv4-acl HTTP/1.1
      Host: {host}:{port}
 
-               Figure 18: DELETE to Remove a Filtering Rule
+               Figure 19: DELETE to Remove a Filtering Rule
 
 
 
@@ -2293,7 +2349,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 41]
+Reddy, et al.           Expires September 2, 2018              [Page 42]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2349,7 +2405,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 42]
+Reddy, et al.           Expires September 2, 2018              [Page 43]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2405,7 +2461,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 43]
+Reddy, et al.           Expires September 2, 2018              [Page 44]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2461,7 +2517,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 44]
+Reddy, et al.           Expires September 2, 2018              [Page 45]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2517,7 +2573,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 45]
+Reddy, et al.           Expires September 2, 2018              [Page 46]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2573,7 +2629,7 @@ Authors' Addresses
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 46]
+Reddy, et al.           Expires September 2, 2018              [Page 47]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2629,7 +2685,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 47]
+Reddy, et al.           Expires September 2, 2018              [Page 48]
 
 Internet-Draft         DOTS Data Channel Protocol             March 2018
 
@@ -2685,4 +2741,4 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
 
 
-Reddy, et al.           Expires September 2, 2018              [Page 48]
+Reddy, et al.           Expires September 2, 2018              [Page 49]

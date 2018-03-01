@@ -349,12 +349,17 @@ module ietf-dots-data-channel {
           "Indicates the IP address families supported by 
            the DOTS server.";
         }
-        leaf-list supported-actions {
+        leaf-list forwarding-actions {
           type identityref {
             base ietf-acl:forwarding-action;
           }
           description
-            "Supported action(s).";
+            "Supported forwarding action(s).";
+        }
+        leaf rate-limit {
+          type boolean;
+          description
+            "Support of rate-limit action.";
         }
         leaf-list fragment {
           type enumeration {
@@ -375,11 +380,7 @@ module ietf-dots-data-channel {
             "Indicates the capability of a DOTS server to 
              enforce filters on fragments.";
         }
-        list transport-protocols {
-          key protocol-id;
-          description
-            "List of supported protocols.";
-          leaf protocol-id {
+        leaf-list transport-protocols {
             type uint8;
             description
               "Upper-layer protocol associated with this mapping.
@@ -390,7 +391,6 @@ module ietf-dots-data-channel {
 
                For example, this field contains 6 (TCP) for a TCP
                mapping or 17 (UDP) for a UDP mapping.";
-          }
         }
         container ip-header-fields {
           description
@@ -508,6 +508,17 @@ module ietf-dots-data-channel {
           description
             "Support of filtering based on the TCP options.";
         }
+        leaf source-port {
+          type boolean;
+          description
+            "Support of filtering based on the source port number.";
+        }
+        leaf destination-port {
+          type boolean;
+          description
+            "Support of filtering based on the destination port number.";
+        }
+
         leaf port-range {
           type boolean;
           description
@@ -523,6 +534,16 @@ module ietf-dots-data-channel {
           description
             "Support of filtering based on the UDP length.";
         }
+        leaf source-port {
+          type boolean;
+          description
+            "Support of filtering based on the source port number.";
+        }
+        leaf destination-port {
+          type boolean;
+          description
+            "Support of filtering based on the destination port number.";
+        }           
         leaf port-range {
           type boolean;
           description
