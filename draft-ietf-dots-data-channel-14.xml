@@ -1875,13 +1875,15 @@ Content-Type: application/yang-data+json
         received from a DOTS server which only supports the mandatory
         filtering criteria listed in <xref target="tree"></xref>. </t>
 
-        <t><figure anchor="capex" title="POST to Install Filtering Rules">
+        <t><figure anchor="capex"
+            title="Reply to a GET Response with Filtering Capabilities">
             <artwork align="left"><![CDATA[ Content-Type: application/yang-data+json
  {
   "ietf-dots-data-channel:capabilities": {
     "address-family": ["ipv4", "ipv6"],
     "forwarding-actions": ["drop", "accept"],
-    " rate-limit": "true",
+    "rate-limit": "true",
+    "fragment": ["v4-fragment", "v6-fragment"],
     "transport-protocols": [1, 6, 17, 58],
     "ip-header-fields": {
       "v4-length": "true",

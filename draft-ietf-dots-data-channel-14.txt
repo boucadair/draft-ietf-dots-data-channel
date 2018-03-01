@@ -2079,7 +2079,8 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
      "ietf-dots-data-channel:capabilities": {
        "address-family": ["ipv4", "ipv6"],
        "forwarding-actions": ["drop", "accept"],
-       " rate-limit": "true",
+       "rate-limit": "true",
+       "fragment": ["v4-fragment", "v6-fragment"],
        "transport-protocols": [1, 6, 17, 58],
        "ip-header-fields": {
          "v4-length": "true",
@@ -2106,7 +2107,7 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
        }
      }
 
-                Figure 15: POST to Install Filtering Rules
+      Figure 15: Reply to a GET Response with Filtering Capabilities
 
 8.2.  Install Filtering Rules
 
@@ -2115,7 +2116,6 @@ Internet-Draft         DOTS Data Channel Protocol             March 2018
 
    Figure 16 shows a POST request example to block traffic from
    192.0.2.0/24 and destined to 198.51.100.0/24.
-
 
 
 
