@@ -202,11 +202,12 @@
         </list>Please update this statement with the RFC number to be assigned
       to the following documents:<list style="symbols">
           <t>"RFC YYYY: Distributed Denial-of-Service Open Threat Signaling
-          (DOTS) Signal Channel Specification";</t>
+          (DOTS) Signal Channel Specification" (used to be <xref
+          target="I-D.ietf-dots-signal-channel"></xref>)</t>
 
-          <t>"RFC ZZZZ: Network Access Control List (ACL) YANG Data
-          Model";</t>
-        </list></t>
+          <t>"RFC ZZZZ: Network Access Control List (ACL) YANG Data Model"
+          (used to be <xref target="I-D.ietf-netmod-acl-model"></xref>)</t>
+        </list>Please update the "revision" date of the YANG module.</t>
     </note>
   </front>
 
@@ -496,7 +497,7 @@
        |  |     +--rw target-fqdn*         inet:domain-name
        |  |     +--rw target-uri*          inet:uri
        |  |     +--ro pending-lifetime?    int32
-       |  +--rw access-lists
+       |  +--rw acls
        |     +--rw acl* [name]
        |        +--rw name                string
        |        +--rw type?               ietf-acl:acl-type
@@ -822,7 +823,7 @@
 
       <section title="YANG Module">
         <t><figure>
-            <artwork><![CDATA[<CODE BEGINS> file "ietf-dots-data-channel@2018-02-26.yang"
+            <artwork><![CDATA[<CODE BEGINS> file "ietf-dots-data-channel@2018-03-16.yang"
 
 module ietf-dots-data-channel {
   yang-version 1.1;
@@ -886,7 +887,7 @@ module ietf-dots-data-channel {
      This version of this YANG module is part of RFC XXXX; see
      the RFC itself for full legal notices.";
 
-  revision 2018-02-26 {
+  revision 2018-03-16 {
     description
       "Initial revision.";
     reference
@@ -939,6 +940,8 @@ module ietf-dots-data-channel {
         "Choice of specifying a destination port or referring
          to a group of destination ports.";
     }
+    description
+      "Choice of specifying a source or destination ports";
   }
 
   grouping access-lists {
@@ -949,14 +952,14 @@ module ietf-dots-data-channel {
       ordered-by user;
       description
         "An Access Control List (ACL) is an ordered list of
-         Access List Entries (ACE). Each Access Control Entry has a
-         list of match criteria and a list of actions.";
+         Access Control Entries (ACE). Each Access Control Entry 
+         has a list of match criteria and a list of actions.";
       leaf name {
         type string {
           length "1..64";
         }
         description
-          "The name of access-list.";
+          "The name of the access list.";
         reference
            "RFC ZZZZ: Network Access Control List (ACL) 
                       YANG Data Model";
@@ -999,7 +1002,7 @@ module ietf-dots-data-channel {
       }
       container aces {
         description
-          "The access-list-entries container contains
+          "The Access Control Entries container contains
            a list of ACEs.";
         list ace {
           key "name";
@@ -1150,7 +1153,7 @@ module ietf-dots-data-channel {
           "Set of aliases that are bound to a DOTS client.";
         uses aliases;
       }
-      container access-lists {
+      container acls {
         description
           "Access lists that are bound to a DOTS client.";
          uses access-lists;
@@ -1843,7 +1846,8 @@ Content-Type: application/yang-data+json
     </section>
 
     <section anchor="filter" title="Managing DOTS Filtering Rules">
-      <t>The following sub-sections define means for a DOTS client to create
+      <t>The following sub-sections define means for a DOTS client to retrieve
+      DOTS filtering capabilities (<xref target="rcap"></xref>), create
       filtering rules (<xref target="install"></xref>), retrieve active
       filtering rules (<xref target="rfilter"></xref>), and delete a filtering
       rule (<xref target="dfilter"></xref>).</t>
@@ -1853,7 +1857,7 @@ Content-Type: application/yang-data+json
       filtering. DOTS servers are responsible for maintaining the association
       between 'cdid' and 'cuid' for policy enforcement purposes.</t>
 
-      <section title="Retrieve DOTS Filtering Capabilities">
+      <section anchor="rcap" title="Retrieve DOTS Filtering Capabilities">
         <t>A DOTS client MAY send a GET request to retrieve the filtering
         capabilities supported by a DOTS server. <xref target="cap"></xref>
         shows an example of such request.</t>
@@ -1869,11 +1873,11 @@ Content-Type: application/yang-data+json
 
         <t>A DOTS client which issued a GET request to retrieve the filtering
         capabilities supported by its, SHOULD NOT request for filtering
-        actions that are not supported by that DOTS server. </t>
+        actions that are not supported by that DOTS server.</t>
 
         <t><xref target="capex"></xref> shows an example of a response
         received from a DOTS server which only supports the mandatory
-        filtering criteria listed in <xref target="tree"></xref>. </t>
+        filtering criteria listed in <xref target="tree"></xref>.</t>
 
         <t><figure anchor="capex"
             title="Reply to a GET Response with Filtering Capabilities">
@@ -1908,7 +1912,8 @@ Content-Type: application/yang-data+json
       "type": "true",
       "code": "true"
     }
-  }]]></artwork>
+  }
+}]]></artwork>
           </figure></t>
       </section>
 
@@ -1925,7 +1930,7 @@ Content-Type: application/yang-data+json
  Host: {host}:{port}
  Content-Type: application/yang-data+json
  {
-  "ietf-dots-data-channel:access-lists": {
+  "ietf-dots-data-channel:acls": {
     "acl": [
       {
         "name": "sample-ipv4-acl",
@@ -1936,15 +1941,9 @@ Content-Type: application/yang-data+json
             {
               "name": "rule1",
               "matches": {
-                "l3": {
-                  "ipv4": {
-                     "destination-network" : {
-                       "destination-ipv4-network": "198.51.100.0/24"
-                     },
-                     "source-network" : {
-                       "source-ipv4-network": "192.0.2.0/24"
-                     }
-                  }
+                "ipv4": {
+                  "destination-ipv4-network": "198.51.100.0/24",
+                  "source-ipv4-network": "192.0.2.0/24"
                 }
               },
               "actions": {
@@ -1962,7 +1961,7 @@ Content-Type: application/yang-data+json
         <t>The meaning of these parameters is as follows:</t>
 
         <t><list style="hanging">
-            <t hangText="name:">The name of the access-list. <vspace
+            <t hangText="name:">The name of the access list. <vspace
             blankLines="1" />This is a mandatory attribute.</t>
 
             <t hangText="type:">Indicates the primary intended type of match
@@ -2058,7 +2057,7 @@ Content-Type: application/yang-data+json
                 title="GET to Retrieve the Configuration Data and State Data for the Filtering Rules">
           <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel:dots-data\
       /dots-client=dz6pHjaADkaFTbjr0JGBpw\
-      /access-lists?content=all HTTP/1.1
+      /acls?content=all HTTP/1.1
   Host: {host}:{port}
   Accept: application/yang-data+json
 ]]></artwork>
@@ -2074,7 +2073,7 @@ Content-Type: application/yang-data+json
         <t><figure anchor="Figure10a"
             title="GET to Retrieve the Configuration Data and State Data for a Filtering Rule">
             <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel:dots-data\
-      /dots-client=dz6pHjaADkaFTbjr0JGBpw/access-lists\
+      /dots-client=dz6pHjaADkaFTbjr0JGBpw/acls\
       /acl=sample-ipv6-acl?content=all HTTP/1.1
   Host: {host}:{port}
   Accept: application/yang-data+json]]></artwork>
@@ -2099,7 +2098,7 @@ Content-Type: application/yang-data+json
 
         <figure anchor="Figure9" title="DELETE to Remove a Filtering Rule">
           <artwork align="left"><![CDATA[  DELETE  /restconf/data/ietf-dots-data-channel:dots-data\
-          /dots-client=dz6pHjaADkaFTbjr0JGBpw/access-lists\
+          /dots-client=dz6pHjaADkaFTbjr0JGBpw/acls\
           /acl=sample-ipv4-acl HTTP/1.1
   Host: {host}:{port}]]></artwork>
         </figure>
