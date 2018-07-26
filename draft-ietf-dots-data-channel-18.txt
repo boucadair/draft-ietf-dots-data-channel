@@ -2,10 +2,10 @@
 
 
 
-DOTS                                                       T. Reddy, Ed.
-Internet-Draft                                                    McAfee
-Intended status: Standards Track                       M. Boucadair, Ed.
-Expires: January 26, 2019                                         Orange
+DOTS                                                   M. Boucadair, Ed.
+Internet-Draft                                                    Orange
+Intended status: Standards Track                           T. Reddy, Ed.
+Expires: January 26, 2019                                         McAfee
                                                             K. Nishizuka
                                                       NTT Communications
                                                                   L. Xia
@@ -53,7 +53,7 @@ Editorial Note (To be removed by RFC Editor)
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 1]
+Boucadair, et al.       Expires January 26, 2019                [Page 1]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -109,7 +109,7 @@ Copyright Notice
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 2]
+Boucadair, et al.       Expires January 26, 2019                [Page 2]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -165,7 +165,7 @@ Table of Contents
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 3]
+Boucadair, et al.       Expires January 26, 2019                [Page 3]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -221,7 +221,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 4]
+Boucadair, et al.       Expires January 26, 2019                [Page 4]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -277,7 +277,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 5]
+Boucadair, et al.       Expires January 26, 2019                [Page 5]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -333,7 +333,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 6]
+Boucadair, et al.       Expires January 26, 2019                [Page 6]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -389,7 +389,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 7]
+Boucadair, et al.       Expires January 26, 2019                [Page 7]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -445,7 +445,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 8]
+Boucadair, et al.       Expires January 26, 2019                [Page 8]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -501,7 +501,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019                [Page 9]
+Boucadair, et al.       Expires January 26, 2019                [Page 9]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -557,7 +557,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 10]
+Boucadair, et al.       Expires January 26, 2019               [Page 10]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -613,7 +613,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 11]
+Boucadair, et al.       Expires January 26, 2019               [Page 11]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -669,7 +669,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 12]
+Boucadair, et al.       Expires January 26, 2019               [Page 12]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -725,7 +725,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 13]
+Boucadair, et al.       Expires January 26, 2019               [Page 13]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -781,7 +781,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 14]
+Boucadair, et al.       Expires January 26, 2019               [Page 14]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -837,7 +837,7 @@ module: ietf-dots-data-channel
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 15]
+Boucadair, et al.       Expires January 26, 2019               [Page 15]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -893,7 +893,7 @@ module: ietf-dots-data-channel
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 16]
+Boucadair, et al.       Expires January 26, 2019               [Page 16]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -949,7 +949,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 17]
+Boucadair, et al.       Expires January 26, 2019               [Page 17]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1005,7 +1005,7 @@ module: ietf-dots-data-channel
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 18]
+Boucadair, et al.       Expires January 26, 2019               [Page 18]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1061,7 +1061,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 19]
+Boucadair, et al.       Expires January 26, 2019               [Page 19]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1117,7 +1117,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 20]
+Boucadair, et al.       Expires January 26, 2019               [Page 20]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1173,7 +1173,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 21]
+Boucadair, et al.       Expires January 26, 2019               [Page 21]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1229,7 +1229,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 22]
+Boucadair, et al.       Expires January 26, 2019               [Page 22]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1285,7 +1285,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 23]
+Boucadair, et al.       Expires January 26, 2019               [Page 23]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1341,7 +1341,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 24]
+Boucadair, et al.       Expires January 26, 2019               [Page 24]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1397,7 +1397,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 25]
+Boucadair, et al.       Expires January 26, 2019               [Page 25]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1453,7 +1453,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 26]
+Boucadair, et al.       Expires January 26, 2019               [Page 26]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1509,7 +1509,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 27]
+Boucadair, et al.       Expires January 26, 2019               [Page 27]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1565,7 +1565,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 28]
+Boucadair, et al.       Expires January 26, 2019               [Page 28]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1621,7 +1621,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 29]
+Boucadair, et al.       Expires January 26, 2019               [Page 29]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1677,7 +1677,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 30]
+Boucadair, et al.       Expires January 26, 2019               [Page 30]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1733,7 +1733,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 31]
+Boucadair, et al.       Expires January 26, 2019               [Page 31]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1789,7 +1789,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 32]
+Boucadair, et al.       Expires January 26, 2019               [Page 32]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1845,7 +1845,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 33]
+Boucadair, et al.       Expires January 26, 2019               [Page 33]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1901,7 +1901,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 34]
+Boucadair, et al.       Expires January 26, 2019               [Page 34]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -1957,7 +1957,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 35]
+Boucadair, et al.       Expires January 26, 2019               [Page 35]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2013,7 +2013,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 36]
+Boucadair, et al.       Expires January 26, 2019               [Page 36]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2069,7 +2069,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 37]
+Boucadair, et al.       Expires January 26, 2019               [Page 37]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2125,7 +2125,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 38]
+Boucadair, et al.       Expires January 26, 2019               [Page 38]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2181,7 +2181,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 39]
+Boucadair, et al.       Expires January 26, 2019               [Page 39]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2237,7 +2237,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 40]
+Boucadair, et al.       Expires January 26, 2019               [Page 40]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2293,7 +2293,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 41]
+Boucadair, et al.       Expires January 26, 2019               [Page 41]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2349,7 +2349,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 42]
+Boucadair, et al.       Expires January 26, 2019               [Page 42]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2405,7 +2405,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 43]
+Boucadair, et al.       Expires January 26, 2019               [Page 43]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2461,7 +2461,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 44]
+Boucadair, et al.       Expires January 26, 2019               [Page 44]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2517,7 +2517,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 45]
+Boucadair, et al.       Expires January 26, 2019               [Page 45]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2573,7 +2573,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 46]
+Boucadair, et al.       Expires January 26, 2019               [Page 46]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2629,7 +2629,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 47]
+Boucadair, et al.       Expires January 26, 2019               [Page 47]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2685,7 +2685,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 48]
+Boucadair, et al.       Expires January 26, 2019               [Page 48]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2741,7 +2741,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 49]
+Boucadair, et al.       Expires January 26, 2019               [Page 49]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2797,7 +2797,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 50]
+Boucadair, et al.       Expires January 26, 2019               [Page 50]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2853,7 +2853,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 51]
+Boucadair, et al.       Expires January 26, 2019               [Page 51]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2909,7 +2909,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 52]
+Boucadair, et al.       Expires January 26, 2019               [Page 52]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -2965,7 +2965,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 53]
+Boucadair, et al.       Expires January 26, 2019               [Page 53]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3021,7 +3021,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 54]
+Boucadair, et al.       Expires January 26, 2019               [Page 54]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3077,7 +3077,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 55]
+Boucadair, et al.       Expires January 26, 2019               [Page 55]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3133,7 +3133,7 @@ Appendix A.  Sample Examples: Filtering Fragments
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 56]
+Boucadair, et al.       Expires January 26, 2019               [Page 56]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3189,7 +3189,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 57]
+Boucadair, et al.       Expires January 26, 2019               [Page 57]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3245,7 +3245,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 58]
+Boucadair, et al.       Expires January 26, 2019               [Page 58]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3301,7 +3301,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 59]
+Boucadair, et al.       Expires January 26, 2019               [Page 59]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3357,7 +3357,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 60]
+Boucadair, et al.       Expires January 26, 2019               [Page 60]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3390,6 +3390,14 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 Authors' Addresses
 
+   Mohamed Boucadair (editor)
+   Orange
+   Rennes  35000
+   France
+
+   Email: mohamed.boucadair@orange.com
+
+
    Tirumaleswar Reddy (editor)
    McAfee, Inc.
    Embassy Golf Link Business Park
@@ -3399,21 +3407,13 @@ Authors' Addresses
    Email: kondtir@gmail.com
 
 
-   Mohamed Boucadair (editor)
-   Orange
-   Rennes  35000
-   France
-
-   Email: mohamed.boucadair@orange.com
 
 
 
 
 
 
-
-
-Reddy, et al.           Expires January 26, 2019               [Page 61]
+Boucadair, et al.       Expires January 26, 2019               [Page 61]
 
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
@@ -3469,4 +3469,4 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
 
-Reddy, et al.           Expires January 26, 2019               [Page 62]
+Boucadair, et al.       Expires January 26, 2019               [Page 62]

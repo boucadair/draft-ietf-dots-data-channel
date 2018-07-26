@@ -16,27 +16,6 @@
     <title abbrev="DOTS Data Channel Protocol">Distributed Denial-of-Service
     Open Threat Signaling (DOTS) Data Channel Specification</title>
 
-    <author fullname="Tirumaleswar Reddy" initials="T." role="editor"
-            surname="Reddy">
-      <organization abbrev="McAfee">McAfee, Inc.</organization>
-
-      <address>
-        <postal>
-          <street>Embassy Golf Link Business Park</street>
-
-          <city>Bangalore</city>
-
-          <region>Karnataka</region>
-
-          <code>560071</code>
-
-          <country>India</country>
-        </postal>
-
-        <email>kondtir@gmail.com</email>
-      </address>
-    </author>
-
     <author fullname="Mohamed Boucadair" initials="M." role="editor"
             surname="Boucadair">
       <organization>Orange</organization>
@@ -55,6 +34,27 @@
         </postal>
 
         <email>mohamed.boucadair@orange.com</email>
+      </address>
+    </author>
+
+    <author fullname="Tirumaleswar Reddy" initials="T." role="editor"
+            surname="Reddy">
+      <organization abbrev="McAfee">McAfee, Inc.</organization>
+
+      <address>
+        <postal>
+          <street>Embassy Golf Link Business Park</street>
+
+          <city>Bangalore</city>
+
+          <region>Karnataka</region>
+
+          <code>560071</code>
+
+          <country>India</country>
+        </postal>
+
+        <email>kondtir@gmail.com</email>
       </address>
     </author>
 
