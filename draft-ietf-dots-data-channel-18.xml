@@ -2463,15 +2463,6 @@ Content-Type: application/yang-data+json
         </figure></t>
     </section>
 
-    <section anchor="contr" title="Contributors">
-      <t>The following individuals have contributed to this document:<list
-          style="symbols">
-          <t>Dan Wing, Email: dwing-ietf@fuggles.com</t>
-
-          <t>Jon Shallow, NCC Group, Email: jon.shallow@nccgroup.trust</t>
-        </list></t>
-    </section>
-
     <section anchor="security" title="Security Considerations">
       <t>RESTCONF security considerations are discussed in <xref
       target="RFC8040"></xref>. In particular, DOTS agents MUST follow the
@@ -2522,6 +2513,10 @@ Content-Type: application/yang-data+json
       fairness. Additionally, DOTS servers may limit the number of DOTS
       clients that can be enabled per domain.</t>
 
+      <t>The presence of DOTS gateways may lead to infinite forwarding loops,
+      which is undesirable. To prevent and detect such loops, a mechanism is
+      defined in <xref target="loops"></xref>. </t>
+
       <t>All data nodes defined in the YANG module which can be created,
       modified, and deleted (i.e., config true, which is the default) are
       considered sensitive. Write operations applied to these data nodes
@@ -2542,6 +2537,15 @@ Content-Type: application/yang-data+json
           <t>Set invalid ACL entries, which may prevent legitimate traffic
           from being forwarded. Likewise, invalid ACL entries may lead to
           forward DDoS traffic.</t>
+        </list></t>
+    </section>
+
+    <section anchor="contr" title="Contributors">
+      <t>The following individuals have contributed to this document:<list
+          style="symbols">
+          <t>Dan Wing, Email: dwing-ietf@fuggles.com</t>
+
+          <t>Jon Shallow, NCC Group, Email: jon.shallow@nccgroup.trust</t>
         </list></t>
     </section>
 
@@ -2632,10 +2636,9 @@ Content-Type: application/yang-data+json
     <section anchor="frag" title="Sample Examples: Filtering Fragments">
       <t><xref target="fragdns"></xref> shows a POST request example issued by
       a DOTS client to its DOTS server to allow the traffic destined to
-      198.51.100.0/24 and UDP port number 53, but to drop all fragmented
-      packets. This example makes use of the "flags" defined in <xref
-      target="I-D.ietf-netmod-acl-model"></xref>. The following ACEs are
-      defined (in this order): <list style="symbols">
+      198.51.100.0/24 and UDP port number 53 (DNS traffic), but to drop all
+      fragmented packets. The following ACEs, which make use of the "flags"
+      match criteria, are defined (in this order): <list style="symbols">
           <t>"drop-all-except-last-fragment" ACE: discards all fragments,
           except the last fragment.</t>
 
@@ -2716,19 +2719,19 @@ Content-Type: application/yang-data+json
 
       <t>The use of "flags" is problematic as it does not allow to define a
       bitmask. For example, setting other bits not covered by the 'flags'
-      clause will allow a packet to get through (because it won't match the
-      ACE). To avoid such issues, this specification recommends the use of
-      "fragment" for handling fragments. </t>
+      clause in a packet will allow that packet to get through (because it
+      won't match the ACE). To avoid such issues, this specification
+      recommends the use of "fragment" for handling fragments. </t>
 
       <t><xref target="fragdnsv4"></xref> shows the content of the POST
-      request issued by a DOTS client to its DOTS server to allow the traffic
-      destined to 198.51.100.0/24 and UDP port number 53, but to drop all
-      fragmented packets. The following ACEs are defined (in this order):</t>
+      request to be issued by a DOTS client to its DOTS server to allow the
+      traffic destined to 198.51.100.0/24 and UDP port number 53, but to drop
+      all fragmented packets. The following ACEs are defined (in this
+      order):</t>
 
       <t><list style="symbols">
           <t>"drop-all-fragments" ACE: discards all fragments (including
-          atomic fragments). That is, IPv6 packets which include a Fragment
-          header (44) are dropped.</t>
+          atomic fragments). </t>
 
           <t>"allow-dns-packets" ACE: accepts DNS packets destined to
           198.51.100.0/24.</t>
