@@ -743,18 +743,18 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
    matching on fields in the packet including IPv4, IPv6, and transport
    layer fields.
 
+   This specification defines a new IPv4/IPv6 matching field called
+   'fragment' to efficiently handle fragment-related filtering rules.
+   Indeed, [I-D.ietf-netmod-acl-model] does not support such capability
+   for IPv6 but offers a partial support for IPv4 by means of 'flags'.
+   Nevertheless, the use of 'flags' is problematic since it does not
+   allow to define a bitmask.  For example, setting other bits not
+   covered by the 'flags' filtering clause in a packet will allow that
+   packet to get through (because it won't match the ACE).  Sample
+   examples to illustrate the issue with 'flags' and to show how
+   'fragment' can be used are provided in Appendix A.
+
    Figure 6 shows the IPv4 match subtree.
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -887,9 +887,9 @@ module: ietf-dots-data-channel
 
                  Figure 7: DOTS ACLs Subtree (IPv6 Match)
 
-   Figure 8 shows the TCP match subtree.
+   Figure 8 shows the TCP match subtree.  In addition to the fields
+   defined in [I-D.ietf-netmod-acl-model], this specification defines a
 
-module: ietf-dots-data-channel
 
 
 
@@ -898,6 +898,10 @@ Boucadair, et al.       Expires January 27, 2019               [Page 16]
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
+   new TCP matching field, called 'flags-bitmask', to efficiently handle
+   TCP flags filtering rules.
+
+module: ietf-dots-data-channel
     +--rw dots-data
        +--rw dots-client* [cuid]
        |  ...
@@ -942,10 +946,6 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
        |              |     |        +--:(destination-port-range-or-operator)
        |              |     |           +--rw destination-port-range-or-operator
        |              |     |              +--rw (port-range-or-operator)?
-       |              |     |                 +--:(range)
-       |              |     |                 |  +--rw lower-port
-       |              |     |                 |  |       inet:port-number
-       |              |     |                 |  +--rw upper-port
 
 
 
@@ -954,6 +954,10 @@ Boucadair, et al.       Expires January 27, 2019               [Page 17]
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
+       |              |     |                 +--:(range)
+       |              |     |                 |  +--rw lower-port
+       |              |     |                 |  |       inet:port-number
+       |              |     |                 |  +--rw upper-port
        |              |     |                 |          inet:port-number
        |              |     |                 +--:(operator)
        |              |     |                    +--rw operator?
@@ -998,10 +1002,6 @@ module: ietf-dots-data-channel
        |              |     |     |  +--:(source-port-range-or-operator)
        |              |     |     |     +--rw source-port-range-or-operator
        |              |     |     |        +--rw (port-range-or-operator)?
-       |              |     |     |           +--:(range)
-       |              |     |     |           |  +--rw lower-port
-       |              |     |     |           |  |       inet:port-number
-       |              |     |     |           |  +--rw upper-port
 
 
 
@@ -1010,6 +1010,10 @@ Boucadair, et al.       Expires January 27, 2019               [Page 18]
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
+       |              |     |     |           +--:(range)
+       |              |     |     |           |  +--rw lower-port
+       |              |     |     |           |  |       inet:port-number
+       |              |     |     |           |  +--rw upper-port
        |              |     |     |           |          inet:port-number
        |              |     |     |           +--:(operator)
        |              |     |     |              +--rw operator?
@@ -1053,10 +1057,6 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
    The following match fields MUST be supported by DOTS implementations
    (Table 1):
-
-
-
-
 
 
 
@@ -3143,7 +3143,7 @@ Appendix A.  Sample Examples: Filtering Fragments
    Figure 28 shows a POST request example issued by a DOTS client to its
    DOTS server to allow the traffic destined to 198.51.100.0/24 and UDP
    port number 53 (DNS traffic), but to drop all fragmented packets.
-   The following ACEs, which make use of the "flags" match criteria, are
+   The following ACEs, which make use of the 'flags' match criteria, are
    defined (in this order):
 
    o  "drop-all-except-last-fragment" ACE: discards all fragments,
@@ -3232,7 +3232,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
                Figure 28: Filtering IPv4 Fragmented Packets
 
-   The use of "flags" is problematic as it does not allow to define a
+   The use of 'flags' is problematic as it does not allow to define a
    bitmask.  For example, setting other bits not covered by the 'flags'
    clause in a packet will allow that packet to get through (because it
    won't match the ACE).  To avoid such issues, this specification
