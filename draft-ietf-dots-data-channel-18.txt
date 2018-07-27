@@ -3124,8 +3124,8 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
    filtering rules using "204 No Content" status-line, and removes the
    filtering rules accordingly.
 
-   Figure 32 shows an example of a request to remove the IPv4 ACL named
-   "sample-ipv4-acl".
+   Figure 32 shows an example of a request to remove the IPv4 ACL
+   "sample-ipv4-acl" created in Section 7.2.
 
 
 

@@ -2634,7 +2634,8 @@ Content-Type: application/yang-data+json
         filtering rules accordingly.</t>
 
         <t><xref target="Figure9"></xref> shows an example of a request to
-        remove the IPv4 ACL named "sample-ipv4-acl".</t>
+        remove the IPv4 ACL "sample-ipv4-acl" created in <xref
+        target="install"></xref>.</t>
 
         <figure anchor="Figure9"
                 title="Remove a Filtering Rule: DELETE Request ">
