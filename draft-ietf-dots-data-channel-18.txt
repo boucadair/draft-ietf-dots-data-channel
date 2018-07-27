@@ -2861,13 +2861,14 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
    The peer DOTS server follows the procedure specified in Section 7.2
    to process the request.  We consider in the following that a positive
    response is sent back to the requesting DOTS client to confirm that
-   the ""test-acl-ipv6-udp" ACL is successfully installed by the DOTS
+   the "test-acl-ipv6-udp" ACL is successfully installed by the DOTS
    server.
 
    The DOTS client can issue a GET request to retrieve all its filtering
    rules and the number of matches for the installed filtering rules as
-   illustrated in Figure 26.  The message body of the response to this
-   GET request is shown in Figure 27.
+   illustrated in Figure 26. 'content' parameter is set to 'all'.  The
+   message body of the response to this GET request is shown in
+   Figure 27.
 
      GET /restconf/data/ietf-dots-data-channel:dots-data\
          /dots-client=dz6pHjaADkaFTbjr0JGBpw\
@@ -2877,7 +2878,6 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
 
      Figure 26: Retrieve the Configuration Data and State Data for the
                        Filtering Rules: GET Request
-
 
 
 
@@ -2959,8 +2959,8 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
                          Filtering Rules: Response
 
    Also, a DOTS client can issue a GET request to retrieve only
-   configuration data related to an ACL as shown in Figure 28.
-
+   configuration data related to an ACL as shown in Figure 28.  It does
+   so by setting 'content' parameter to 'config'.
 
 
 
@@ -3069,10 +3069,10 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
      Figure 29: Retrieve the Configuration Data for a Filtering Rule:
                                  Response
 
-   A DOTS client can also issue a GET request to retrieve only non-
-   configuration data bound to a given ACL as shown in Figure 28.  A
-   response to this GET request is shown in Figure 31.
-
+   A DOTS client can also issue a GET request with 'content' parameter
+   to 'non-config' to exclusively retrieve non-configuration data bound
+   to a given ACL as shown in Figure 28.  A response to this GET request
+   is shown in Figure 31.
 
 
 
@@ -3446,8 +3446,7 @@ Appendix A.  Sample Examples: Filtering Fragments
    198.51.100.0/24 and UDP port number 53, but to drop all fragmented
    packets.  The following ACEs are defined (in this order):
 
-   o  "drop-all-fragments" ACE: discards all fragments (including atomic
-      fragments).
+   o  "drop-all-fragments" ACE: discards all fragments.
 
    o  "allow-dns-packets" ACE: accepts DNS packets destined to
       198.51.100.0/24.
@@ -3466,6 +3465,7 @@ Appendix A.  Sample Examples: Filtering Fragments
              "ace": [
                {
                  "name": "drop-all-fragments",
+                 "matches": {
 
 
 
@@ -3474,7 +3474,6 @@ Boucadair, et al.       Expires January 28, 2019               [Page 62]
 Internet-Draft         DOTS Data Channel Protocol              July 2018
 
 
-                 "matches": {
                    "ipv4": {
                      "fragment": {
                        "operator": "match",
@@ -3521,6 +3520,7 @@ Internet-Draft         DOTS Data Channel Protocol              July 2018
    o  "drop-all-fragments" ACE: discards all fragments (including atomic
       fragments).  That is, IPv6 packets which include a Fragment header
       (44) are dropped.
+
 
 
 

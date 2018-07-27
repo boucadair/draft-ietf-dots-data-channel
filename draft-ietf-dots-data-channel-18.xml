@@ -2461,14 +2461,14 @@ Content-Type: application/yang-data+json
         <t>The peer DOTS server follows the procedure specified in <xref
         target="install"></xref> to process the request. We consider in the
         following that a positive response is sent back to the requesting DOTS
-        client to confirm that the ""test-acl-ipv6-udp" ACL is successfully
+        client to confirm that the "test-acl-ipv6-udp" ACL is successfully
         installed by the DOTS server. </t>
 
         <t>The DOTS client can issue a GET request to retrieve all its
         filtering rules and the number of matches for the installed filtering
-        rules as illustrated in <xref target="Get"></xref>. The message body
-        of the response to this GET request is shown in <xref
-        target="Getr"></xref>.</t>
+        rules as illustrated in <xref target="Get"></xref>. 'content'
+        parameter is set to 'all'. The message body of the response to this
+        GET request is shown in <xref target="Getr"></xref>.</t>
 
         <figure anchor="Get"
                 title="Retrieve the Configuration Data and State Data for the Filtering Rules: GET Request">
@@ -2528,7 +2528,8 @@ Content-Type: application/yang-data+json
 
         <t>Also, a DOTS client can issue a GET request to retrieve only
         configuration data related to an ACL as shown in <xref
-        target="GEtc"></xref>.</t>
+        target="GEtc"></xref>. It does so by setting 'content' parameter to
+        'config'.</t>
 
         <t><figure anchor="GEtc"
             title="Retrieve the Configuration Data for a Filtering Rule: GET Request">
@@ -2585,10 +2586,10 @@ Content-Type: application/yang-data+json
 }]]></artwork>
           </figure></t>
 
-        <t>A DOTS client can also issue a GET request to retrieve only
-        non-configuration data bound to a given ACL as shown in <xref
-        target="GEtc"></xref>. A response to this GET request is shown in
-        <xref target="GEtncr"></xref>.</t>
+        <t>A DOTS client can also issue a GET request with 'content' parameter
+        to 'non-config' to exclusively retrieve non-configuration data bound
+        to a given ACL as shown in <xref target="GEtc"></xref>. A response to
+        this GET request is shown in <xref target="GEtncr"></xref>.</t>
 
         <t><figure anchor="GEtnc"
             title="Retrieve the Non-Configuration Data for a Filtering Rule: GET Request">
@@ -2861,8 +2862,7 @@ Content-Type: application/yang-data+json
       order):</t>
 
       <t><list style="symbols">
-          <t>"drop-all-fragments" ACE: discards all fragments (including
-          atomic fragments). </t>
+          <t>"drop-all-fragments" ACE: discards all fragments. </t>
 
           <t>"allow-dns-packets" ACE: accepts DNS packets destined to
           198.51.100.0/24.</t>
