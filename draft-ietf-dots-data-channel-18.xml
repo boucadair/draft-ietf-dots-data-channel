@@ -684,9 +684,8 @@
         since it does not allow to define a bitmask. For example, setting
         other bits not covered by the 'flags' filtering clause in a packet
         will allow that packet to get through (because it won't match the
-        ACE). Sample examples to illustrate the issue with 'flags' and to show
-        how 'fragment' can be used are provided in <xref
-        target="frag"></xref>. </t>
+        ACE). Sample examples to illustrate how 'fragment' can be used are
+        provided in <xref target="frag"></xref>. </t>
 
         <t><xref target="tipv4"></xref> shows the IPv4 match subtree.</t>
 
@@ -1061,13 +1060,13 @@ module ietf-dots-data-channel {
   contact
     "WG Web:   <https://datatracker.ietf.org/wg/dots/>
      WG List:  <mailto:dots@ietf.org>
+
+     Editor:  Mohamed Boucadair
+              <mailto:mohamed.boucadair@orange.com>
      
      Editor:  Konda, Tirumaleswar Reddy
               <mailto:TirumaleswarReddy_Konda@McAfee.com>
      
-     Editor:  Mohamed Boucadair
-              <mailto:mohamed.boucadair@orange.com>
-
      Author:  Jon Shallow
               <mailto:jon.shallow@nccgroup.trust>
      
@@ -1146,7 +1145,7 @@ module ietf-dots-data-channel {
          When a single byte is specified, it matches byte 13 
          of the TCP header, which contains bits 8 though 15
          of the 4th 32-bit word.  When a 2-byte encoding is used, 
-         it matches bytes12 and 13 of the TCP header with 
+         it matches bytes 12 and 13 of the TCP header with 
          the data offset field having a 'don't care' value.";
     }
     description
@@ -1657,8 +1656,8 @@ module ietf-dots-data-channel {
         leaf flags {
           type boolean;
           description
-            "Support of filtering based on the TCP flags as defined
-             in RFC ZZZZ.";
+            "Support of filtering, as defined in RFC ZZZZ, based 
+             on the TCP flags.";
         }
         leaf flags-bitmask {
           type boolean;
@@ -2398,18 +2397,81 @@ Content-Type: application/yang-data+json
       <section anchor="rfilter" title="Retrieve Installed Filtering Rules  ">
         <t>The DOTS client periodically queries the DOTS server to check the
         counters for installed filtering rules. GET request is used to
-        retrieve filtering rules from a DOTS server.</t>
+        retrieve filtering rules from a DOTS server. In order to indicate
+        which type of data is requested in a GET request, the DOTS client sets
+        adequately the 'content' parameter. </t>
 
         <t>If the DOTS server does not find the access list name conveyed in
         the GET request in its configuration data for this DOTS client, it
         responds with a "404 Not Found" status-line.</t>
 
-        <t><xref target="Figure10"></xref> shows how to retrieve all the
-        filtering rules that were instantiated by the DOTS client and the
-        number of matches for the installed filtering rules.</t>
+        <t>In order to illustrate the intended behavior, consider the example
+        depicted in <xref target="PUTv6"></xref>. In reference to this
+        example, the DOTS client requests the creation of an immediate ACL
+        called "test-acl-ipv6-udp". </t>
 
-        <figure anchor="Figure10"
-                title="GET to Retrieve the Configuration Data and State Data for the Filtering Rules">
+        <t><figure anchor="PUTv6"
+            title="Example of a PUT Request to Create a Filtering">
+            <artwork align="left"><![CDATA[PUT /restconf/data/ietf-dots-data-channel:dots-data\
+    /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+    /acl=test-acl-ipv6-udp HTTP/1.1
+Host: {host}:{port}
+Content-Type: application/yang-data+json
+{
+  "ietf-dots-data-channel:acls": {
+    "acl": [
+      {
+        "name": "test-acl-ipv6-udp",
+        "type": "ipv6-acl-type",
+        "activation-type": "immediate",
+        "aces": {
+          "ace": [
+            {
+              "name": "test-ace-ipv6-udp",
+              "matches": {
+                "ipv6": {
+                  "destination-ipv6-network": "2001:db8:6401::2/127",
+                  "source-ipv6-network": "2001:db8:1234::/96",
+                  "protocol": 17,
+                  "flow-label": 10000
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "lte",
+                    "port": 80
+                  },
+                  "destination-port": {
+                    "operator": "neq",
+                    "port": 1010
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}]]></artwork>
+          </figure></t>
+
+        <t>The peer DOTS server follows the procedure specified in <xref
+        target="install"></xref> to process the request. We consider in the
+        following that a positive response is sent back to the requesting DOTS
+        client to confirm that the ""test-acl-ipv6-udp" ACL is successfully
+        installed by the DOTS server. </t>
+
+        <t>The DOTS client can issue a GET request to retrieve all its
+        filtering rules and the number of matches for the installed filtering
+        rules as illustrated in <xref target="Get"></xref>. The message body
+        of the response to this GET request is shown in <xref
+        target="Getr"></xref>.</t>
+
+        <figure anchor="Get"
+                title="Retrieve the Configuration Data and State Data for the Filtering Rules: GET Request">
           <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel:dots-data\
       /dots-client=dz6pHjaADkaFTbjr0JGBpw\
       /acls?content=all HTTP/1.1
@@ -2420,21 +2482,144 @@ Content-Type: application/yang-data+json
 
         <t></t>
 
-        <t><xref target="Figure10a"></xref> shows how to retrieve
-        "sample-ipv6-acl" filtering rule instantiated by the DOTS client,
-        having "cuid=dz6pHjaADkaFTbjr0JGBpw", and the number of matches for
-        the installed filtering rules.</t>
+        <t><figure anchor="Getr"
+            title="Retrieve the Configuration Data and State Data for the Filtering Rules: Response">
+            <artwork align="left"><![CDATA[{
+  "ietf-dots-data-channel:acls": {
+    "acl": [
+      {
+        "name": "test-acl-ipv6-udp",
+        "type": "ipv6-acl-type",
+        "activation-type": "immediate",
+        "pending-lifetime":9080,
+        "aces": {
+          "ace": [
+            {
+              "name": "test-ace-ipv6-udp",
+              "matches": {
+                "ipv6": {
+                  "destination-ipv6-network": "2001:db8:6401::2/127",
+                  "source-ipv6-network": "2001:db8:1234::/96",
+                  "protocol": 17,
+                  "flow-label": 10000
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "lte",
+                    "port": 80
+                  },
+                  "destination-port": {
+                    "operator": "neq",
+                    "port": 1010
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}]]></artwork>
+          </figure></t>
 
-        <t><figure anchor="Figure10a"
-            title="GET to Retrieve the Configuration Data and State Data for a Filtering Rule">
+        <t>Also, a DOTS client can issue a GET request to retrieve only
+        configuration data related to an ACL as shown in <xref
+        target="GEtc"></xref>.</t>
+
+        <t><figure anchor="GEtc"
+            title="Retrieve the Configuration Data for a Filtering Rule: GET Request">
             <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel:dots-data\
-      /dots-client=dz6pHjaADkaFTbjr0JGBpw/acls\
-      /acl=sample-ipv6-acl?content=all HTTP/1.1
+      /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+      /acl=test-acl-ipv6-udp?content=config HTTP/1.1
   Host: {host}:{port}
   Accept: application/yang-data+json]]></artwork>
           </figure></t>
 
-        <t></t>
+        <t>A response to this GET request is shown in <xref
+        target="GEtcr"></xref>.</t>
+
+        <t><figure anchor="GEtcr"
+            title="Retrieve the Configuration Data for a Filtering Rule: Response">
+            <artwork align="left"><![CDATA[{
+  "ietf-dots-data-channel:acls": {
+    "acl": [
+      {
+        "name": "test-acl-ipv6-udp",
+        "type": "ipv6-acl-type",
+        "activation-type": "immediate",
+        "aces": {
+          "ace": [
+            {
+              "name": "test-ace-ipv6-udp",
+              "matches": {
+                "ipv6": {
+                  "destination-ipv6-network": "2001:db8:6401::2/127",
+                  "source-ipv6-network": "2001:db8:1234::/96",
+                  "protocol": 17,
+                  "flow-label": 10000
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "lte",
+                    "port": 80
+                  },
+                  "destination-port": {
+                    "operator": "neq",
+                    "port": 1010
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}]]></artwork>
+          </figure></t>
+
+        <t>A DOTS client can also issue a GET request to retrieve only
+        non-configuration data bound to a given ACL as shown in <xref
+        target="GEtc"></xref>. A response to this GET request is shown in
+        <xref target="GEtncr"></xref>.</t>
+
+        <t><figure anchor="GEtnc"
+            title="Retrieve the Non-Configuration Data for a Filtering Rule: GET Request">
+            <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel:dots-data\
+      /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+      /acl=test-acl-ipv6-udp?content=non-config HTTP/1.1
+  Host: {host}:{port}
+  Accept: application/yang-data+json]]></artwork>
+          </figure></t>
+
+        <t><figure anchor="GEtncr"
+            title="Retrieve the Non-Configuration Data for a Filtering Rule: GET Request">
+            <artwork align="left"><![CDATA[{
+  "ietf-dots-data-channel:acls":  {
+    "acl": [
+      {
+        "name": "test-acl-ipv6-udp",
+        "pending-lifetime": 8000,
+        "aces": {
+          "ace": [
+            {
+              "name": "test-ace-ipv6-udp"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+]]></artwork>
+          </figure></t>
       </section>
 
       <section anchor="dfilter" title="Remove Filtering Rules">
@@ -2451,7 +2636,8 @@ Content-Type: application/yang-data+json
         <t><xref target="Figure9"></xref> shows an example of a request to
         remove the IPv4 ACL named "sample-ipv4-acl".</t>
 
-        <figure anchor="Figure9" title="DELETE to Remove a Filtering Rule">
+        <figure anchor="Figure9"
+                title="Remove a Filtering Rule: DELETE Request ">
           <artwork align="left"><![CDATA[  DELETE  /restconf/data/ietf-dots-data-channel:dots-data\
           /dots-client=dz6pHjaADkaFTbjr0JGBpw/acls\
           /acl=sample-ipv4-acl HTTP/1.1
@@ -2459,6 +2645,20 @@ Content-Type: application/yang-data+json
         </figure>
 
         <t></t>
+
+        <t><xref target="Figure9a"></xref> shows an example of a response
+        received from the server to confirm the deletion of
+        "sample-ipv4-acl".</t>
+
+        <t><figure anchor="Figure9a" title="Remove a Filtering Rule: Response">
+            <artwork align="left"><![CDATA[ HTTP/1.1 204 No Content
+ Server: Apache
+ Date: Fri, 27 Jul 2018 10:05:15 GMT
+ Cache-Control: no-cache
+ Content-Type: application/yang-data+json
+ Content-Length: 0
+ Connection: Keep-Alive]]></artwork>
+          </figure></t>
       </section>
     </section>
 
@@ -2650,94 +2850,8 @@ Content-Type: application/yang-data+json
     </references>
 
     <section anchor="frag" title="Sample Examples: Filtering Fragments">
-      <t><xref target="fragdns"></xref> shows a POST request example issued by
-      a DOTS client to its DOTS server to allow the traffic destined to
-      198.51.100.0/24 and UDP port number 53 (DNS traffic), but to drop all
-      fragmented packets. The following ACEs, which make use of the 'flags'
-      match criteria, are defined (in this order): <list style="symbols">
-          <t>"drop-all-except-last-fragment" ACE: discards all fragments,
-          except the last fragment.</t>
-
-          <t>"allow-dns-packets" ACE: accepts DNS packets destined to
-          198.51.100.0/24.</t>
-
-          <t>"drop-last-fragment" ACE: drops the last fragment.</t>
-        </list></t>
-
-      <t>The ACEs order is important to appropriately enforce the intended
-      filtering policy. For example, if the ACEs order is "allow-dns-packets"
-      ACE, "drop-all-except-last-fragment" ACE, and then "drop-last-fragment"
-      ACE, the first fragment won't be dropped because it includes both L3 and
-      L4 information and will therefore match the "allow-dns-packets" ACE.</t>
-
-      <t><figure anchor="fragdns" title="Filtering IPv4 Fragmented Packets">
-          <artwork align="left"><![CDATA[ POST /restconf/data/ietf-dots-data-channel:dots-data\
-      /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
- Host: {host}:{port}
- Content-Type: application/yang-data+json
- {
-  "ietf-dots-data-channel:acls": {
-    "acl": [
-      {
-        "name": "dns-fragments",
-        "type": "ipv4-acl-type",
-        "aces": {
-          "ace": [
-            {
-              "name": "drop-all-except-last-fragment",
-              "matches": {
-                "ipv4": {
-                  "flags": "more"
-                }
-              },
-              "actions": {
-                "forwarding": "drop"
-              }
-            }
-          ]
-          "ace": [
-            {
-              "name": "allow-dns-packets",
-              "matches": {
-                "ipv4": {
-                  "destination-ipv4-network": "198.51.100.0/24"
-                }
-                "udp": {
-                  "destination-port": {
-                    "operator": "eq",
-                    "port": 53
-                }
-              },
-              "actions": {
-                "forwarding": "accept"
-              }
-            }
-          ]
-          "ace": [
-            {
-              "name": "drop-last-fragment",
-              "matches": {
-                "ipv4": {
-                  "flags": ""
-                }
-              },
-              "actions": {
-                "forwarding": "drop"
-              }
-            }
-          ]
-        }
-      }
-    ]
-  }
- }]]></artwork>
-        </figure></t>
-
-      <t>The use of 'flags' is problematic as it does not allow to define a
-      bitmask. For example, setting other bits not covered by the 'flags'
-      clause in a packet will allow that packet to get through (because it
-      won't match the ACE). To avoid such issues, this specification
-      recommends the use of "fragment" for handling fragments. </t>
+      <t>This specification strongly recommends the use of "fragment" for
+      handling fragments. </t>
 
       <t><xref target="fragdnsv4"></xref> shows the content of the POST
       request to be issued by a DOTS client to its DOTS server to allow the
