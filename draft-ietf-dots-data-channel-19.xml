@@ -341,9 +341,9 @@
         <t>As the primary function of the data channel is data exchange, a
         reliable transport mode is required in order for DOTS agents to detect
         data delivery success or failure. This document uses RESTCONF <xref
-        target="RFC8040"></xref> over TLS <xref target="RFC5246"></xref> over
-        TCP as the DOTS data channel protocol. The abstract layering of DOTS
-        data channel is shown in <xref target="fig_dots2"></xref>.</t>
+        target="RFC8040"></xref> over TLS over TCP as the DOTS data channel
+        protocol. The abstract layering of DOTS data channel is shown in <xref
+        target="fig_dots2"></xref>.</t>
 
         <t><figure anchor="fig_dots2"
             title="Abstract Layering of DOTS Data Channel">
@@ -533,11 +533,11 @@
 
     <section anchor="YANG" title="DOTS Data Channel YANG Module">
       <section anchor="tree" title="Generic Tree Structure">
-        <t>The DOTS data channel YANG module (ietf-dots-data-channel) allows a
-        DOTS client to manage aliases for resources for which mitigation may
-        be requested. Such aliases may be used in subsequent DOTS signal
-        channel exchanges to refer more efficiently to the resources under
-        attack.</t>
+        <t>The DOTS data channel YANG module (ietf-dots-data-channel) provides
+        a method for DOTS clients to manage aliases for resources for which
+        mitigation may be requested. Such aliases may be used in subsequent
+        DOTS signal channel exchanges to refer more efficiently to the
+        resources under attack.</t>
 
         <t>The tree structure for the DOTS alias is depicted in <xref
         target="talias"></xref>.</t>
@@ -566,9 +566,9 @@
 ]]></artwork>
           </figure></t>
 
-        <t>Also, the 'ietf-dots-data-channel' module allows DOTS clients to
-        manage filtering rules. Examples of filtering management in a DOTS
-        context include, but not limited to:</t>
+        <t>Also, the 'ietf-dots-data-channel' module provides a method for
+        DOTS clients to manage filtering rules. Examples of filtering
+        management in a DOTS context include, but not limited to:</t>
 
         <t><list style="symbols">
             <t>Black-list management, which enables a DOTS client to inform a
@@ -972,9 +972,10 @@
         </texttable>
 
         <t>Implementations MAY support other filtering match fields and
-        actions. The 'ietf-dots-data-channel' allows an implementation to
-        expose its filtering capabilities. The tree structure of the
-        'capabilities' is shown in <xref target="tcap"></xref>.</t>
+        actions. The 'ietf-dots-data-channel' provides a method for an
+        implementation to expose its filtering capabilities. The tree
+        structure of the 'capabilities' is shown in <xref
+        target="tcap"></xref>.</t>
 
         <t><figure anchor="tcap" title="Filtering Capabilities Subtree">
             <artwork align="left"><![CDATA[module: ietf-dots-data-channel
@@ -1509,14 +1510,14 @@ module ietf-dots-data-channel {
       leaf-list transport-protocols {
         type uint8;
         description
-          "Upper-layer protocol associated with this mapping.
+          "Upper-layer protocol associated with a filtering rule.
 
            Values are taken from the IANA protocol registry:
            https://www.iana.org/assignments/protocol-numbers/
            protocol-numbers.xhtml
 
-           For example, this field contains 6 (TCP) for a TCP
-           mapping or 17 (UDP) for a UDP mapping.";
+           For example, this field contains 1 for ICMP, 6 for TCP
+           17 for UDP, or 58 for ICMPv6.";
       }
       container ipv4 {
         description
@@ -1905,7 +1906,7 @@ module ietf-dots-data-channel {
       <section anchor="unregistering" title="Unregistering DOTS Clients">
         <t>A DOTS client de-registers from its DOTS server(s) by deleting the
         'cuid' resource. Resources bound to this DOTS client will be deleted
-        by the DOTS server. An example of de-register request is shown in
+        by the DOTS server. An example of a de-register request is shown in
         <xref target="derigister"></xref>.</t>
 
         <t><figure align="center" anchor="derigister"
@@ -2120,7 +2121,8 @@ Content-Type: application/yang-data+json
         DOTS server for the DOTS client identified by the 'cuid'
         parameter.</t>
 
-        <t><figure anchor="Figure6" title="An Example of Response Body">
+        <t><figure anchor="Figure6"
+            title="An Example of Response Body Listing All Installed Aliases">
             <artwork align="left"><![CDATA[{
   "ietf-dots-data-channel:aliases": {
     "alias": [
@@ -2231,7 +2233,7 @@ Content-Type: application/yang-data+json
         filtering criteria listed in <xref target="tree"></xref>.</t>
 
         <t><figure anchor="capex"
-            title="Reply to a GET Response with Filtering Capabilities">
+            title="Reply to a GET Request with Filtering Capabilities">
             <artwork align="left"><![CDATA[ Content-Type: application/yang-data+json
  {
   "ietf-dots-data-channel:capabilities": {
@@ -2323,9 +2325,9 @@ Content-Type: application/yang-data+json
             blankLines="1" />This is a mandatory attribute.</t>
 
             <t hangText="type:">Indicates the primary intended type of match
-            criteria (e.g., IPv4, IPv6). It is set to 'ipv4-acl-type' in this
-            example. <vspace blankLines="1" />This is an optional
-            attribute.</t>
+            criteria (e.g., IPv4, IPv6). It is set to 'ipv4-acl-type' in the
+            example of <xref target="Figure7"></xref>. <vspace
+            blankLines="1" />This is an optional attribute.</t>
 
             <t hangText="activation-type:">Indicates whether an ACL has to be
             installed immediately or during mitigation time. If this attribute
@@ -2338,9 +2340,10 @@ Content-Type: application/yang-data+json
             <t hangText="matches:">Define criteria used to identify a flow on
             which to apply the rule. It can be "l3" (IPv4, IPv6) or "l4" (TCP,
             UDP, ..). The detailed match parameters are specified in <xref
-            target="YANG"></xref>.<vspace blankLines="1" />In this example, an
-            IPv4 matching criteria is used.<vspace blankLines="1" />This is an
-            optional attribute.</t>
+            target="YANG"></xref>.<vspace blankLines="1" />In the example
+            depicted in <xref target="Figure7"></xref>, an IPv4 matching
+            criteria is used.<vspace blankLines="1" />This is an optional
+            attribute.</t>
 
             <t hangText="destination-ipv4-network:">The destination IPv4
             prefix. DOTS servers MUST validate that these prefixes are within
@@ -2405,7 +2408,7 @@ Content-Type: application/yang-data+json
       </section>
 
       <section anchor="rfilter" title="Retrieve Installed Filtering Rules  ">
-        <t>The DOTS client periodically queries the DOTS server to check the
+        <t>A DOTS client periodically queries its DOTS server to check the
         counters for installed filtering rules. GET request is used to
         retrieve filtering rules from a DOTS server. In order to indicate
         which type of data is requested in a GET request, the DOTS client sets
@@ -2481,7 +2484,7 @@ Content-Type: application/yang-data+json
         GET request is shown in <xref target="Getr"></xref>.</t>
 
         <figure anchor="Get"
-                title="Retrieve the Configuration Data and State Data for the Filtering Rules: GET Request">
+                title="Retrieve the Configuration Data and State Data for the Filtering Rules (GET Request)">
           <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel:dots-data\
       /dots-client=dz6pHjaADkaFTbjr0JGBpw\
       /acls?content=all HTTP/1.1
@@ -2493,7 +2496,7 @@ Content-Type: application/yang-data+json
         <t></t>
 
         <t><figure anchor="Getr"
-            title="Retrieve the Configuration Data and State Data for the Filtering Rules: Response">
+            title="Retrieve the Configuration Data and State Data for the Filtering Rules (Response Message Body)">
             <artwork align="left"><![CDATA[{
   "ietf-dots-data-channel:acls": {
     "acl": [
@@ -2542,7 +2545,7 @@ Content-Type: application/yang-data+json
         'config'.</t>
 
         <t><figure anchor="GEtc"
-            title="Retrieve the Configuration Data for a Filtering Rule: GET Request">
+            title="Retrieve the Configuration Data for a Filtering Rule (GET Request)">
             <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel:dots-data\
       /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
       /acl=test-acl-ipv6-udp?content=config HTTP/1.1
@@ -2554,7 +2557,7 @@ Content-Type: application/yang-data+json
         target="GEtcr"></xref>.</t>
 
         <t><figure anchor="GEtcr"
-            title="Retrieve the Configuration Data for a Filtering Rule: Response">
+            title="Retrieve the Configuration Data for a Filtering Rule (Response Message Body)">
             <artwork align="left"><![CDATA[{
   "ietf-dots-data-channel:acls": {
     "acl": [
@@ -2602,7 +2605,7 @@ Content-Type: application/yang-data+json
         this GET request is shown in <xref target="GEtncr"></xref>.</t>
 
         <t><figure anchor="GEtnc"
-            title="Retrieve the Non-Configuration Data for a Filtering Rule: GET Request">
+            title="Retrieve the Non-Configuration Data for a Filtering Rule (GET Request)">
             <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel:dots-data\
       /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
       /acl=test-acl-ipv6-udp?content=non-config HTTP/1.1
@@ -2611,7 +2614,7 @@ Content-Type: application/yang-data+json
           </figure></t>
 
         <t><figure anchor="GEtncr"
-            title="Retrieve the Non-Configuration Data for a Filtering Rule: GET Request">
+            title="Retrieve the Non-Configuration Data for a Filtering Rule (Response Message Body)">
             <artwork align="left"><![CDATA[{
   "ietf-dots-data-channel:acls":  {
     "acl": [
@@ -2649,7 +2652,7 @@ Content-Type: application/yang-data+json
         target="install"></xref>.</t>
 
         <figure anchor="Figure9"
-                title="Remove a Filtering Rule: DELETE Request ">
+                title="Remove a Filtering Rule (DELETE Request)">
           <artwork align="left"><![CDATA[  DELETE  /restconf/data/ietf-dots-data-channel:dots-data\
           /dots-client=dz6pHjaADkaFTbjr0JGBpw/acls\
           /acl=sample-ipv4-acl HTTP/1.1
@@ -2659,10 +2662,11 @@ Content-Type: application/yang-data+json
         <t></t>
 
         <t><xref target="Figure9a"></xref> shows an example of a response
-        received from the server to confirm the deletion of
+        received from the DOTS server to confirm the deletion of
         "sample-ipv4-acl".</t>
 
-        <t><figure anchor="Figure9a" title="Remove a Filtering Rule: Response">
+        <t><figure anchor="Figure9a"
+            title="Remove a Filtering Rule (Response)">
             <artwork align="left"><![CDATA[ HTTP/1.1 204 No Content
  Server: Apache
  Date: Fri, 27 Jul 2018 10:05:15 GMT
@@ -2795,8 +2799,6 @@ Content-Type: application/yang-data+json
       <?rfc include="reference.I-D.ietf-netmod-acl-model"?>
 
       <?rfc include="reference.I-D.ietf-dots-signal-channel"?>
-
-      <?rfc include="reference.RFC.5246"?>
 
       <?rfc include="reference.RFC.7951"?>
 
