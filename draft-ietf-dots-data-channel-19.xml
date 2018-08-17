@@ -156,7 +156,7 @@
       </address>
     </author>
 
-    <date />
+    <date day="28" month="September" year="2018" />
 
     <workgroup>DOTS</workgroup>
 
@@ -1905,9 +1905,9 @@ module ietf-dots-data-channel {
 
       <section anchor="unregistering" title="Unregistering DOTS Clients">
         <t>A DOTS client de-registers from its DOTS server(s) by deleting the
-        'cuid' resource. Resources bound to this DOTS client will be deleted
-        by the DOTS server. An example of a de-register request is shown in
-        <xref target="derigister"></xref>.</t>
+        'cuid' resource(s). Resources bound to this DOTS client will be
+        deleted by the DOTS server. An example of a de-register request is
+        shown in <xref target="derigister"></xref>.</t>
 
         <t><figure align="center" anchor="derigister"
             title="De-register a DOTS Client">
