@@ -156,7 +156,7 @@
       </address>
     </author>
 
-    <date day="28" month="September" year="2018" />
+    <date day="06" month="November" year="2018" />
 
     <workgroup>DOTS</workgroup>
 
@@ -263,14 +263,13 @@
           blankLines="1" />Refer to <xref target="identifier"></xref> for more
           details.</t>
 
-          <t>Filter management, which enables a DOTS client to request the
-          installation or withdrawal of traffic filters, dropping or
-          rate-limiting unwanted traffic, and permitting accept-listed
-          traffic. A DOTS client is entitled to instruct filtering rules only
-          on IP resources that belong to its domain.<vspace
-          blankLines="1" />Sample use cases for populating drop- or
-          accept-list filtering rules are detailed hereafter: <list
-              style="symbols">
+          <t>Policy management, which enables a DOTS client to request the
+          installation or withdrawal of traffic filters, dropping or rate-
+          limiting unwanted traffic, and permitting accept-listed traffic. A
+          DOTS client is entitled to instruct filtering rules only on IP
+          resources that belong to its domain.<vspace blankLines="1" />Sample
+          use cases for populating drop- or accept-list filtering rules are
+          detailed hereafter: <list style="symbols">
               <t>If a network resource (DOTS client) detects a potential DDoS
               attack from a set of IP addresses, the DOTS client informs its
               servicing DOTS gateway of all suspect IP addresses that need to
@@ -580,7 +579,7 @@
             DOTS server about sources from which traffic should always be
             accepted.</t>
 
-            <t>Filter management, which enables a DOTS client to request the
+            <t>Policy management, which enables a DOTS client to request the
             installation or withdrawal of traffic filters, dropping or
             rate-limiting unwanted traffic and permitting accept-listed
             traffic.</t>
