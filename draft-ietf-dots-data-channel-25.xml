@@ -10,7 +10,7 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-<rfc category="std" docName="draft-ietf-dots-data-channel-25"
+<rfc category="std" docName="draft-ietf-dots-data-channel-26"
      ipr="trust200902">
   <front>
     <title abbrev="DOTS Data Channel Protocol">Distributed Denial-of-Service
@@ -156,7 +156,7 @@
       </address>
     </author>
 
-    <date day="17" month="January" year="2019" />
+    <date day="15" month="February" year="2019" />
 
     <workgroup>DOTS</workgroup>
 
@@ -260,12 +260,13 @@
           details.</t>
 
           <t>Policy management, which enables a DOTS client to request the
-          installation or withdrawal of traffic filters, dropping or rate-
-          limiting unwanted traffic, and permitting accept-listed traffic. A
-          DOTS client is entitled to instruct filtering rules only on IP
-          resources that belong to its domain.<vspace blankLines="1" />Sample
-          use cases for populating drop- or accept-list filtering rules are
-          detailed hereafter: <list style="symbols">
+          installation or withdrawal of traffic filters, dropping or
+          rate-limiting unwanted traffic, and permitting accept-listed
+          traffic. A DOTS client is entitled to instruct filtering rules only
+          on IP resources that belong to its domain.<vspace
+          blankLines="1" />Sample use cases for populating drop- or
+          accept-list filtering rules are detailed hereafter: <list
+              style="symbols">
               <t>If a network resource (DOTS client) detects a potential DDoS
               attack from a set of IP addresses, the DOTS client informs its
               servicing DOTS gateway of all suspect IP addresses that need to
@@ -301,8 +302,8 @@
       target="I-D.ietf-dots-requirements"></xref>.</t>
 
       <t>The terminology for describing YANG modules is defined in <xref
-      target="RFC7950"></xref>. The meaning of the symbols in tree diagrams is
-      defined in <xref target="RFC8340"></xref>.</t>
+      target="RFC7950"></xref>. The meaning of the symbols in the tree
+      diagrams is defined in <xref target="RFC8340"></xref>.</t>
 
       <t>This document generalizes the notion of Access Control List (ACL) so
       that it is not device-specific <xref
@@ -659,7 +660,7 @@
 
         <t>DOTS forwarding actions can be 'accept' (i.e., accept matching
         traffic) or 'drop' (i.e., drop matching traffic without sending any
-        ICMP error message). Accepted traffic can be subject to rate limiting
+        ICMP error message). Accepted traffic can be subject to rate-limiting
         'rate-limit'. Note that 'reject' action (i.e., drop matching traffic
         and send an ICMP error message to the source) is not supported in
         'ietf-dots-data-channel' because it is not appropriate in the context
@@ -2064,15 +2065,12 @@ module ietf-dots-data-channel {
             attribute.</t>
 
             <t hangText="target-fqdn: ">A list of Fully Qualified Domain Names
-            (FQDNs). An FQDN is the full name of a resource, rather than just
-            its hostname. For example, "venera" is a hostname, and
-            "venera.isi.edu" is an FQDN <xref target="RFC1983"></xref>. Refer
-            to <xref target="I-D.ietf-dnsop-terminology-bis"></xref> for more
-            details. <vspace blankLines="1" />How a name is passed to an
-            underlying name resolution library is implementation- and
-            deployment-specific. Nevertheless, once the name is resolved into
-            one or multiple IP addresses, DOTS servers MUST apply the same
-            validation checks as those for 'target-prefix'.<vspace
+            (FQDNs) identifying resources under attack <xref
+            target="RFC8499"></xref>.<vspace blankLines="1" />How a name is
+            passed to an underlying name resolution library is implementation-
+            and deployment-specific. Nevertheless, once the name is resolved
+            into one or multiple IP addresses, DOTS servers MUST apply the
+            same validation checks as those for 'target-prefix'.<vspace
             blankLines="1" />The use of FQDNs may be suboptimal because it
             does not guarantee that the DOTS server will resolve a name to the
             same IP addresses that the DOTS client does.<vspace
@@ -2919,7 +2917,7 @@ Content-Type: application/yang-data+json
 
       <?rfc include="reference.I-D.ietf-dots-architecture"?>
 
-      <?rfc include='reference.I-D.ietf-dnsop-terminology-bis'?>
+      <?rfc include='reference.RFC.8499'?>
 
       <?rfc include='reference.RFC.4340'?>
 
