@@ -383,7 +383,7 @@
         modules supported by its DOTS server.</t>
 
         <t>JavaScript Object Notation (JSON) <xref target="RFC8259"> </xref>
-        payload is used to propagate the DOTS data channel specific payload
+        payloads are used to propagate the DOTS data-channel-specific payload
         messages that carry request parameters and response information, such
         as errors. This specification uses the encoding rules defined in <xref
         target="RFC7951"></xref> for representing DOTS data channel
@@ -420,13 +420,13 @@
         specifies the behavior when no instruction is supplied to a DOTS
         server.</t>
 
-        <t>How filtering rules instantiated on a DOTS server are translated
-        into network configurations actions is out of scope.</t>
+        <t>How filtering rules that are instantiated on a DOTS server are translated
+        into network configurations actions is out of scope of this specification.</t>
       </section>
 
       <section title="DOTS Server(s) Discovery">
-        <t>This document assumes that DOTS clients are provisioned with the
-        reachability information of their DOTS server(s) using a variety of
+        <t>This document assumes that DOTS clients are provisioned with a
+        way to know how to reach their DOTS server(s), which could occur by several
         means (e.g., local configuration, or dynamic means such as DHCP). The
         specification of such means are out of scope of this document.</t>
 
@@ -450,7 +450,7 @@
             Session Traversal Utilities for NAT (STUN) <xref
             target="RFC5389"></xref> may be used to retrieve the external
             addresses/prefixes and/or port numbers. Information retrieved by
-            means of PCP or STUN will be used to feed the DOTS data channel
+            means of PCP or STUN will be used to populate the DOTS data channel
             messages that will be sent to a DOTS server.</t>
 
             <t>A DOTS gateway may be co-located with the translator. The DOTS
@@ -492,7 +492,7 @@
             <t>If it detects that its own information is present in the "Via"
             header, the DOTS gateway MUST NOT forward the DOTS message.
             Messages that cannot be forwarded because of a loop SHOULD be
-            logged with a "508 Loop Detected" status-line returned sent back
+            logged with a "508 Loop Detected" status-line sent back
             to the DOTS peer. The structure of the reported error is depicted
             in <xref target="looperr"></xref>.<vspace blankLines="1" /><figure
                 align="center" anchor="looperr" title="Loop Detected Error">
@@ -514,8 +514,8 @@
 
         <t>Unless configured otherwise, DOTS gateways at the boundaries of a
         DOTS client domain SHOULD remove the previous "Via" header information
-        after checking for a loop before forwarding. This behavior is required
-        for topology hiding purposes but also to minimize potential conflicts
+        after checking for a loop before forwarding. This behavior provides
+        for topology hiding but can also serve to minimize potential conflicts
         that may arise if overlapping information is used in distinct DOTS
         domains (e.g., private IPv4 addresses, non globally unique
         aliases).</t>
@@ -586,10 +586,9 @@
         <t>The tree structure for the DOTS filtering entries is depicted in
         <xref target="tacl"></xref>.</t>
 
-        <t>Early versions of this document investigated to what extent
-        augmenting 'ietf-access-control-list' meet DOTS requirements, but that
-        design approach was abandoned because it does not support meeting many
-        of DOTS requirements, e.g.,</t>
+        <t>Investigations into the prospect of augmenting
+        'ietf-access-control-list' to meet DOTS requirements concluded that
+        such a design approach did not support many of the DOTS requirements, e.g.:</t>
 
         <t><list style="symbols">
             <t>Retrieve a filtering entry (or all entries) created by a DOTS
@@ -599,7 +598,7 @@
             client.</t>
           </list></t>
 
-        <t>DOTS filtering entries (i.e., Access Control List (ACL)) mimic the
+        <t>Accordingly, new DOTS filtering entries (i.e., Access Control List (ACL)) are defined that mimic the
         structure specified in <xref
         target="I-D.ietf-netmod-acl-model"></xref>. Concretely, DOTS agents
         are assumed to manipulate an ordered list of ACLs; each ACL contains a
@@ -1132,7 +1131,7 @@ module ietf-dots-data-channel {
           "Match bit.  If set, this is a bitwise match operation
            defined as '(data & value) == value'; if unset, (data &
            value) evaluates to TRUE if any of the bits in the value
-           mask are set in the data.";
+           mask are set in the data, i.e., '(data & value) != 0'.";
       }
     }
     description
@@ -1155,7 +1154,8 @@ module ietf-dots-data-channel {
          of the TCP header, which contains bits 8 though 15
          of the 4th 32-bit word.  When a 2-byte encoding is used, 
          it matches bytes 12 and 13 of the TCP header with 
-         the data offset field having a 'don't care' value.";
+         the bitmask fields corresponding to the TCP data offset
+         field being ignored for purposes of matching.";
     }
     description
       "Operations on TCP flags.";
@@ -1640,8 +1640,8 @@ module ietf-dots-data-channel {
           type boolean;
           description
             "Indicates the capability of a DOTS server to 
-             enforce filters on IPv4 fragments. That is 'fragment' 
-             clause is supported.";
+             enforce filters on IPv4 fragments. That is, all the
+             functionality of the 'fragment' clause is supported.";
         }
       }
       container ipv6 {
@@ -2049,6 +2049,7 @@ module ietf-dots-data-channel {
             <t hangText="target-port-range: ">A range of port numbers. <vspace
             blankLines="1" />The port range is defined by two bounds, a lower
             port number (lower-port) and an upper port number (upper-port).
+            The range is considered to include both the lower and upper bounds.
             <vspace blankLines="1" />When only 'lower-port' is present, it
             represents a single port number. <vspace blankLines="1" />For TCP,
             UDP, Stream Control Transmission Protocol (SCTP) <xref
@@ -2153,7 +2154,7 @@ Content-Type: application/yang-data+json
       </section>
 
       <section anchor="ralias" title="Retrieve Installed Aliases">
-        <t>GET request is used to retrieve one or all installed aliases by a
+        <t>A GET request is used to retrieve one or all installed aliases by a
         DOTS client from a DOTS server (Section 3.3.1 in <xref
         target="RFC8040"></xref>). If no 'name' is included in the request,
         this is an indication that the request is about retrieving all aliases
@@ -2161,7 +2162,7 @@ Content-Type: application/yang-data+json
 
         <t><xref target="Figure4"></xref> shows an example to retrieve all the
         aliases that were instantiated by the requesting DOTS client. The
-        'content' parameter and its permitted values are defined in Section
+        'content' query parameter and its permitted values are defined in Section
         4.8.1 of <xref target="RFC8040"></xref>.</t>
 
         <figure anchor="Figure4" title="GET to Retrieve All Installed Aliases">
@@ -2239,7 +2240,7 @@ Content-Type: application/yang-data+json
       </section>
 
       <section anchor="dalias" title="Delete Aliases">
-        <t>DELETE request is used to delete an alias maintained by a DOTS
+        <t>A DELETE request is used to delete an alias maintained by a DOTS
         server.</t>
 
         <t>If the DOTS server does not find the alias name, conveyed in the
@@ -2455,7 +2456,8 @@ Content-Type: application/yang-data+json
         <t>The "insert" query parameter (Section 4.8.5 of <xref
         target="RFC8040"></xref>) MAY be used to specify how an access control
         entry is inserted within an ACL and how an ACL is inserted within an
-        ACL set.</t>
+        ACL set, though limitations of RESTCONF require that only one level
+        of the hierarchy can be ordered in a given request.</t>
 
         <t>The DOTS client uses the PUT request to modify its filtering rules
         maintained by the DOTS server. In particular, a DOTS client MUST
@@ -2466,16 +2468,16 @@ Content-Type: application/yang-data+json
         minutes (1 week). If no refresh request is seen from the DOTS client,
         the DOTS server removes expired entries. Typically, a refresh request
         is a PUT request which echoes the content of a response to a GET
-        request with all of the read-only parameters stripped out (e.g.
+        request with all of the read-only parameters stripped out (e.g.,
         pending-lifetime).</t>
       </section>
 
       <section anchor="rfilter" title="Retrieve Installed Filtering Rules  ">
         <t>A DOTS client periodically queries its DOTS server to check the
-        counters for installed filtering rules. GET request is used to
+        counters for installed filtering rules. A GET request is used to
         retrieve filtering rules from a DOTS server. In order to indicate
         which type of data is requested in a GET request, the DOTS client sets
-        adequately the 'content' parameter.</t>
+        adequately the 'content' query parameter.</t>
 
         <t>If the DOTS server does not find the access list name conveyed in
         the GET request in its configuration data for this DOTS client, it
@@ -2542,7 +2544,7 @@ Content-Type: application/yang-data+json
 
         <t>The DOTS client can issue a GET request to retrieve all its
         filtering rules and the number of matches for the installed filtering
-        rules as illustrated in <xref target="Get"></xref>. 'content'
+        rules as illustrated in <xref target="Get"></xref>. The 'content' query
         parameter is set to 'all'. The message body of the response to this
         GET request is shown in <xref target="Getr"></xref>.</t>
 
@@ -2604,7 +2606,7 @@ Content-Type: application/yang-data+json
 
         <t>Also, a DOTS client can issue a GET request to retrieve only
         configuration data related to an ACL as shown in <xref
-        target="GEtc"></xref>. It does so by setting 'content' parameter to
+        target="GEtc"></xref>. It does so by setting the 'content' query parameter to
         'config'.</t>
 
         <t><figure anchor="GEtc"
@@ -2662,7 +2664,7 @@ Content-Type: application/yang-data+json
 }]]></artwork>
           </figure></t>
 
-        <t>A DOTS client can also issue a GET request with 'content' parameter
+        <t>A DOTS client can also issue a GET request with 'content' query parameter
         to 'non-config' to exclusively retrieve non-configuration data bound
         to a given ACL as shown in <xref target="GEtc"></xref>. A response to
         this GET request is shown in <xref target="GEtncr"></xref>.</t>
@@ -2700,7 +2702,7 @@ Content-Type: application/yang-data+json
       </section>
 
       <section anchor="dfilter" title="Remove Filtering Rules">
-        <t>DELETE request is used by a DOTS client to delete filtering rules
+        <t>A DELETE request is used by a DOTS client to delete filtering rules
         from a DOTS server.</t>
 
         <t>If the DOTS server does not find the access list name carried in
@@ -2746,12 +2748,12 @@ Content-Type: application/yang-data+json
       account:</t>
 
       <t><list style="symbols">
-          <t>DOTS server MUST NOT enable both DOTS data channel and direct
-          configuration to avoid race conditions and inconsistent
+          <t>DOTS servers MUST NOT enable both DOTS data channel and direct
+          configuration, to avoid race conditions and inconsistent
           configurations arising from simultaneous updates from multiple
           sources.</t>
 
-          <t>DOTS agents SHOULD enable DOTS data channel to configure aliases
+          <t>DOTS agents SHOULD enable the DOTS data channel to configure aliases
           and ACLs, and only use direct configuration as a stop-gap mechanism
           to test DOTS signal channel with aliases and ACLs. Further, direct
           configuration SHOULD only be used when the on-path DOTS agents are
@@ -2805,7 +2807,7 @@ Content-Type: application/yang-data+json
       TLS reveals the attacker IP addresses and legitimate IP addresses only
       to the DOTS server trusted by the DOTS client. The secure communication
       channel between DOTS agents provides privacy and prevents a network
-      eavesdropper from gaining access to the drop- and accept-listed IP
+      eavesdropper from directly gaining access to the drop- and accept-listed IP
       addresses.</t>
 
       <t>An attacker may be able to inject RST packets, bogus application
@@ -2824,19 +2826,19 @@ Content-Type: application/yang-data+json
 
       <t>DOTS servers MUST verify that requesting DOTS clients are entitled to
       enforce filtering rules on a given IP prefix. That is, only filtering
-      rules on IP resources that belong to the DOTS client's domain MUST be
+      rules on IP resources that belong to the DOTS client's domain can be
       authorized by a DOTS server. The exact mechanism for the DOTS servers to
       validate that the target prefixes are within the scope of the DOTS
       client's domain is deployment-specific.</t>
 
       <t>Rate-limiting DOTS requests, including those with new 'cuid' values,
       from the same DOTS client defends against DoS attacks that would result
-      in varying the 'cuid' to exhaust DOTS server resources. Rate-limit
+      from varying the 'cuid' to exhaust DOTS server resources. Rate-limit
       policies SHOULD be enforced on DOTS gateways (if deployed) and DOTS
       servers.</t>
 
       <t>Applying resources quota per DOTS client and/or per DOTS client
-      domain (e.g., limit the number of aliases and filters to be install by
+      domain (e.g., limit the number of aliases and filters to be installed by
       DOTS clients) prevents DOTS server resources to be aggressively used by
       some DOTS clients and ensures, therefore, DDoS mitigation usage
       fairness. Additionally, DOTS servers may limit the number of DOTS
