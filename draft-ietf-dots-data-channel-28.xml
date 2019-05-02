@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="22" month="February" year="2019" />
+    <date day="02" month="May" year="2019" />
 
     <workgroup>DOTS</workgroup>
 
@@ -206,12 +206,11 @@
       diagrams is defined in <xref target="RFC8340"></xref>.</t>
 
       <t>This document generalizes the notion of Access Control List (ACL) so
-      that it is not device-specific <xref
-      target="I-D.ietf-netmod-acl-model"></xref>. As such, this document
-      defines an ACL as an ordered set of rules that is used to filter
-      traffic. Each rule is represented by an Access Control Entry (ACE). ACLs
-      communicated via the DOTS data channel are not bound to a device
-      interface.</t>
+      that it is not device-specific <xref target="RFC8519"></xref>. As such,
+      this document defines an ACL as an ordered set of rules that is used to
+      filter traffic. Each rule is represented by an Access Control Entry
+      (ACE). ACLs communicated via the DOTS data channel are not bound to a
+      device interface.</t>
 
       <t>For the sake of simplicity, all of the examples in this document use
       "/restconf" as the discovered RESTCONF API root path. Many protocol
@@ -268,17 +267,16 @@
 
         <t>DOTS data channel configuration information as well as state
         information can be retrieved with the GET method. An HTTP status-line
-        header field is returned for each request to report success or failure
-        for RESTCONF operations (Section 5.4 of <xref
-        target="RFC8040"></xref>). The "error-tag" provides more information
-        about encountered errors (Section 7 of <xref
-        target="RFC8040"></xref>).</t>
+        is returned for each request to report success or failure for RESTCONF
+        operations (Section 5.4 of <xref target="RFC8040"></xref>). The
+        "error-tag" provides more information about encountered errors
+        (Section 7 of <xref target="RFC8040"></xref>).</t>
 
         <t>DOTS clients perform the root resource discovery procedure
         discussed in Section 3.1 of <xref target="RFC8040"></xref> to
         determine the root of the RESTCONF API. After discovering the RESTCONF
         API root, a DOTS client uses this value as the initial part of the
-        path in the request URI, in any subsequent request to the DOTS server.
+        path in the request URI in any subsequent request to the DOTS server.
         The DOTS server may support the retrieval of the YANG modules it
         supports (Section 3.7 in <xref target="RFC8040"></xref>). For example,
         a DOTS client may use RESTCONF to retrieve the vendor-specific YANG
@@ -330,7 +328,7 @@
 
             <t>a DOTS client can re-establish the disconnected DOTS session
             after an attack is mitigated and sends a GET message before a
-            configuration change request. </t>
+            configuration change request.</t>
           </list></t>
 
         <t>NAT considerations for the DOTS data channel are similar to those
@@ -390,10 +388,10 @@
         support the procedure defined in Section 5.7.1 of <xref
         target="RFC7230"></xref>. In particular, each intermediate DOTS
         gateway MUST check that none of its own information (e.g., server
-        names, literal IP addresses) is present in the "Via" header of a DOTS
-        message it receives:<list style="symbols">
+        names, literal IP addresses) is present in the "Via" header field of a
+        DOTS message it receives:<list style="symbols">
             <t>If it detects that its own information is present in the "Via"
-            header, the DOTS gateway MUST NOT forward the DOTS message.
+            header field, the DOTS gateway MUST NOT forward the DOTS message.
             Messages that cannot be forwarded because of a loop SHOULD be
             logged with a "508 Loop Detected" status-line returned sent back
             to the DOTS peer. The structure of the reported error is depicted
@@ -402,13 +400,13 @@
                 <artwork><![CDATA[error-app-tag:  loop-detected
 error-tag:      operation-failed
 error-type:     transport, application
-error-info:     <via-header> : A copy of the Via header when
+error-info:     <via-header> : A copy of the Via header field when
                 the loop was detected.
 Description:    An infinite loop has been detected when forwarding
                 a requests via a proxy.
 ]]></artwork>
               </figure><vspace blankLines="1" />It is RECOMMENDED that DOTS
-            clients and gateways support means to alert administrators about
+            clients and gateways support methods to alert administrators about
             loop errors so that appropriate actions are undertaken.</t>
 
             <t>Otherwise, the DOTS agent MUST update or insert the "Via"
@@ -416,12 +414,12 @@ Description:    An infinite loop has been detected when forwarding
           </list></t>
 
         <t>Unless configured otherwise, DOTS gateways at the boundaries of a
-        DOTS client domain SHOULD remove the previous "Via" header information
-        after checking for a loop before forwarding. This behavior is required
-        for topology hiding purposes but can also serve to minimize potential
-        conflicts that may arise if overlapping information is used in
-        distinct DOTS domains (e.g., private IPv4 addresses, non globally
-        unique aliases).</t>
+        DOTS client domain SHOULD remove the previous "Via" header field
+        information after checking for a loop before forwarding. This behavior
+        is required for topology hiding purposes but can also serve to
+        minimize potential conflicts that may arise if overlapping information
+        is used in distinct DOTS domains (e.g., private IPv4 addresses, non
+        globally unique aliases).</t>
       </section>
 
       <section title="Stale Entries">
@@ -507,10 +505,10 @@ Description:    An infinite loop has been detected when forwarding
 
         <t>Accordingly, new DOTS filtering entries (i.e., Access Control List
         (ACL)) are defined that mimic the structure specified in <xref
-        target="I-D.ietf-netmod-acl-model"></xref>. Concretely, DOTS agents
-        are assumed to manipulate an ordered list of ACLs; each ACL contains a
-        separately ordered list of Access Control Entries (ACEs). Each ACE has
-        a group of match and a group of action criteria.</t>
+        target="RFC8519"></xref>. Concretely, DOTS agents are assumed to
+        manipulate an ordered list of ACLs; each ACL contains a separately
+        ordered list of Access Control Entries (ACEs). Each ACE has a group of
+        match and a group of action criteria.</t>
 
         <t>Once all the ACE entries have been iterated though with no match,
         then all the following ACL's ACE entries are iterated through until
@@ -578,22 +576,22 @@ Description:    An infinite loop has been detected when forwarding
 
       <section anchor="filf" title="Filtering Fields">
         <t>The 'ietf-dots-data-channel' module reuses the packet fields module
-        'ietf-packet-fields' <xref target="I-D.ietf-netmod-acl-model"></xref>
-        which defines matching on fields in the packet including IPv4, IPv6,
-        and transport layer fields. The 'ietf-dots-data-channel' module can be
-        augmented, for example, to support additional protocol-specific
-        matching fields.</t>
+        'ietf-packet-fields' <xref target="RFC8519"></xref> which defines
+        matching on fields in the packet including IPv4, IPv6, and transport
+        layer fields. The 'ietf-dots-data-channel' module can be augmented,
+        for example, to support additional protocol-specific matching
+        fields.</t>
 
         <t>This specification defines a new IPv4/IPv6 matching field called
         'fragment' to efficiently handle fragment-related filtering rules.
-        Indeed, <xref target="I-D.ietf-netmod-acl-model"></xref> does not
-        support such capability for IPv6 but offers a partial support for IPv4
-        by means of 'flags'. Nevertheless, the use of 'flags' is problematic
-        since it does not allow to define a bitmask. For example, setting
-        other bits not covered by the 'flags' filtering clause in a packet
-        will allow that packet to get through (because it won't match the
-        ACE). Sample examples to illustrate how 'fragment' can be used are
-        provided in <xref target="frag"></xref>.</t>
+        Indeed, <xref target="RFC8519"></xref> does not support such
+        capability for IPv6 but offers a partial support for IPv4 by means of
+        'flags'. Nevertheless, the use of 'flags' is problematic since it does
+        not allow to define a bitmask. For example, setting other bits not
+        covered by the 'flags' filtering clause in a packet will allow that
+        packet to get through (because it won't match the ACE). Sample
+        examples to illustrate how 'fragment' can be used are provided in
+        <xref target="frag"></xref>.</t>
 
         <t><xref target="tipv4"></xref> shows the IPv4 match subtree.</t>
 
@@ -696,10 +694,9 @@ Description:    An infinite loop has been detected when forwarding
           </figure></t>
 
         <t><xref target="ttcp"></xref> shows the TCP match subtree. In
-        addition to the fields defined in <xref
-        target="I-D.ietf-netmod-acl-model"></xref>, this specification defines
-        a new TCP matching field, called 'flags-bitmask', to efficiently
-        handle TCP flags filtering rules.</t>
+        addition to the fields defined in <xref target="RFC8519"></xref>, this
+        specification defines a new TCP matching field, called
+        'flags-bitmask', to efficiently handle TCP flags filtering rules.</t>
 
         <t><figure align="center" anchor="ttcp"
             title="DOTS ACLs Subtree (TCP Match)">
@@ -729,7 +726,11 @@ Description:    An infinite loop has been detected when forwarding
    |           |   |   +--rw options?                  binary
    |           |   |   +--rw flags-bitmask
    |           |   |   |  +--rw operator?            operator
-   |           |   |   |  +--rw bitmask                uint16
+   |           |   |   |  +--rw (bitmask)?
+   |           |   |   |     +--:(bitmask-one-byte)
+   |           |   |   |     |  +--rw bitmask-one-byte?   uint8
+   |           |   |   |     +--:(bitmask-two-bytes)
+   |           |   |   |        +--rw bitmask-two-bytes?  uint16
    |           |   |   +--rw (source-port)?
    |           |   |   |  +--:(source-port-range-or-operator)
    |           |   |   |     +--rw source-port-range-or-operator
@@ -774,7 +775,7 @@ Description:    An infinite loop has been detected when forwarding
         <t><xref target="ttransport"></xref> shows the UDP and ICMP match
         subtrees. The same structure is used for both ICMP and ICMPv6. The
         indication whether an ACL is about ICMP or ICMPv6 is governed by the
-        'l3' match.</t>
+        'l3' match or the ACL type.</t>
 
         <t><figure align="center" anchor="ttransport"
             title="DOTS ACLs Subtree (UDP and ICMP Match)">
@@ -950,7 +951,7 @@ Description:    An infinite loop has been detected when forwarding
       <section title="YANG Module">
         <t>This module uses the common YANG types defined in <xref
         target="RFC6991"></xref> and types defined in <xref
-        target="I-D.ietf-netmod-acl-model"></xref>. <figure>
+        target="RFC8519"></xref>. <figure>
             <artwork><![CDATA[<CODE BEGINS> file "ietf-dots-data-channel@2019-02-14.yang"
 module ietf-dots-data-channel {
   yang-version 1.1;
@@ -964,8 +965,8 @@ module ietf-dots-data-channel {
   import ietf-access-control-list {
     prefix ietf-acl;
     reference
-      "RFC 8519: Network Access Control List (ACL) 
-                 YANG Data Model";
+      "RFC 8519: YANG Data Model for Network Access 
+                 Control Lists (ACLs)";
   }
   import ietf-packet-fields {
     prefix packet-fields;
@@ -1080,9 +1081,7 @@ module ietf-dots-data-channel {
       description
         "Specifies how to interpret the TCP flags.";
     }
-    leaf bitmask {
-      type uint16;
-      mandatory true;
+    choice bitmask {
       description
         "Bitmask values can be encoded as a 1- or 2-byte bitmask.  
          When a single byte is specified, it matches byte 13 
@@ -1091,6 +1090,24 @@ module ietf-dots-data-channel {
          it matches bytes 12 and 13 of the TCP header with 
          the bitmask fields corresponding to the TCP data offset
          field being ignored for purposes of matching.";
+      case bitmask-one-byte {
+        leaf bitmask-one-byte {
+          type uint8;
+          description
+            "The bitmask matches byte 13 of the TCP header, 
+             which contains bits 8 though 15 of the 4th 32-bit
+             word.";
+        }
+      }
+      case bitmask-two-bytes {
+        leaf bitmask-two-bytes {
+          type uint16;
+          description
+            "It matches bytes 12 and 13 of the TCP header with 
+             the bitmask fields corresponding to the TCP data 
+             offset field being ignored for purposes of matching.";    
+        } 
+      }
     }
     description
       "Operations on TCP flags.";
@@ -1148,7 +1165,7 @@ module ietf-dots-data-channel {
         must '. >= ../lower-port' {
           error-message
             "The upper port number must be greater than
-             or equal to lower port number.";
+             or equal to the lower-port number.";
         }
         description
           "Upper port number of the port range.";
@@ -1196,15 +1213,15 @@ module ietf-dots-data-channel {
 
   grouping aliases {
     description
-      "Top level container for aliases";
+      "Top level container for aliases.";
     list alias {
       key "name";
       description
-        "List of aliases";
+        "List of aliases.";
       leaf name {
         type string;
         description
-          "The name of the alias";
+          "The name of the alias.";
       }
       uses target;
       leaf pending-lifetime {
@@ -1322,7 +1339,7 @@ module ietf-dots-data-channel {
                          Control Lists (ACLs)";
             choice l3 {
               container ipv4 {
-                when "derived-from(../../../../type,"
+                when "derived-from(../../../../type, "
                    + "'ietf-acl:ipv4-acl-type')";
                 uses packet-fields:acl-ip-header-fields;
                 uses packet-fields:acl-ipv4-header-fields;
@@ -1335,7 +1352,7 @@ module ietf-dots-data-channel {
                   "Rule set that matches IPv4 header.";
               }
               container ipv6 {
-                when "derived-from(../../../../type,"
+                when "derived-from(../../../../type, "
                    + "'ietf-acl:ipv6-acl-type')";
                 uses packet-fields:acl-ip-header-fields;
                 uses packet-fields:acl-ipv6-header-fields;
@@ -1535,7 +1552,7 @@ module ietf-dots-data-channel {
         leaf flags {
           type boolean;
           description
-            "Support of filtering based on the 'flags'";
+            "Support of filtering based on the 'flags'.";
         }
         leaf offset {
           type boolean;
@@ -1562,7 +1579,7 @@ module ietf-dots-data-channel {
           description
             "Indicates the capability of a DOTS server to 
              enforce filters on IPv4 fragments. That is, the match
-             functionality based on the layer 3 'fragment' clause
+             functionality based on the Layer 3 'fragment' clause
              is supported.";
         }
       }
@@ -1686,8 +1703,8 @@ module ietf-dots-data-channel {
 
              This includes filtering based on a source port range, 
              destination port range, or both. All operators 
-             (i.e, less than or equal, greater than or equal, equal to,
-             and not equal to) are supported.";
+             (i.e, less than or equal to, greater than or equal to, 
+             equal to, and not equal to) are supported.";
         }
       }
       container udp {
@@ -1762,6 +1779,7 @@ module ietf-dots-data-channel {
             <artwork align="left"><![CDATA[ POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
  Host: {host}:{port}
  Content-Type: application/yang-data+json
+
  {
    "ietf-dots-data-channel:dots-client": [
      {
@@ -1795,6 +1813,7 @@ module ietf-dots-data-channel {
             <artwork align="left"><![CDATA[ POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
  Host: {host}:{port}
  Content-Type: application/yang-data+json
+
  {
    "ietf-dots-data-channel:dots-client": [
      {
@@ -1829,6 +1848,7 @@ module ietf-dots-data-channel {
             <artwork align="left"><![CDATA[ POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
  Host: example.com
  Content-Type: application/yang-data+json
+
  {
    "ietf-dots-data-channel:dots-client": [
      {
@@ -1846,8 +1866,8 @@ module ietf-dots-data-channel {
 
         <t>DOTS servers can identify the DOTS client domain using the 'cdid'
         parameter or using the client's DNS name specified in the Subject
-        Alternative Name extension's dNSName type or SRV-ID in the client
-        certificate.</t>
+        Alternative Name extension's dNSName type in the client certificate
+        <xref target="RFC6125"></xref>.</t>
 
         <t>DOTS servers MUST limit the number of 'dots-client' resources to be
         created by the same DOTS client to 1 per request. Requests with
@@ -1887,6 +1907,7 @@ module ietf-dots-data-channel {
      /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
  Host: example.com
  Content-Type: application/yang-data+json
+
  {
    "ietf-dots-data-channel:dots-client": [
      {
@@ -1896,9 +1917,9 @@ module ietf-dots-data-channel {
  }]]></artwork>
           </figure></t>
 
-        <t>The DOTS gateway, that inserted a 'cdid' in a PUT request, MUST
-        strip the 'cdid' parameter in the corresponding response before
-        forwarding the response to the DOTS client.</t>
+        <t>The DOTS gateway that inserted a 'cdid' in a PUT request MUST strip
+        the 'cdid' parameter in the corresponding response before forwarding
+        the response to the DOTS client.</t>
       </section>
 
       <section anchor="unregistering" title="Unregistering DOTS Clients">
@@ -1941,6 +1962,7 @@ module ietf-dots-data-channel {
       /dots-client=cuid HTTP/1.1
  Host: {host}:{port}
  Content-Type: application/yang-data+json
+
  {
   "ietf-dots-data-channel:aliases": {
     "alias": [
@@ -1984,7 +2006,7 @@ module ietf-dots-data-channel {
             NOT include broadcast, loopback, or multicast addresses. These
             addresses are considered as invalid values. In addition, the DOTS
             server MUST validate that these prefixes are within the scope of
-            the DOTS client's domain. Other validation checks may be supported
+            the DOTS client domain. Other validation checks may be supported
             by DOTS servers.<vspace blankLines="1" />This is an optional
             attribute.</t>
 
@@ -2047,6 +2069,7 @@ module ietf-dots-data-channel {
      /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
 Host: www.example.com
 Content-Type: application/yang-data+json
+
 {
   "ietf-dots-data-channel:aliases": {
     "alias": [
@@ -2077,7 +2100,7 @@ Content-Type: application/yang-data+json
         client, if the request is conflicting with an existing alias name. The
         error-tag "resource-denied" is used in this case.</t>
 
-        <t>If the request is missing a mandatory attribute or its contains an
+        <t>If the request is missing a mandatory attribute or it contains an
         invalid or unknown parameter, "400 Bad Request" status-line MUST be
         returned by the DOTS server. The error-tag is set to
         "missing-attribute", "invalid-value", or "unknown-element" as a
@@ -2235,7 +2258,7 @@ Content-Type: application/yang-data+json
         capabilities supported by its DOTS server, SHOULD NOT request for
         filtering actions that are not supported by that DOTS server.</t>
 
-        <t><xref target="capex"></xref> shows an example of a response
+        <t><xref target="capex"></xref> shows an example of a response body
         received from a DOTS server which supports:<list style="symbols">
             <t>IPv4, IPv6, TCP, UDP, ICMP, and ICMPv6 mandatory match criteria
             listed in <xref target="filf"></xref>.</t>
@@ -2244,9 +2267,8 @@ Content-Type: application/yang-data+json
           </list></t>
 
         <t><figure anchor="capex"
-            title="Reply to a GET Request with Filtering Capabilities">
-            <artwork align="left"><![CDATA[ Content-Type: application/yang-data+json
- {
+            title="Reply to a GET Request with Filtering Capabilities (Message Body)">
+            <artwork align="left"><![CDATA[ {
   "ietf-dots-data-channel:capabilities": {
     "address-family": ["ipv4", "ipv6"],
     "forwarding-actions": ["drop", "accept"],
@@ -2300,6 +2322,7 @@ Content-Type: application/yang-data+json
       /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
  Host: example.com
  Content-Type: application/yang-data+json
+
  {
   "ietf-dots-data-channel:acls": {
     "acl": [
@@ -2363,10 +2386,10 @@ Content-Type: application/yang-data+json
 
             <t hangText="destination-ipv4-network:">The destination IPv4
             prefix. DOTS servers MUST validate that these prefixes are within
-            the scope of the DOTS client's domain. Other validation checks may
+            the scope of the DOTS client domain. Other validation checks may
             be supported by DOTS servers. If this attribute is not provided,
             the DOTS server enforces the ACL on any destination IP address
-            that belong to the DOTS client's domain. <vspace
+            that belong to the DOTS client domain. <vspace
             blankLines="1" />This is a mandatory attribute in requests with an
             'activation-type' set to 'immediate'.</t>
 
@@ -2384,12 +2407,12 @@ Content-Type: application/yang-data+json
           </list></t>
 
         <t>The DOTS server indicates the result of processing the POST request
-        using the status-line header. Concretely, "201 Created" status-line
-        MUST be returned in the response if the DOTS server has accepted the
-        filtering rules. If the request is missing a mandatory attribute or
-        contains an invalid or unknown parameter (e.g., a match field not
-        supported by the DOTS server), "400 Bad Request" status-line MUST be
-        returned by the DOTS server in the response. The error-tag is set to
+        using the status-line. Concretely, "201 Created" status-line MUST be
+        returned in the response if the DOTS server has accepted the filtering
+        rules. If the request is missing a mandatory attribute or contains an
+        invalid or unknown parameter (e.g., a match field not supported by the
+        DOTS server), "400 Bad Request" status-line MUST be returned by the
+        DOTS server in the response. The error-tag is set to
         "missing-attribute", "invalid-value", or "unknown-element" as a
         function of the encountered error.</t>
 
@@ -2446,6 +2469,7 @@ Content-Type: application/yang-data+json
     /acl=test-acl-ipv6-udp HTTP/1.1
 Host: example.com
 Content-Type: application/yang-data+json
+
 {
   "ietf-dots-data-channel:acls": {
     "acl": [
@@ -2618,7 +2642,7 @@ Content-Type: application/yang-data+json
         <t>A DOTS client can also issue a GET request with a "content" query
         parameter set to 'non-config' to exclusively retrieve
         non-configuration data bound to a given ACL as shown in <xref
-        target="GEtc"></xref>. A response to this GET request is shown in
+        target="GEtnc"></xref>. A response to this GET request is shown in
         <xref target="GEtncr"></xref>.</t>
 
         <t><figure anchor="GEtnc"
@@ -2730,10 +2754,10 @@ Content-Type: application/yang-data+json
         </figure> This document requests IANA to register the following YANG
       module in the "YANG Module Names" subregistry <xref
       target="RFC7950"></xref> within the "YANG Parameters" registry.<figure>
-          <artwork><![CDATA[         name: ietf-dots-data-channel
-         namespace: urn:ietf:params:xml:ns:yang:ietf-dots-data-channel
-         prefix: data-channel
-         reference: RFC XXXX]]></artwork>
+          <artwork><![CDATA[         Name: ietf-dots-data-channel
+         Namespace: urn:ietf:params:xml:ns:yang:ietf-dots-data-channel
+         Prefix: data-channel
+         Reference: RFC XXXX]]></artwork>
         </figure></t>
 
       <t>This module is not maintained by IANA.</t>
@@ -2776,10 +2800,10 @@ Content-Type: application/yang-data+json
 
       <t>DOTS servers MUST verify that requesting DOTS clients are entitled to
       enforce filtering rules on a given IP prefix. That is, only filtering
-      rules on IP resources that belong to the DOTS client's domain can be
+      rules on IP resources that belong to the DOTS client domain can be
       authorized by a DOTS server. The exact mechanism for the DOTS servers to
       validate that the target prefixes are within the scope of the DOTS
-      client's domain is deployment-specific.</t>
+      client domain is deployment-specific.</t>
 
       <t>Rate-limiting DOTS requests, including those with new 'cuid' values,
       from the same DOTS client defends against DoS attacks that would result
@@ -2794,6 +2818,14 @@ Content-Type: application/yang-data+json
       fairness. Additionally, DOTS servers may limit the number of DOTS
       clients that can be enabled per domain.</t>
 
+      <t>When FQDNs are used as targets, the DOTS server MUST rely upon DNS
+      privacy enabling protocols (e.g., DNS over TLS <xref
+      target="RFC7858"></xref> or DoH <xref target="RFC8484"></xref>) to
+      prevent eavesdroppers from possibly identifying the target resources
+      protected by the DDoS mitigation service, and means to ensure the target
+      FQDN resolution is authentic (e.g., DNSSEC <xref
+      target="RFC4034"></xref>).</t>
+
       <t>The presence of DOTS gateways may lead to infinite forwarding loops,
       which is undesirable. To prevent and detect such loops, a mechanism is
       defined in <xref target="loops"></xref>.</t>
@@ -2802,13 +2834,12 @@ Content-Type: application/yang-data+json
       modified, and deleted (i.e., config true, which is the default) are
       considered sensitive. Write operations applied to these data nodes
       without proper protection can negatively affect network operations. This
-      module reuses YANG structures from <xref
-      target="I-D.ietf-netmod-acl-model"></xref>, and the security
-      considerations for those nodes continue to apply for this usage.
-      Appropriate security measures are recommended to prevent illegitimate
-      users from invoking DOTS data channel primitives. Nevertheless, an
-      attacker who can access a DOTS client is technically capable of
-      launching various attacks, such as:<list style="symbols">
+      module reuses YANG structures from <xref target="RFC8519"></xref>, and
+      the security considerations for those nodes continue to apply for this
+      usage. Appropriate security measures are recommended to prevent
+      illegitimate users from invoking DOTS data channel primitives.
+      Nevertheless, an attacker who can access a DOTS client is technically
+      capable of launching various attacks, such as:<list style="symbols">
           <t>Setting an arbitrarily low rate-limit, which may prevent
           legitimate traffic from being forwarded (rate-limit).</t>
 
@@ -2880,8 +2911,8 @@ Content-Type: application/yang-data+json
 
     <section anchor="ack" title="Acknowledgements">
       <t>Thanks to Christian Jacquenet, Roland Dobbins, Roman Danyliw, Ehud
-      Doron, Russ White, Gilbert Clark, Kathleen Moriarty, and Nesredien
-      Suleiman for the discussion and comments.</t>
+      Doron, Russ White, Gilbert Clark, Kathleen Moriarty, Nesredien Suleiman,
+      Roni Even, and Brian Trammel for the discussion and comments.</t>
 
       <t>The authors would like to give special thanks to Kaname Nishizuka and
       Jon Shallow for their efforts in implementing the protocol and
@@ -2890,6 +2921,9 @@ Content-Type: application/yang-data+json
       <t>Many thanks to Ben Kaduk for the detailed AD review.</t>
 
       <t>Thanks to Martin Bjorklund for the guidance on RESTCONF.</t>
+
+      <t>Thanks to Alexey Melnikov, Adam Roach, Suresh Krishnan, Mirja
+      K&uuml;hlewind, and Warren Kumari for the review. </t>
     </section>
   </middle>
 
@@ -2901,7 +2935,7 @@ Content-Type: application/yang-data+json
 
       <?rfc include="reference.RFC.8040"?>
 
-      <?rfc include="reference.I-D.ietf-netmod-acl-model"?>
+      <?rfc include="reference.RFC.8519"?>
 
       <?rfc include="reference.I-D.ietf-dots-signal-channel"?>
 
@@ -2920,6 +2954,8 @@ Content-Type: application/yang-data+json
       <?rfc include="reference.RFC.7950"?>
 
       <?rfc include="reference.RFC.8259"?>
+
+      <?rfc include='reference.RFC.6125'?>
     </references>
 
     <references title="Informative References">
@@ -2928,6 +2964,12 @@ Content-Type: application/yang-data+json
       <?rfc include="reference.I-D.ietf-dots-architecture"?>
 
       <?rfc include='reference.RFC.8499'?>
+
+      <?rfc include='reference.RFC.4034'?>
+
+      <?rfc include='reference.RFC.7858'?>
+
+      <?rfc include='reference.RFC.8484'?>
 
       <?rfc include='reference.RFC.4340'?>
 
@@ -2981,6 +3023,7 @@ Content-Type: application/yang-data+json
       /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
  Host: example.com
  Content-Type: application/yang-data+json
+
  {
   "ietf-dots-data-channel:acls": {
     "acl": [
@@ -3048,6 +3091,7 @@ Content-Type: application/yang-data+json
       /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
  Host: example.com
  Content-Type: application/yang-data+json
+
  {
   "ietf-dots-data-channel:acls": {
     "acl": [
