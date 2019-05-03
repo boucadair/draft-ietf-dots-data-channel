@@ -3943,9 +3943,9 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 Appendix B.  Sample Examples: Filtering TCP Messages
 
-   Figure 36 depicts an example of a DOTS request sent by a DOTS client
-   to allow incoming IPv4 TCP messages having ACK or RST flags set.
-
+   Figure 37 shows an example of a DOTS request sent by a DOTS client to
+   install immediately a filter to discard incoming IPv4 TCP messages
+   having all flags unset.
 
 
 
@@ -3989,20 +3989,20 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        "acl": [{
          "name": "tcp-flags-example",
          "type": "ipv4-acl-type",
-         "activation-type": "activate-when-mitigating",
+         "activation-type": "imediate",
          "aces": {
            "ace": [{
-             "name": "tcp-flags-1",
+             "name": "null-attack",
              "matches": {
                "tcp": {
                  "flags-bitmask": {
-                   "operator": "any",
-                   "bitmask": 20
+                   "operator": "match",
+                   "bitmask": 0
                  }
                }
              },
              "actions": {
-               "forwarding": "accept"
+               "forwarding": "drop"
              }
            }]
          }
@@ -4010,11 +4010,11 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
      }
    }
 
-    Figure 36: Example of a DOTS Request to Allow Incoming TCP Messages
+   Figure 36: Example of a DOTS Request to Deny TCP Null Attack Messages
 
    Figure 37 depicts an example of a DOTS request sent by a DOTS client
-   to discard incoming IPv6 TCP messages with a TCP flag bitmask equal
-   to 1024.
+   to allow incoming IPv4 TCP messages having ACK or RST flags set.
+
 
 
 
@@ -4044,21 +4044,21 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
      "ietf-dots-data-channel:acls": {
        "acl": [{
          "name": "tcp-flags-example",
-         "type": "ipv6-acl-type",
+         "type": "ipv4-acl-type",
          "activation-type": "activate-when-mitigating",
          "aces": {
            "ace": [{
-             "name": "tcp-flags-2",
+             "name": "tcp-flags-1",
              "matches": {
                "tcp": {
                  "flags-bitmask": {
-                   "operator": "match",
-                   "bitmask": 1024
+                   "operator": "any",
+                   "bitmask": 20
                  }
                }
              },
              "actions": {
-               "forwarding": "drop"
+               "forwarding": "accept"
              }
            }]
          }
@@ -4066,7 +4066,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
      }
    }
 
-   Figure 37: Example of a DOTS Request to Discard Incoming TCP Messages
+    Figure 37: Example of a DOTS Request to Allow Incoming TCP Messages
 
 Authors' Addresses
 

@@ -3131,6 +3131,46 @@ Content-Type: application/yang-data+json
     </section>
 
     <section anchor="flags" title="Sample Examples: Filtering TCP Messages">
+      <t><xref target="ex1"></xref> shows an example of a DOTS request sent by
+      a DOTS client to install immediately a filter to discard incoming IPv4
+      TCP messages having all flags unset. </t>
+
+      <t><figure anchor="ex3"
+          title="Example of a DOTS Request to Deny TCP Null Attack Messages">
+          <artwork><![CDATA[PUT /restconf/data/ietf-dots-data-channel:dots-data\
+       /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+       /acl=tcp-flags-example HTTP/1.1
+Host: example.com
+Content-Type: application/yang-data+json
+
+{
+  "ietf-dots-data-channel:acls": {
+    "acl": [{
+      "name": "tcp-flags-example",
+      "type": "ipv4-acl-type",
+      "activation-type": "imediate",
+      "aces": {
+        "ace": [{
+          "name": "null-attack",
+          "matches": {
+            "tcp": {
+              "flags-bitmask": {
+                "operator": "match",
+                "bitmask": 0
+              }
+            }
+          },
+          "actions": {
+            "forwarding": "drop"
+          }
+        }]
+      }
+    }]
+  }
+}
+]]></artwork>
+        </figure></t>
+
       <t><xref target="ex1"></xref> depicts an example of a DOTS request sent
       by a DOTS client to allow incoming IPv4 TCP messages having ACK or RST
       flags set. </t>
@@ -3162,46 +3202,6 @@ Content-Type: application/yang-data+json
           },
           "actions": {
             "forwarding": "accept"
-          }
-        }]
-      }
-    }]
-  }
-}
-]]></artwork>
-        </figure></t>
-
-      <t><xref target="ex2"></xref> depicts an example of a DOTS request sent
-      by a DOTS client to discard incoming IPv6 TCP messages with a TCP flag
-      bitmask equal to 1024. </t>
-
-      <t><figure anchor="ex2"
-          title="Example of a DOTS Request to Discard Incoming TCP Messages">
-          <artwork><![CDATA[PUT /restconf/data/ietf-dots-data-channel:dots-data\
-       /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
-       /acl=tcp-flags-example HTTP/1.1
-Host: example.com
-Content-Type: application/yang-data+json
-
-{
-  "ietf-dots-data-channel:acls": {
-    "acl": [{
-      "name": "tcp-flags-example",
-      "type": "ipv6-acl-type",
-      "activation-type": "activate-when-mitigating",
-      "aces": {
-        "ace": [{
-          "name": "tcp-flags-2",
-          "matches": {
-            "tcp": {
-              "flags-bitmask": {
-                "operator": "match",
-                "bitmask": 1024
-              }
-            }
-          },
-          "actions": {
-            "forwarding": "drop"
           }
         }]
       }
