@@ -4013,7 +4013,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
     Figure 36: Example of a DOTS Request to Allow Incoming TCP Messages
 
    Figure 37 depicts an example of a DOTS request sent by a DOTS client
-   to discard incoming IPv4 TCP messages with a TCP flag bitmask equat
+   to discard incoming IPv6 TCP messages with a TCP flag bitmask equal
    to 1024.
 
 
@@ -4044,7 +4044,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
      "ietf-dots-data-channel:acls": {
        "acl": [{
          "name": "tcp-flags-example",
-         "type": "ipv4-acl-type",
+         "type": "ipv6-acl-type",
          "activation-type": "activate-when-mitigating",
          "aces": {
            "ace": [{

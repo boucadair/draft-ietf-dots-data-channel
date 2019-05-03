@@ -3172,8 +3172,8 @@ Content-Type: application/yang-data+json
         </figure></t>
 
       <t><xref target="ex2"></xref> depicts an example of a DOTS request sent
-      by a DOTS client to discard incoming IPv4 TCP messages with a TCP flag
-      bitmask equat to 1024. </t>
+      by a DOTS client to discard incoming IPv6 TCP messages with a TCP flag
+      bitmask equal to 1024. </t>
 
       <t><figure anchor="ex2"
           title="Example of a DOTS Request to Discard Incoming TCP Messages">
@@ -3187,7 +3187,7 @@ Content-Type: application/yang-data+json
   "ietf-dots-data-channel:acls": {
     "acl": [{
       "name": "tcp-flags-example",
-      "type": "ipv4-acl-type",
+      "type": "ipv6-acl-type",
       "activation-type": "activate-when-mitigating",
       "aces": {
         "ace": [{
@@ -3210,6 +3210,8 @@ Content-Type: application/yang-data+json
 }
 ]]></artwork>
         </figure></t>
+
+      <t></t>
     </section>
   </back>
 </rfc>
