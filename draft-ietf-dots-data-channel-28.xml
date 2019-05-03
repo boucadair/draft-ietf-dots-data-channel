@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="02" month="May" year="2019" />
+    <date day="03" month="May" year="2019" />
 
     <workgroup>DOTS</workgroup>
 
@@ -696,7 +696,8 @@ Description:    An infinite loop has been detected when forwarding
         <t><xref target="ttcp"></xref> shows the TCP match subtree. In
         addition to the fields defined in <xref target="RFC8519"></xref>, this
         specification defines a new TCP matching field, called
-        'flags-bitmask', to efficiently handle TCP flags filtering rules.</t>
+        'flags-bitmask', to efficiently handle TCP flags filtering rules. Some
+        examples are provided in <xref target="flags"></xref>.</t>
 
         <t><figure align="center" anchor="ttcp"
             title="DOTS ACLs Subtree (TCP Match)">
@@ -726,11 +727,7 @@ Description:    An infinite loop has been detected when forwarding
    |           |   |   +--rw options?                  binary
    |           |   |   +--rw flags-bitmask
    |           |   |   |  +--rw operator?            operator
-   |           |   |   |  +--rw (bitmask)?
-   |           |   |   |     +--:(bitmask-one-byte)
-   |           |   |   |     |  +--rw bitmask-one-byte?   uint8
-   |           |   |   |     +--:(bitmask-two-bytes)
-   |           |   |   |        +--rw bitmask-two-bytes?  uint16
+   |           |   |   |  +--rw bitmask                uint16
    |           |   |   +--rw (source-port)?
    |           |   |   |  +--:(source-port-range-or-operator)
    |           |   |   |     +--rw source-port-range-or-operator
@@ -1064,10 +1061,17 @@ module ietf-dots-data-channel {
       bit match {
         position 1;
         description
-          "Match bit.  If set, this is a bitwise match operation
+          "Match bit. If set, this is a bitwise match operation
            defined as '(data & value) == value'; if unset, (data &
            value) evaluates to TRUE if any of the bits in the value
            mask are set in the data , i.e., '(data & value) != 0'.";
+      }
+      bit any {
+        position 3;
+        description
+          "Any bit. If set, this is a match on any of the bits in 
+           bitmask. This bit must not be set when 'not'
+           and/or 'match' bits are set.";
       }
     }
     description
@@ -1081,33 +1085,16 @@ module ietf-dots-data-channel {
       description
         "Specifies how to interpret the TCP flags.";
     }
-    choice bitmask {
+    leaf bitmask {
+      type uint16;
+      mandatory true;
       description
-        "Bitmask values can be encoded as a 1- or 2-byte bitmask.  
-         When a single byte is specified, it matches byte 13 
-         of the TCP header, which contains bits 8 though 15
-         of the 4th 32-bit word.  When a 2-byte encoding is used, 
-         it matches bytes 12 and 13 of the TCP header with 
-         the bitmask fields corresponding to the TCP data offset
+        "When a value in the 0-255 range is specified, it 
+         matches byte 13 of the TCP header, which contains bits 8 
+         though 15 of the 4th 32-bit word.  When a value in the 0-4095 
+         range is used, it matches bytes 12 and 13 of the TCP header 
+         with the bitmask fields corresponding to the TCP data offset
          field being ignored for purposes of matching.";
-      case bitmask-one-byte {
-        leaf bitmask-one-byte {
-          type uint8;
-          description
-            "The bitmask matches byte 13 of the TCP header, 
-             which contains bits 8 though 15 of the 4th 32-bit
-             word.";
-        }
-      }
-      case bitmask-two-bytes {
-        leaf bitmask-two-bytes {
-          type uint16;
-          description
-            "It matches bytes 12 and 13 of the TCP header with 
-             the bitmask fields corresponding to the TCP data 
-             offset field being ignored for purposes of matching.";    
-        } 
-      }
     }
     description
       "Operations on TCP flags.";
@@ -3139,6 +3126,88 @@ Content-Type: application/yang-data+json
     ]
   }
  }
+]]></artwork>
+        </figure></t>
+    </section>
+
+    <section anchor="flags" title="Sample Examples: Filtering TCP Messages">
+      <t><xref target="ex1"></xref> depicts an example of a DOTS request sent
+      by a DOTS client to allow incoming IPv4 TCP messages having ACK or RST
+      flags set. </t>
+
+      <t><figure anchor="ex1"
+          title="Example of a DOTS Request to Allow Incoming TCP Messages">
+          <artwork><![CDATA[PUT /restconf/data/ietf-dots-data-channel:dots-data\
+       /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+       /acl= tcp-flags-example HTTP/1.1
+Host: example.com
+Content-Type: application/yang-data+json
+
+{
+  "ietf-dots-data-channel:acls": {
+    "acl": [{
+      "name": "tcp-flags-example",
+      "type": "ipv4-acl-type",
+      "activation-type": "activate-when-mitigating",
+      "aces": {
+        "ace": [{
+          "name": "tcp-flags-1",
+          "matches": {
+            "tcp": {
+              "flags-bitmask": {
+                "operator": "any",
+                "bitmask": 20
+              }
+            }
+          },
+          "actions": {
+            "forwarding": "accept"
+          }
+        }]
+      }
+    }]
+  }
+}
+]]></artwork>
+        </figure></t>
+
+      <t><xref target="ex2"></xref> depicts an example of a DOTS request sent
+      by a DOTS client to discard incoming IPv4 TCP messages with a TCP flag
+      bitmask equat to 1024. </t>
+
+      <t><figure anchor="ex2"
+          title="Example of a DOTS Request to Discard Incoming TCP Messages">
+          <artwork><![CDATA[PUT /restconf/data/ietf-dots-data-channel:dots-data\
+       /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+       /acl= tcp-flags-example HTTP/1.1
+Host: example.com
+Content-Type: application/yang-data+json
+
+{
+  "ietf-dots-data-channel:acls": {
+    "acl": [{
+      "name": "tcp-flags-example",
+      "type": "ipv4-acl-type",
+      "activation-type": "activate-when-mitigating",
+      "aces": {
+        "ace": [{
+          "name": "tcp-flags-2",
+          "matches": {
+            "tcp": {
+              "flags-bitmask": {
+                "operator": "match",
+                "bitmask": 1024
+              }
+            }
+          },
+          "actions": {
+            "forwarding": "drop"
+          }
+        }]
+      }
+    }]
+  }
+}
 ]]></artwork>
         </figure></t>
     </section>

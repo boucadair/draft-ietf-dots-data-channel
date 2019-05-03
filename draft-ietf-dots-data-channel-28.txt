@@ -5,8 +5,8 @@
 DOTS                                                   M. Boucadair, Ed.
 Internet-Draft                                                    Orange
 Intended status: Standards Track                           T. Reddy, Ed.
-Expires: November 3, 2019                                         McAfee
-                                                            May 02, 2019
+Expires: November 4, 2019                                         McAfee
+                                                            May 03, 2019
 
 
 Distributed Denial-of-Service Open Threat Signaling (DOTS) Data Channel
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Boucadair & Reddy       Expires November 3, 2019                [Page 1]
+Boucadair & Reddy       Expires November 4, 2019                [Page 1]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -61,7 +61,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on November 3, 2019.
+   This Internet-Draft will expire on November 4, 2019.
 
 Copyright Notice
 
@@ -94,7 +94,7 @@ Table of Contents
      4.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .  20
    5.  Managing DOTS Clients . . . . . . . . . . . . . . . . . . . .  37
      5.1.  Registering DOTS Clients  . . . . . . . . . . . . . . . .  37
-     5.2.  Unregistering DOTS Clients  . . . . . . . . . . . . . . .  41
+     5.2.  Unregistering DOTS Clients  . . . . . . . . . . . . . . .  40
    6.  Managing DOTS Aliases . . . . . . . . . . . . . . . . . . . .  41
      6.1.  Create Aliases  . . . . . . . . . . . . . . . . . . . . .  41
      6.2.  Retrieve Installed Aliases  . . . . . . . . . . . . . . .  45
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Boucadair & Reddy       Expires November 3, 2019                [Page 2]
+Boucadair & Reddy       Expires November 4, 2019                [Page 2]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -122,7 +122,8 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
      14.1.  Normative References . . . . . . . . . . . . . . . . . .  65
      14.2.  Informative References . . . . . . . . . . . . . . . . .  67
    Appendix A.  Sample Examples: Filtering Fragments . . . . . . . .  68
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  71
+   Appendix B.  Sample Examples: Filtering TCP Messages  . . . . . .  71
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  73
 
 1.  Introduction
 
@@ -160,16 +161,17 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    suspicious.  The DOTS signal channel is further elaborated in
    [I-D.ietf-dots-signal-channel].
 
-   As for the DOTS data channel, it is used for infrequent bulk data
-   exchange between DOTS agents to significantly improve the
 
 
 
-Boucadair & Reddy       Expires November 3, 2019                [Page 3]
+
+Boucadair & Reddy       Expires November 4, 2019                [Page 3]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
+   As for the DOTS data channel, it is used for infrequent bulk data
+   exchange between DOTS agents to significantly improve the
    coordination of all the parties involved in the response to the
    attack.  Section 2 of [I-D.ietf-dots-architecture] mentions that the
    DOTS data channel is used to perform the following tasks:
@@ -219,9 +221,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-
-
-Boucadair & Reddy       Expires November 3, 2019                [Page 4]
+Boucadair & Reddy       Expires November 4, 2019                [Page 4]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -277,7 +277,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019                [Page 5]
+Boucadair & Reddy       Expires November 4, 2019                [Page 5]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -333,7 +333,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019                [Page 6]
+Boucadair & Reddy       Expires November 4, 2019                [Page 6]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -389,7 +389,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019                [Page 7]
+Boucadair & Reddy       Expires November 4, 2019                [Page 7]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -445,7 +445,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019                [Page 8]
+Boucadair & Reddy       Expires November 4, 2019                [Page 8]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -501,7 +501,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019                [Page 9]
+Boucadair & Reddy       Expires November 4, 2019                [Page 9]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -557,7 +557,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 10]
+Boucadair & Reddy       Expires November 4, 2019               [Page 10]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -613,7 +613,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 11]
+Boucadair & Reddy       Expires November 4, 2019               [Page 11]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -669,7 +669,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 12]
+Boucadair & Reddy       Expires November 4, 2019               [Page 12]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -725,7 +725,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 13]
+Boucadair & Reddy       Expires November 4, 2019               [Page 13]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -781,7 +781,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 14]
+Boucadair & Reddy       Expires November 4, 2019               [Page 14]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -837,13 +837,13 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 15]
+Boucadair & Reddy       Expires November 4, 2019               [Page 15]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
    field, called 'flags-bitmask', to efficiently handle TCP flags
-   filtering rules.
+   filtering rules.  Some examples are provided in Appendix B.
 
    module: ietf-dots-data-channel
    +--rw dots-data
@@ -871,11 +871,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
       |           |   |   +--rw options?                  binary
       |           |   |   +--rw flags-bitmask
       |           |   |   |  +--rw operator?            operator
-      |           |   |   |  +--rw (bitmask)?
-      |           |   |   |     +--:(bitmask-one-byte)
-      |           |   |   |     |  +--rw bitmask-one-byte?   uint8
-      |           |   |   |     +--:(bitmask-two-bytes)
-      |           |   |   |        +--rw bitmask-two-bytes?  uint16
+      |           |   |   |  +--rw bitmask                uint16
       |           |   |   +--rw (source-port)?
       |           |   |   |  +--:(source-port-range-or-operator)
       |           |   |   |     +--rw source-port-range-or-operator
@@ -890,18 +886,18 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
       |           |   |   |              |       operator
       |           |   |   |              +--rw port
       |           |   |   |                      inet:port-number
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 16]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
       |           |   |   +--rw (destination-port)?
       |           |   |      +--:(destination-port-range-or-operator)
       |           |   |         +--rw destination-port-range-or-operator
       |           |   |            +--rw (port-range-or-operator)?
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 16]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
       |           |   |               +--:(range)
       |           |   |               |  +--rw lower-port
       |           |   |               |  |       inet:port-number
@@ -946,18 +942,18 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
     |         |     +--:(tcp)
     |         |     |  ...
     |         |     +--:(udp)
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 17]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
     |         |     |  +--rw udp
     |         |     |     +--rw length?          uint16
     |         |     |     +--rw (source-port)?
     |         |     |     |  +--:(source-port-range-or-operator)
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 17]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
     |         |     |     |     +--rw source-port-range-or-operator
     |         |     |     |        +--rw (port-range-or-operator)?
     |         |     |     |           +--:(range)
@@ -1002,16 +998,17 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
       match based on the IP header (IPv4 and IPv6), match based on the
       transport header (TCP, UDP, and ICMP), and any combination
+      thereof.  The same matching fields are used for both ICMP and
+      ICMPv6.
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 18]
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 18]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
-
-      thereof.  The same matching fields are used for both ICMP and
-      ICMPv6.
 
    The following match fields MUST be supported by DOTS implementations
    (Table 1):
@@ -1058,17 +1055,17 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
              |  +--ro destination-prefix?   boolean
              |  +--ro fragment?             boolean
              +--ro ipv6
+             |  +--ro dscp?                 boolean
+             |  +--ro ecn?                  boolean
+             |  +--ro length?               boolean
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 19]
+Boucadair & Reddy       Expires November 4, 2019               [Page 19]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-             |  +--ro dscp?                 boolean
-             |  +--ro ecn?                  boolean
-             |  +--ro length?               boolean
              |  +--ro hoplimit?             boolean
              |  +--ro protocol?             boolean
              |  +--ro destination-prefix?   boolean
@@ -1114,17 +1111,17 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    import ietf-inet-types {
      prefix inet;
      reference "Section 4 of RFC 6991";
+   }
+   import ietf-access-control-list {
+     prefix ietf-acl;
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 20]
+Boucadair & Reddy       Expires November 4, 2019               [Page 20]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-   }
-   import ietf-access-control-list {
-     prefix ietf-acl;
      reference
        "RFC 8519: YANG Data Model for Network Access
                   Control Lists (ACLs)";
@@ -1170,16 +1167,16 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
       aliases for resources and filtering rules using DOTS
       data channel.
 
+      Copyright (c) 2019 IETF Trust and the persons identified as
+      authors of the code.  All rights reserved.
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 21]
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 21]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
-
-      Copyright (c) 2019 IETF Trust and the persons identified as
-      authors of the code.  All rights reserved.
 
       Redistribution and use in source and binary forms, with or
       without modification, is permitted pursuant to, and subject
@@ -1226,25 +1223,32 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    typedef operator {
      type bits {
        bit not {
+         position 0;
+         description
+           "If set, logical negation of operation.";
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 22]
+Boucadair & Reddy       Expires November 4, 2019               [Page 22]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-         position 0;
-         description
-           "If set, logical negation of operation.";
        }
        bit match {
          position 1;
          description
-           "Match bit.  If set, this is a bitwise match operation
+           "Match bit. If set, this is a bitwise match operation
             defined as '(data & value) == value'; if unset, (data &
             value) evaluates to TRUE if any of the bits in the value
             mask are set in the data , i.e., '(data & value) != 0'.";
+       }
+       bit any {
+         position 3;
+         description
+           "Any bit. If set, this is a match on any of the bits in
+            bitmask. This bit must not be set when 'not'
+            and/or 'match' bits are set.";
        }
      }
      description
@@ -1258,41 +1262,16 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        description
          "Specifies how to interpret the TCP flags.";
      }
-     choice bitmask {
+     leaf bitmask {
+       type uint16;
+       mandatory true;
        description
-         "Bitmask values can be encoded as a 1- or 2-byte bitmask.
-          When a single byte is specified, it matches byte 13
-          of the TCP header, which contains bits 8 though 15
-          of the 4th 32-bit word.  When a 2-byte encoding is used,
-          it matches bytes 12 and 13 of the TCP header with
-          the bitmask fields corresponding to the TCP data offset
+         "When a value in the 0-255 range is specified, it
+          matches byte 13 of the TCP header, which contains bits 8
+          though 15 of the 4th 32-bit word.  When a value in the 0-4095
+          range is used, it matches bytes 12 and 13 of the TCP header
+          with the bitmask fields corresponding to the TCP data offset
           field being ignored for purposes of matching.";
-       case bitmask-one-byte {
-         leaf bitmask-one-byte {
-           type uint8;
-           description
-             "The bitmask matches byte 13 of the TCP header,
-              which contains bits 8 though 15 of the 4th 32-bit
-              word.";
-         }
-       }
-       case bitmask-two-bytes {
-         leaf bitmask-two-bytes {
-           type uint16;
-           description
-             "It matches bytes 12 and 13 of the TCP header with
-              the bitmask fields corresponding to the TCP data
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 23]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
-              offset field being ignored for purposes of matching.";
-         }
-       }
      }
      description
        "Operations on TCP flags.";
@@ -1303,6 +1282,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        bit df {
          position 0;
          description
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 23]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
            "Don't fragment bit for IPv4.
             Must be set to 0 when it appears in an IPv6 filter.";
        }
@@ -1338,14 +1325,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        key "lower-port";
        description
          "Port range. When only lower-port is
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 24]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
           present, it represents a single port number.";
        leaf lower-port {
          type inet:port-number;
@@ -1359,6 +1338,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
            error-message
              "The upper port number must be greater than
               or equal to the lower-port number.";
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 24]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
          }
          description
            "Upper port number of the port range.";
@@ -1394,14 +1381,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        description
          "Specifies how to interpret the fragment type.";
      }
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 25]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
      leaf type {
        type fragment-type;
        mandatory true;
@@ -1415,6 +1394,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    grouping aliases {
      description
        "Top level container for aliases.";
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 25]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
      list alias {
        key "name";
        description
@@ -1450,14 +1437,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
      choice destination-port {
        container destination-port-range-or-operator {
          uses packet-fields:port-range-or-operator;
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 26]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
          description
            "Destination port definition.";
        }
@@ -1471,6 +1450,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    grouping access-lists {
      description
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 26]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
        "Specifies the ordered set of Access Control Lists.";
      list acl {
        key "name";
@@ -1506,14 +1493,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
             deactivated, installed immediately, or installed when
             a mitigation is active.";
        }
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 27]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
        leaf pending-lifetime {
          type int32;
          units "minutes";
@@ -1527,6 +1506,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
            "The Access Control Entries container contains
             a list of ACEs.";
          list ace {
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 27]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
            key "name";
            ordered-by user;
            description
@@ -1562,14 +1549,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
                  uses packet-fields:acl-ipv4-header-fields;
                  container fragment {
                    description
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 28]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
                      "Indicates how to handle IPv4 fragments.";
                    uses fragment-fields;
                  }
@@ -1583,6 +1562,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
                  uses packet-fields:acl-ipv6-header-fields;
                  container fragment {
                    description
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 28]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
                      "Indicates how to handle IPv6 fragments.";
                    uses fragment-fields;
                  }
@@ -1618,14 +1605,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
                description
                  "Can be TCP, UDP, or ICMP/ICMPv6";
              }
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 29]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
            }
            container actions {
              description
@@ -1639,6 +1618,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
                  "Specifies the forwarding action per ACE.";
                reference
                  "RFC 8519: YANG Data Model for Network Access
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 29]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
                             Control Lists (ACLs)";
              }
              leaf rate-limit {
@@ -1674,14 +1661,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        description
          "List of DOTS clients.";
        leaf cuid {
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 30]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
          type string;
          description
            "A unique identifier that is generated by a DOTS client
@@ -1695,6 +1674,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          description
            "A client domain identifier conveyed by a
             server-domain DOTS gateway to a remote DOTS server.";
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 30]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
          reference
            "RFC YYYY: Distributed Denial-of-Service Open Threat
                    Signaling (DOTS) Signal Channel Specification";
@@ -1730,14 +1717,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
             the DOTS server.";
        }
        leaf-list forwarding-actions {
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 31]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
          type identityref {
            base ietf-acl:forwarding-action;
          }
@@ -1751,6 +1730,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        }
        leaf-list transport-protocols {
          type uint8;
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 31]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
          description
            "Upper-layer protocol associated with a filtering rule.
 
@@ -1786,14 +1773,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
            type boolean;
            description
              "Support of filtering based on the Time to Live (TTL).";
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 32]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
          }
          leaf protocol {
            type boolean;
@@ -1807,6 +1786,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
               Length (IHL).";
          }
          leaf flags {
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 32]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
            type boolean;
            description
              "Support of filtering based on the 'flags'.";
@@ -1842,14 +1829,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        }
        container ipv6 {
          description
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 33]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
            "Indicates IPv6 header fields that are supported to enforce
             ACLs.";
          leaf dscp {
@@ -1863,6 +1842,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
              "Support of filtering based on ECN.";
          }
          leaf length {
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 33]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
            type boolean;
            description
              "Support of filtering based on the Payload Length.";
@@ -1898,14 +1885,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
              "Indicates the capability of a DOTS server to
               enforce filters on IPv6 fragments.";
          }
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 34]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
        }
        container tcp {
          description
@@ -1919,6 +1898,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          leaf acknowledgement-number {
            type boolean;
            description
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 34]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
              "Support of filtering based on the TCP acknowledgement
               number.";
          }
@@ -1954,14 +1941,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
              "Support of filtering based on the TCP options.";
          }
          leaf flags-bitmask {
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 35]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
            type boolean;
            description
              "Support of filtering based on the TCP flags bitmask.";
@@ -1975,6 +1954,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
            type boolean;
            description
              "Support of filtering based on the destination port
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 35]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
               number.";
          }
          leaf port-range {
@@ -2010,14 +1997,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          }
          leaf port-range {
            type boolean;
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 36]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
            description
              "Support of filtering based on a port range.
 
@@ -2031,6 +2010,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          description
            "Set of ICMP/ICMPv6 fields that are supported by the DOTS
             server to enforce filters.";
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 36]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
          leaf type {
            type boolean;
            description
@@ -2062,18 +2049,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    client') resource.  To that aim, DOTS clients SHOULD send a POST
    request (shown in Figure 11).
 
-
-
-
-
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 37]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
     POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
     Host: {host}:{port}
     Content-Type: application/yang-data+json
@@ -2089,6 +2064,15 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
                     Figure 11: POST to Register Schema
 
    The 'cuid' (client unique identifier) parameter is described below:
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 37]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
 
    cuid:  A globally unique identifier that is meant to prevent
       collisions among DOTS clients.  This attribute has the same
@@ -2122,14 +2106,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    Figure 12: POST to Register Schema (via a Server-Domain DOTS Gateway)
 
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 38]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
    A server-domain DOTS gateway SHOULD add the following attribute:
 
    cdid:  This attribute has the same meaning, syntax, and processing
@@ -2143,6 +2119,16 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
       'cdid' and 'cuid' for policy enforcement purposes.
 
       This is an optional attribute.
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 38]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
 
    A request example to create a 'dots-client' resource is depicted in
    Figure 13.  This request is relayed by a server-domain DOTS gateway
@@ -2178,14 +2164,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    unambiguously identify a DOTS client as discussed in Section 4.4.1 of
    [I-D.ietf-dots-signal-channel].
 
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 39]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
    The DOTS server indicates the result of processing the POST request
    using status-line codes.  Status codes in the range "2xx" codes are
    success, "4xx" codes are some sort of invalid requests and "5xx"
@@ -2198,6 +2176,15 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    o  "400 Bad Request" status-line is returned by the DOTS server, if
       the request does not include a 'cuid' parameter.  The error-tag
       "missing-attribute" is used in this case.
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 39]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
 
    o  "409 Conflict" status-line is returned to the requesting DOTS
       client, if the data resource already exists.  The error-tag
@@ -2230,18 +2217,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    the 'cdid' parameter in the corresponding response before forwarding
    the response to the DOTS client.
 
-
-
-
-
-
-
-
-Boucadair & Reddy       Expires November 3, 2019               [Page 40]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
 5.2.  Unregistering DOTS Clients
 
    A DOTS client de-registers from its DOTS server(s) by deleting the
@@ -2254,6 +2229,18 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
     Host: example.com
 
                    Figure 15: De-register a DOTS Client
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 40]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
 
 6.  Managing DOTS Aliases
 
@@ -2293,7 +2280,20 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 41]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 41]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2349,7 +2349,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 42]
+Boucadair & Reddy       Expires November 4, 2019               [Page 42]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2405,7 +2405,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 43]
+Boucadair & Reddy       Expires November 4, 2019               [Page 43]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2461,7 +2461,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 44]
+Boucadair & Reddy       Expires November 4, 2019               [Page 44]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2517,7 +2517,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 45]
+Boucadair & Reddy       Expires November 4, 2019               [Page 45]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2573,7 +2573,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 46]
+Boucadair & Reddy       Expires November 4, 2019               [Page 46]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2629,7 +2629,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 47]
+Boucadair & Reddy       Expires November 4, 2019               [Page 47]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2685,7 +2685,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 48]
+Boucadair & Reddy       Expires November 4, 2019               [Page 48]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2741,7 +2741,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 49]
+Boucadair & Reddy       Expires November 4, 2019               [Page 49]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2797,7 +2797,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 50]
+Boucadair & Reddy       Expires November 4, 2019               [Page 50]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2853,7 +2853,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 51]
+Boucadair & Reddy       Expires November 4, 2019               [Page 51]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2909,7 +2909,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 52]
+Boucadair & Reddy       Expires November 4, 2019               [Page 52]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -2965,7 +2965,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 53]
+Boucadair & Reddy       Expires November 4, 2019               [Page 53]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3021,7 +3021,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 54]
+Boucadair & Reddy       Expires November 4, 2019               [Page 54]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3077,7 +3077,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 55]
+Boucadair & Reddy       Expires November 4, 2019               [Page 55]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3133,7 +3133,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 56]
+Boucadair & Reddy       Expires November 4, 2019               [Page 56]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3189,7 +3189,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 57]
+Boucadair & Reddy       Expires November 4, 2019               [Page 57]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3245,7 +3245,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 58]
+Boucadair & Reddy       Expires November 4, 2019               [Page 58]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3301,7 +3301,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 59]
+Boucadair & Reddy       Expires November 4, 2019               [Page 59]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3357,7 +3357,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 60]
+Boucadair & Reddy       Expires November 4, 2019               [Page 60]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3413,7 +3413,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 61]
+Boucadair & Reddy       Expires November 4, 2019               [Page 61]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3469,7 +3469,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 62]
+Boucadair & Reddy       Expires November 4, 2019               [Page 62]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3525,7 +3525,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 63]
+Boucadair & Reddy       Expires November 4, 2019               [Page 63]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3581,7 +3581,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 64]
+Boucadair & Reddy       Expires November 4, 2019               [Page 64]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3637,7 +3637,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 65]
+Boucadair & Reddy       Expires November 4, 2019               [Page 65]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3693,7 +3693,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 66]
+Boucadair & Reddy       Expires November 4, 2019               [Page 66]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3749,7 +3749,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 67]
+Boucadair & Reddy       Expires November 4, 2019               [Page 67]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3805,7 +3805,7 @@ Appendix A.  Sample Examples: Filtering Fragments
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 68]
+Boucadair & Reddy       Expires November 4, 2019               [Page 68]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3861,7 +3861,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 69]
+Boucadair & Reddy       Expires November 4, 2019               [Page 69]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3917,7 +3917,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 70]
+Boucadair & Reddy       Expires November 4, 2019               [Page 70]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -3941,6 +3941,133 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
                Figure 35: Filtering IPv6 Fragmented Packets
 
+Appendix B.  Sample Examples: Filtering TCP Messages
+
+   Figure 36 depicts an example of a DOTS request sent by a DOTS client
+   to allow incoming IPv4 TCP messages having ACK or RST flags set.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 71]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
+   PUT /restconf/data/ietf-dots-data-channel:dots-data\
+          /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+          /acl= tcp-flags-example HTTP/1.1
+   Host: example.com
+   Content-Type: application/yang-data+json
+
+   {
+     "ietf-dots-data-channel:acls": {
+       "acl": [{
+         "name": "tcp-flags-example",
+         "type": "ipv4-acl-type",
+         "activation-type": "activate-when-mitigating",
+         "aces": {
+           "ace": [{
+             "name": "tcp-flags-1",
+             "matches": {
+               "tcp": {
+                 "flags-bitmask": {
+                   "operator": "any",
+                   "bitmask": 20
+                 }
+               }
+             },
+             "actions": {
+               "forwarding": "accept"
+             }
+           }]
+         }
+       }]
+     }
+   }
+
+    Figure 36: Example of a DOTS Request to Allow Incoming TCP Messages
+
+   Figure 37 depicts an example of a DOTS request sent by a DOTS client
+   to discard incoming IPv4 TCP messages with a TCP flag bitmask equat
+   to 1024.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 72]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
+   PUT /restconf/data/ietf-dots-data-channel:dots-data\
+          /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+          /acl= tcp-flags-example HTTP/1.1
+   Host: example.com
+   Content-Type: application/yang-data+json
+
+   {
+     "ietf-dots-data-channel:acls": {
+       "acl": [{
+         "name": "tcp-flags-example",
+         "type": "ipv4-acl-type",
+         "activation-type": "activate-when-mitigating",
+         "aces": {
+           "ace": [{
+             "name": "tcp-flags-2",
+             "matches": {
+               "tcp": {
+                 "flags-bitmask": {
+                   "operator": "match",
+                   "bitmask": 1024
+                 }
+               }
+             },
+             "actions": {
+               "forwarding": "drop"
+             }
+           }]
+         }
+       }]
+     }
+   }
+
+   Figure 37: Example of a DOTS Request to Discard Incoming TCP Messages
+
 Authors' Addresses
 
    Mohamed Boucadair (editor)
@@ -3949,6 +4076,18 @@ Authors' Addresses
    France
 
    Email: mohamed.boucadair@orange.com
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 73]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
    Tirumaleswar Reddy (editor)
@@ -3973,4 +4112,33 @@ Authors' Addresses
 
 
 
-Boucadair & Reddy       Expires November 3, 2019               [Page 71]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 74]
