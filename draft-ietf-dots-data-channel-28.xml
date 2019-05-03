@@ -3139,7 +3139,7 @@ Content-Type: application/yang-data+json
           title="Example of a DOTS Request to Allow Incoming TCP Messages">
           <artwork><![CDATA[PUT /restconf/data/ietf-dots-data-channel:dots-data\
        /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
-       /acl= tcp-flags-example HTTP/1.1
+       /acl=tcp-flags-example HTTP/1.1
 Host: example.com
 Content-Type: application/yang-data+json
 
@@ -3179,7 +3179,7 @@ Content-Type: application/yang-data+json
           title="Example of a DOTS Request to Discard Incoming TCP Messages">
           <artwork><![CDATA[PUT /restconf/data/ietf-dots-data-channel:dots-data\
        /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
-       /acl= tcp-flags-example HTTP/1.1
+       /acl=tcp-flags-example HTTP/1.1
 Host: example.com
 Content-Type: application/yang-data+json
 

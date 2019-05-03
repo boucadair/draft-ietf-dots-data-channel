@@ -3980,7 +3980,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    PUT /restconf/data/ietf-dots-data-channel:dots-data\
           /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
-          /acl= tcp-flags-example HTTP/1.1
+          /acl=tcp-flags-example HTTP/1.1
    Host: example.com
    Content-Type: application/yang-data+json
 
@@ -4036,7 +4036,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    PUT /restconf/data/ietf-dots-data-channel:dots-data\
           /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
-          /acl= tcp-flags-example HTTP/1.1
+          /acl=tcp-flags-example HTTP/1.1
    Host: example.com
    Content-Type: application/yang-data+json
 
