@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="03" month="May" year="2019" />
+    <date day="06" month="May" year="2019" />
 
     <workgroup>DOTS</workgroup>
 
@@ -3144,7 +3144,7 @@ Content-Type: application/yang-data+json
   "ietf-dots-data-channel:acls": {
     "acl": [{
       "name": "tcp-flags-example",
-      "activation-type": "imediate",
+      "activation-type": "immediate",
       "aces": {
         "ace": [{
           "name": "null-attack",
