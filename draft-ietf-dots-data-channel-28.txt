@@ -95,7 +95,7 @@ Table of Contents
    5.  Managing DOTS Clients . . . . . . . . . . . . . . . . . . . .  37
      5.1.  Registering DOTS Clients  . . . . . . . . . . . . . . . .  37
      5.2.  Unregistering DOTS Clients  . . . . . . . . . . . . . . .  40
-   6.  Managing DOTS Aliases . . . . . . . . . . . . . . . . . . . .  41
+   6.  Managing DOTS Aliases . . . . . . . . . . . . . . . . . . . .  40
      6.1.  Create Aliases  . . . . . . . . . . . . . . . . . . . . .  41
      6.2.  Retrieve Installed Aliases  . . . . . . . . . . . . . . .  45
      6.3.  Delete Aliases  . . . . . . . . . . . . . . . . . . . . .  47
@@ -1238,17 +1238,16 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        bit match {
          position 1;
          description
-           "Match bit. If set, this is a bitwise match operation
-            defined as '(data & value) == value'; if unset, (data &
-            value) evaluates to TRUE if any of the bits in the value
-            mask are set in the data , i.e., '(data & value) != 0'.";
+           "Match bit. This is a bitwise match operation
+            defined as '(data & value) == value'.";
        }
        bit any {
          position 3;
          description
-           "Any bit. If set, this is a match on any of the bits in
-            bitmask. This bit must not be set when 'not'
-            and/or 'match' bits are set.";
+           "Any bit. This is a match on any of the bits in
+            bitmask. It evaluates to 'true' if any of the bits
+            in the value mask are set in the data,
+            i.e., '(data & value) != 0'.";
        }
      }
      description
@@ -1282,6 +1281,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        bit df {
          position 0;
          description
+           "Don't fragment bit for IPv4.
 
 
 
@@ -1290,7 +1290,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 23]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-           "Don't fragment bit for IPv4.
             Must be set to 0 when it appears in an IPv6 filter.";
        }
        bit isf {
@@ -1338,6 +1337,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
            error-message
              "The upper port number must be greater than
               or equal to the lower-port number.";
+         }
 
 
 
@@ -1346,7 +1346,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 24]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-         }
          description
            "Upper port number of the port range.";
        }
@@ -1394,6 +1393,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    grouping aliases {
      description
        "Top level container for aliases.";
+     list alias {
 
 
 
@@ -1402,7 +1402,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 25]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-     list alias {
        key "name";
        description
          "List of aliases.";
@@ -1450,6 +1449,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    grouping access-lists {
      description
+       "Specifies the ordered set of Access Control Lists.";
 
 
 
@@ -1458,7 +1458,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 26]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-       "Specifies the ordered set of Access Control Lists.";
      list acl {
        key "name";
        ordered-by user;
@@ -1506,6 +1505,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
            "The Access Control Entries container contains
             a list of ACEs.";
          list ace {
+           key "name";
 
 
 
@@ -1514,7 +1514,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 27]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-           key "name";
            ordered-by user;
            description
              "List of access list entries.";
@@ -1562,6 +1561,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
                  uses packet-fields:acl-ipv6-header-fields;
                  container fragment {
                    description
+                     "Indicates how to handle IPv6 fragments.";
 
 
 
@@ -1570,7 +1570,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 28]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-                     "Indicates how to handle IPv6 fragments.";
                    uses fragment-fields;
                  }
                  description
@@ -1618,6 +1617,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
                  "Specifies the forwarding action per ACE.";
                reference
                  "RFC 8519: YANG Data Model for Network Access
+                            Control Lists (ACLs)";
 
 
 
@@ -1626,7 +1626,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 29]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-                            Control Lists (ACLs)";
              }
              leaf rate-limit {
                when "../forwarding = 'ietf-acl:accept'" {
@@ -1674,6 +1673,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          description
            "A client domain identifier conveyed by a
             server-domain DOTS gateway to a remote DOTS server.";
+         reference
 
 
 
@@ -1682,7 +1682,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 30]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-         reference
            "RFC YYYY: Distributed Denial-of-Service Open Threat
                    Signaling (DOTS) Signal Channel Specification";
        }
@@ -1730,6 +1729,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
        }
        leaf-list transport-protocols {
          type uint8;
+         description
 
 
 
@@ -1738,7 +1738,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 31]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-         description
            "Upper-layer protocol associated with a filtering rule.
 
             Values are taken from the IANA protocol registry:
@@ -1786,6 +1785,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
               Length (IHL).";
          }
          leaf flags {
+           type boolean;
 
 
 
@@ -1794,7 +1794,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 32]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-           type boolean;
            description
              "Support of filtering based on the 'flags'.";
          }
@@ -1842,6 +1841,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
              "Support of filtering based on ECN.";
          }
          leaf length {
+           type boolean;
 
 
 
@@ -1850,7 +1850,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 33]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-           type boolean;
            description
              "Support of filtering based on the Payload Length.";
          }
@@ -1898,6 +1897,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          leaf acknowledgement-number {
            type boolean;
            description
+             "Support of filtering based on the TCP acknowledgement
 
 
 
@@ -1906,7 +1906,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 34]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-             "Support of filtering based on the TCP acknowledgement
               number.";
          }
          leaf data-offset {
@@ -1954,6 +1953,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
            type boolean;
            description
              "Support of filtering based on the destination port
+              number.";
 
 
 
@@ -1962,7 +1962,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 35]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-              number.";
          }
          leaf port-range {
            type boolean;
@@ -2010,6 +2009,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          description
            "Set of ICMP/ICMPv6 fields that are supported by the DOTS
             server to enforce filters.";
+         leaf type {
 
 
 
@@ -2018,7 +2018,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 36]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-         leaf type {
            type boolean;
            description
              "Support of filtering based on the ICMP/ICMPv6 type.";
@@ -2065,7 +2064,8 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    The 'cuid' (client unique identifier) parameter is described below:
 
-
+   cuid:  A globally unique identifier that is meant to prevent
+      collisions among DOTS clients.  This attribute has the same
 
 
 
@@ -2074,8 +2074,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 37]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
-   cuid:  A globally unique identifier that is meant to prevent
-      collisions among DOTS clients.  This attribute has the same
       meaning, syntax, and processing rules as the 'cuid' attribute
       defined in [I-D.ietf-dots-signal-channel].
 
@@ -2120,7 +2118,9 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
       This is an optional attribute.
 
-
+   A request example to create a 'dots-client' resource is depicted in
+   Figure 13.  This request is relayed by a server-domain DOTS gateway
+   as hinted by the presence of the 'cdid' attribute.
 
 
 
@@ -2129,10 +2129,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 38]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
-
-   A request example to create a 'dots-client' resource is depicted in
-   Figure 13.  This request is relayed by a server-domain DOTS gateway
-   as hinted by the presence of the 'cdid' attribute.
 
     POST /restconf/data/ietf-dots-data-channel:dots-data HTTP/1.1
     Host: example.com
@@ -2177,6 +2173,10 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
       the request does not include a 'cuid' parameter.  The error-tag
       "missing-attribute" is used in this case.
 
+   o  "409 Conflict" status-line is returned to the requesting DOTS
+      client, if the data resource already exists.  The error-tag
+      "resource-denied" is used in this case.
+
 
 
 
@@ -2185,10 +2185,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 39]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
-
-   o  "409 Conflict" status-line is returned to the requesting DOTS
-      client, if the data resource already exists.  The error-tag
-      "resource-denied" is used in this case.
 
    Once a DOTS client registers itself to a DOTS server, it can
    create/delete/retrieve aliases (Section 6) and filtering rules
@@ -2230,7 +2226,11 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
                    Figure 15: De-register a DOTS Client
 
+6.  Managing DOTS Aliases
 
+   The following sub-sections define means for a DOTS client to create
+   aliases (Section 6.1), retrieve one or a list of aliases
+   (Section 6.2), and delete an alias (Section 6.3).
 
 
 
@@ -2241,12 +2241,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 40]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
-
-6.  Managing DOTS Aliases
-
-   The following sub-sections define means for a DOTS client to create
-   aliases (Section 6.1), retrieve one or a list of aliases
-   (Section 6.2), and delete an alias (Section 6.3).
 
 6.1.  Create Aliases
 
@@ -2260,43 +2254,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    The structure of POST requests used to create aliases is shown in
    Figure 16.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Boucadair & Reddy       Expires November 4, 2019               [Page 41]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
 
     POST /restconf/data/ietf-dots-data-channel:dots-data\
          /dots-client=cuid HTTP/1.1
@@ -2333,6 +2290,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
             Figure 16: POST to Create Aliases (Request Schema)
 
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 41]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
    The parameters are described below:
 
    name:  Name of the alias.
@@ -2346,14 +2311,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
       The prefix list MUST NOT include broadcast, loopback, or multicast
       addresses.  These addresses are considered as invalid values.  In
-
-
-
-Boucadair & Reddy       Expires November 4, 2019               [Page 42]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
       addition, the DOTS server MUST validate that these prefixes are
       within the scope of the DOTS client domain.  Other validation
       checks may be supported by DOTS servers.
@@ -2389,6 +2346,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
       How a name is passed to an underlying name resolution library is
       implementation- and deployment-specific.  Nevertheless, once the
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 42]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
       name is resolved into one or multiple IP addresses, DOTS servers
       MUST apply the same validation checks as those for 'target-
       prefix'.
@@ -2401,14 +2366,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    target-uri:   A list of Uniform Resource Identifiers (URIs)
       [RFC3986].
-
-
-
-
-Boucadair & Reddy       Expires November 4, 2019               [Page 43]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
 
       The same validation checks used for 'target-fqdn' MUST be followed
       by DOTS servers to validate a target URI.
@@ -2428,6 +2385,30 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    Figure 17 shows a POST request to create an alias called "https1" for
    HTTPS servers with IP addresses 2001:db8:6401::1 and 2001:db8:6401::2
    listening on TCP port number 443.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 43]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
 
    POST /restconf/data/ietf-dots-data-channel:dots-data\
         /dots-client=dz6pHjaADkaFTbjr0JGBpw HTTP/1.1
@@ -2458,14 +2439,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
               Figure 17: Example of a POST to Create an Alias
 
-
-
-
-Boucadair & Reddy       Expires November 4, 2019               [Page 44]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
    "201 Created" status-line MUST be returned in the response if the
    DOTS server has accepted the alias.
 
@@ -2484,6 +2457,14 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    is expected to be supplied, the DOTS server MUST reply with "403
    Forbidden" status-line and the error-tag "access-denied".  Upon
    receipt of this message, the DOTS client MUST register (Section 5).
+
+
+
+
+Boucadair & Reddy       Expires November 4, 2019               [Page 44]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
 
    A DOTS client uses the PUT request to modify the aliases in the DOTS
    server.  In particular, a DOTS client MUST update its alias entries
@@ -2514,6 +2495,25 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
              Figure 18: GET to Retrieve All Installed Aliases
 
+   Figure 19 shows an example of the response message body that includes
+   all the aliases that are maintained by the DOTS server for the DOTS
+   client identified by the 'cuid' parameter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2521,10 +2521,6 @@ Boucadair & Reddy       Expires November 4, 2019               [Page 45]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
-
-   Figure 19 shows an example of the response message body that includes
-   all the aliases that are maintained by the DOTS server for the DOTS
-   client identified by the 'cuid' parameter.
 
    {
      "ietf-dots-data-channel:aliases": {
@@ -2569,6 +2565,10 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    Figure 20 shows an example of a GET request to retrieve the alias
    "Server2" that was instantiated by the DOTS client.
+
+
+
+
 
 
 
@@ -4067,6 +4067,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    }
 
     Figure 37: Example of a DOTS Request to Allow Incoming TCP Messages
+                         with ACK or RST Flags Set
 
 Authors' Addresses
 
@@ -4076,7 +4077,6 @@ Authors' Addresses
    France
 
    Email: mohamed.boucadair@orange.com
-
 
 
 

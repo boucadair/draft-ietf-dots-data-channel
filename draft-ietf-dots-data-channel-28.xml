@@ -1061,17 +1061,16 @@ module ietf-dots-data-channel {
       bit match {
         position 1;
         description
-          "Match bit. If set, this is a bitwise match operation
-           defined as '(data & value) == value'; if unset, (data &
-           value) evaluates to TRUE if any of the bits in the value
-           mask are set in the data , i.e., '(data & value) != 0'.";
+          "Match bit. This is a bitwise match operation
+           defined as '(data & value) == value'.";
       }
       bit any {
         position 3;
         description
-          "Any bit. If set, this is a match on any of the bits in 
-           bitmask. This bit must not be set when 'not'
-           and/or 'match' bits are set.";
+          "Any bit. This is a match on any of the bits in 
+           bitmask. It evaluates to 'true' if any of the bits
+           in the value mask are set in the data, 
+           i.e., '(data & value) != 0'.";
       }
     }
     description
@@ -2910,7 +2909,7 @@ Content-Type: application/yang-data+json
       <t>Thanks to Martin Bjorklund for the guidance on RESTCONF.</t>
 
       <t>Thanks to Alexey Melnikov, Adam Roach, Suresh Krishnan, Mirja
-      K&uuml;hlewind, and Warren Kumari for the review. </t>
+      K&uuml;hlewind, and Warren Kumari for the review.</t>
     </section>
   </middle>
 
@@ -3133,7 +3132,7 @@ Content-Type: application/yang-data+json
     <section anchor="flags" title="Sample Examples: Filtering TCP Messages">
       <t><xref target="ex1"></xref> shows an example of a DOTS request sent by
       a DOTS client to install immediately a filter to discard incoming IPv4
-      TCP messages having all flags unset. </t>
+      TCP messages having all flags unset.</t>
 
       <t><figure anchor="ex3"
           title="Example of a DOTS Request to Deny TCP Null Attack Messages">
@@ -3173,10 +3172,10 @@ Content-Type: application/yang-data+json
 
       <t><xref target="ex1"></xref> depicts an example of a DOTS request sent
       by a DOTS client to allow incoming IPv4 TCP messages having ACK or RST
-      flags set. </t>
+      flags set.</t>
 
       <t><figure anchor="ex1"
-          title="Example of a DOTS Request to Allow Incoming TCP Messages">
+          title="Example of a DOTS Request to Allow Incoming TCP Messages with ACK or RST Flags Set">
           <artwork><![CDATA[PUT /restconf/data/ietf-dots-data-channel:dots-data\
        /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
        /acl=tcp-flags-example HTTP/1.1
