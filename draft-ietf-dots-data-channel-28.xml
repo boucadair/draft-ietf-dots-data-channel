@@ -3214,10 +3214,9 @@ Content-Type: application/yang-data+json
           </figure></t>
       </section>
 
-      <section title="Filter TCP Connections">
-        <t><xref target="ex1"></xref> depicts an example of a DOTS request
-        sent by a DOTS client to allow forwarding incoming IPv4 TCP messages
-        having ACK or RST flags set.</t>
+      <section title="Rate-Limit ACK Flooding">
+        <t><xref target="ex1"></xref> shows an ACL example to rate-limit
+        incoming ACKs during an ACK-flood attack.</t>
 
         <t><figure anchor="ex1"
             title="Example of a DOTS Request to Allow Incoming TCP Messages with ACK or RST Flags Set">
@@ -3235,12 +3234,12 @@ Content-Type: application/yang-data+json
       "activation-type": "activate-when-mitigating",
       "aces": {
         "ace": [{
-          "name": "ack-or-rst",
+          "name": "rate-limit-syn",
           "matches": {
             "tcp": {
               "flags-bitmask": {
-                "operator": "any",
-                "bitmask": 20
+                "operator": "match",
+                "bitmask": 16
               }
             }
           },

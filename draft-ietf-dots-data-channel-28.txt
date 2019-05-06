@@ -125,7 +125,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    Appendix B.  Sample Examples: Filtering TCP Messages  . . . . . .  71
      B.1.  Discard TCP Null Attack . . . . . . . . . . . . . . . . .  71
      B.2.  Rate-Limit SYN Flooding . . . . . . . . . . . . . . . . .  72
-     B.3.  Filter TCP Connections  . . . . . . . . . . . . . . . . .  73
+     B.3.  Rate-Limit ACK Flooding . . . . . . . . . . . . . . . . .  73
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  74
 
 1.  Introduction
@@ -4068,11 +4068,11 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
                Figure 37: Example of Rate-Limiting TCP SYNs
 
-B.3.  Filter TCP Connections
+B.3.  Rate-Limit ACK Flooding
 
-   Figure 38 depicts an example of a DOTS request sent by a DOTS client
-   to allow forwarding incoming IPv4 TCP messages having ACK or RST
-   flags set.
+   Figure 38 shows an ACL example to rate-limit incoming ACKs during an
+   ACK-flood attack.
+
 
 
 
@@ -4104,12 +4104,12 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          "activation-type": "activate-when-mitigating",
          "aces": {
            "ace": [{
-             "name": "ack-or-rst",
+             "name": "rate-limit-syn",
              "matches": {
                "tcp": {
                  "flags-bitmask": {
-                   "operator": "any",
-                   "bitmask": 20
+                   "operator": "match",
+                   "bitmask": 16
                  }
                }
              },
