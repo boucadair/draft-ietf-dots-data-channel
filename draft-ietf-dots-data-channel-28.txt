@@ -86,10 +86,10 @@ Table of Contents
      3.1.  Design Overview . . . . . . . . . . . . . . . . . . . . .   5
      3.2.  DOTS Server(s) Discovery  . . . . . . . . . . . . . . . .   8
      3.3.  DOTS Gateways . . . . . . . . . . . . . . . . . . . . . .   8
-     3.4.  Detect and Prevent Infinite Loops . . . . . . . . . . . .   8
+     3.4.  Detect and Prevent Infinite Loops . . . . . . . . . . . .   9
      3.5.  Stale Entries . . . . . . . . . . . . . . . . . . . . . .   9
-   4.  DOTS Data Channel YANG Module . . . . . . . . . . . . . . . .   9
-     4.1.  Generic Tree Structure  . . . . . . . . . . . . . . . . .   9
+   4.  DOTS Data Channel YANG Module . . . . . . . . . . . . . . . .  10
+     4.1.  Generic Tree Structure  . . . . . . . . . . . . . . . . .  10
      4.2.  Filtering Fields  . . . . . . . . . . . . . . . . . . . .  13
      4.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .  20
    5.  Managing DOTS Clients . . . . . . . . . . . . . . . . . . . .  37
@@ -123,6 +123,9 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
      14.2.  Informative References . . . . . . . . . . . . . . . . .  67
    Appendix A.  Sample Examples: Filtering Fragments . . . . . . . .  68
    Appendix B.  Sample Examples: Filtering TCP Messages  . . . . . .  71
+     B.1.  Discard TCP Null Attack . . . . . . . . . . . . . . . . .  71
+     B.2.  Rate-Limit SYN Flooding . . . . . . . . . . . . . . . . .  72
+     B.3.  Filter TCP Connections  . . . . . . . . . . . . . . . . .  73
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  74
 
 1.  Introduction
@@ -158,9 +161,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    or a network (or a part thereof) that is under a DDoS attack.  Such
    information is sent by a DOTS client to an upstream DOTS server so
    that appropriate mitigation actions are undertaken on traffic deemed
-   suspicious.  The DOTS signal channel is further elaborated in
-   [I-D.ietf-dots-signal-channel].
-
 
 
 
@@ -169,6 +169,9 @@ Boucadair & Reddy       Expires November 7, 2019                [Page 3]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
+
+   suspicious.  The DOTS signal channel is further elaborated in
+   [I-D.ietf-dots-signal-channel].
 
    As for the DOTS data channel, it is used for infrequent bulk data
    exchange between DOTS agents to significantly improve the
@@ -214,10 +217,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
          client uses the DOTS data channel to convey the accept-listed
          IP prefixes of the partner sites to its DOTS server.
 
-         The DOTS server uses this information to accept-list flows
-         originated by such IP prefixes and which reach the network.
 
-      Refer to Section 7 for more details.
 
 
 
@@ -225,6 +225,11 @@ Boucadair & Reddy       Expires November 7, 2019                [Page 4]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
+
+         The DOTS server uses this information to accept-list flows
+         originated by such IP prefixes and which reach the network.
+
+      Refer to Section 7 for more details.
 
 2.  Terminology
 
@@ -268,12 +273,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    DOTS data channel protocol are documented in
    [I-D.ietf-dots-requirements].
 
-   This specification does not require an order of DOTS signal and data
-   channel creations nor mandates a time interval between them.  These
-   considerations are implementation- and deployment-specific.
 
-   As the primary function of the data channel is data exchange, a
-   reliable transport mode is required in order for DOTS agents to
 
 
 
@@ -282,6 +282,12 @@ Boucadair & Reddy       Expires November 7, 2019                [Page 5]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
+   This specification does not require an order of DOTS signal and data
+   channel creations nor mandates a time interval between them.  These
+   considerations are implementation- and deployment-specific.
+
+   As the primary function of the data channel is data exchange, a
+   reliable transport mode is required in order for DOTS agents to
    detect data delivery success or failure.  This document uses RESTCONF
    [RFC8040] over TLS over TCP as the DOTS data channel protocol.  The
    abstract layering of DOTS data channel is shown in Figure 2.
@@ -324,12 +330,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    JavaScript Object Notation (JSON) [RFC8259] payloads are used to
    propagate the DOTS data-channel-specific payload messages that carry
-   request parameters and response information, such as errors.  This
-   specification uses the encoding rules defined in [RFC7951] for
-   representing DOTS data channel configuration data using YANG
-   (Section 4) as JSON text.
-
-
 
 
 
@@ -337,6 +337,11 @@ Boucadair & Reddy       Expires November 7, 2019                [Page 6]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
+
+   request parameters and response information, such as errors.  This
+   specification uses the encoding rules defined in [RFC7951] for
+   representing DOTS data channel configuration data using YANG
+   (Section 4) as JSON text.
 
    A DOTS client registers itself to its DOTS server(s) in order to set
    up DOTS data channel-related configuration data and receive state
@@ -380,11 +385,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    NAT considerations for the DOTS data channel are similar to those
    discussed in Section 3 of [I-D.ietf-dots-signal-channel].
 
-   How filtering rules that are instantiated on a DOTS server are
-   translated into network configurations actions is out of scope of
-   this specification.
-
-
 
 
 
@@ -393,6 +393,10 @@ Boucadair & Reddy       Expires November 7, 2019                [Page 7]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
+
+   How filtering rules that are instantiated on a DOTS server are
+   translated into network configurations actions is out of scope of
+   this specification.
 
    Some of the fields introduced in Section 4 are also discussed in
    Sections 5, 6, and 7.  These sections are authoritative for these
@@ -434,13 +438,9 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    gateway receives the associated response from the DOTS server, it
    propagates the response back to the DOTS client.
 
-3.4.  Detect and Prevent Infinite Loops
 
-   In order to detect and prevent infinite loops, DOTS gateways MUST
-   support the procedure defined in Section 5.7.1 of [RFC7230].  In
-   particular, each intermediate DOTS gateway MUST check that none of
-   its own information (e.g., server names, literal IP addresses) is
-   present in the "Via" header field of a DOTS message it receives:
+
+
 
 
 
@@ -449,6 +449,14 @@ Boucadair & Reddy       Expires November 7, 2019                [Page 8]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
+
+3.4.  Detect and Prevent Infinite Loops
+
+   In order to detect and prevent infinite loops, DOTS gateways MUST
+   support the procedure defined in Section 5.7.1 of [RFC7230].  In
+   particular, each intermediate DOTS gateway MUST check that none of
+   its own information (e.g., server names, literal IP addresses) is
+   present in the "Via" header field of a DOTS message it receives:
 
    o  If it detects that its own information is present in the "Via"
       header field, the DOTS gateway MUST NOT forward the DOTS message.
@@ -491,14 +499,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    may track the inactivity timeout of DOTS clients to detect stale
    entries.
 
-4.  DOTS Data Channel YANG Module
-
-4.1.  Generic Tree Structure
-
-   The DOTS data channel YANG module (ietf-dots-data-channel) provides a
-   method for DOTS clients to manage aliases for resources for which
-   mitigation may be requested.  Such aliases may be used in subsequent
-
 
 
 Boucadair & Reddy       Expires November 7, 2019                [Page 9]
@@ -506,6 +506,13 @@ Boucadair & Reddy       Expires November 7, 2019                [Page 9]
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
+4.  DOTS Data Channel YANG Module
+
+4.1.  Generic Tree Structure
+
+   The DOTS data channel YANG module (ietf-dots-data-channel) provides a
+   method for DOTS clients to manage aliases for resources for which
+   mitigation may be requested.  Such aliases may be used in subsequent
    DOTS signal channel exchanges to refer more efficiently to the
    resources under attack.
 
@@ -548,19 +555,19 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
       DOTS server about sources from which traffic should always be
       accepted.
 
-   o  Policy management, which enables a DOTS client to request the
-      installation or withdrawal of traffic filters, dropping or rate-
-      limiting unwanted traffic and permitting accept-listed traffic.
-
-   The tree structure for the DOTS filtering entries is depicted in
-   Figure 5.
-
 
 
 Boucadair & Reddy       Expires November 7, 2019               [Page 10]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
+
+   o  Policy management, which enables a DOTS client to request the
+      installation or withdrawal of traffic filters, dropping or rate-
+      limiting unwanted traffic and permitting accept-listed traffic.
+
+   The tree structure for the DOTS filtering entries is depicted in
+   Figure 5.
 
    Investigations into the prospect of augmenting 'ietf-access-control-
    list' to meet DOTS requirements concluded that such a design approach
@@ -585,13 +592,6 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
    then there is no further action to be taken against the packet.  If
    there is no match during active mitigation, then the packet will
    still be scrubbed by the DDoS mitigator.
-
-
-
-
-
-
-
 
 
 
@@ -3943,17 +3943,17 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 Appendix B.  Sample Examples: Filtering TCP Messages
 
+   This section provides sample examples to illustrate TCP-specific
+   filtering based on the flag bits.  These examples should not be
+   interpreted as recommended filtering behaviors under specific DDoS
+   attacks.
+
+B.1.  Discard TCP Null Attack
+
    Figure 36 shows an example of a DOTS request sent by a DOTS client to
    install immediately a filter to discard incoming TCP messages having
-   all flags unset.
-
-
-
-
-
-
-
-
+   all flags unset.  The bitmask can be set to 255 to check against the
+   (CWR, ECE, URG, ACK, PSH, RST, SYN, FIN) flags.
 
 
 
@@ -4011,65 +4011,9 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
    Figure 36: Example of a DOTS Request to Deny TCP Null Attack Messages
 
-   Figure 37 depicts an example of a DOTS request sent by a DOTS client
-   to allow incoming IPv4 TCP messages having ACK or RST flags set.
+B.2.  Rate-Limit SYN Flooding
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Boucadair & Reddy       Expires November 7, 2019               [Page 72]
-
-Internet-Draft         DOTS Data Channel Protocol               May 2019
-
-
-   PUT /restconf/data/ietf-dots-data-channel:dots-data\
-          /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
-          /acl=tcp-flags-example HTTP/1.1
-   Host: example.com
-   Content-Type: application/yang-data+json
-
-   {
-     "ietf-dots-data-channel:acls": {
-       "acl": [{
-         "name": "tcp-flags-example",
-         "type": "ipv4-acl-type",
-         "activation-type": "activate-when-mitigating",
-         "aces": {
-           "ace": [{
-             "name": "ack-or-rst",
-             "matches": {
-               "tcp": {
-                 "flags-bitmask": {
-                   "operator": "any",
-                   "bitmask": 20
-                 }
-               }
-             },
-             "actions": {
-               "forwarding": "accept"
-             }
-           }]
-         }
-       }]
-     }
-   }
-
-    Figure 37: Example of a DOTS Request to Allow Incoming TCP Messages
-                         with ACK or RST Flags Set
-
-   Figure 38 shows an ACL example rate-limits incoming SYNs during a
+   Figure 37 shows an ACL example to rate-limit incoming SYNs during a
    SYN-flood attack.
 
 
@@ -4085,7 +4029,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 
 
-Boucadair & Reddy       Expires November 7, 2019               [Page 73]
+Boucadair & Reddy       Expires November 7, 2019               [Page 72]
 
 Internet-Draft         DOTS Data Channel Protocol               May 2019
 
@@ -4122,7 +4066,64 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
      }
    }
 
-               Figure 38: Example of Rate-Limiting TCP SYNs
+               Figure 37: Example of Rate-Limiting TCP SYNs
+
+B.3.  Filter TCP Connections
+
+   Figure 38 depicts an example of a DOTS request sent by a DOTS client
+   to allow forwarding incoming IPv4 TCP messages having ACK or RST
+   flags set.
+
+
+
+
+
+
+
+
+
+
+
+
+Boucadair & Reddy       Expires November 7, 2019               [Page 73]
+
+Internet-Draft         DOTS Data Channel Protocol               May 2019
+
+
+   PUT /restconf/data/ietf-dots-data-channel:dots-data\
+          /dots-client=paL8p4Zqo4SLv64TLPXrxA/acls\
+          /acl=tcp-flags-example HTTP/1.1
+   Host: example.com
+   Content-Type: application/yang-data+json
+
+   {
+     "ietf-dots-data-channel:acls": {
+       "acl": [{
+         "name": "tcp-flags-example",
+         "type": "ipv4-acl-type",
+         "activation-type": "activate-when-mitigating",
+         "aces": {
+           "ace": [{
+             "name": "ack-or-rst",
+             "matches": {
+               "tcp": {
+                 "flags-bitmask": {
+                   "operator": "any",
+                   "bitmask": 20
+                 }
+               }
+             },
+             "actions": {
+               "forwarding": "accept"
+             }
+           }]
+         }
+       }]
+     }
+   }
+
+    Figure 38: Example of a DOTS Request to Allow Incoming TCP Messages
+                         with ACK or RST Flags Set
 
 Authors' Addresses
 
@@ -4132,7 +4133,6 @@ Authors' Addresses
    France
 
    Email: mohamed.boucadair@orange.com
-
 
 
 
