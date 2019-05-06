@@ -3128,7 +3128,7 @@ Content-Type: application/yang-data+json
     </section>
 
     <section anchor="flags" title="Sample Examples: Filtering TCP Messages">
-      <t><xref target="ex1"></xref> shows an example of a DOTS request sent by
+      <t><xref target="ex3"></xref> shows an example of a DOTS request sent by
       a DOTS client to install immediately a filter to discard incoming TCP
       messages having all flags unset.</t>
 

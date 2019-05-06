@@ -3943,7 +3943,7 @@ Internet-Draft         DOTS Data Channel Protocol               May 2019
 
 Appendix B.  Sample Examples: Filtering TCP Messages
 
-   Figure 37 shows an example of a DOTS request sent by a DOTS client to
+   Figure 36 shows an example of a DOTS request sent by a DOTS client to
    install immediately a filter to discard incoming TCP messages having
    all flags unset.
 
